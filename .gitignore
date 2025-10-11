@@ -6,3 +6,4 @@ npm-shrinkwrap.json
 .env
 .vscode/*
 .idea
+flake.lock
