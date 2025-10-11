@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/dmytromalkis-lab/RecipeHub#readme",
   "dependencies": {
+    "@sequelize/mariadb": "^7.0.0-alpha.46",
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.7.0",
     "cors": "^2.8.5",
