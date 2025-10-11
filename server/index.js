@@ -2,6 +2,7 @@ import express from "express";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cors from "cors";
+import router from "./routes/index.js";
 import sequelize from "./configs/db.js";
 import models from "./models/index.js";
 dotenv.config();
@@ -13,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
+
+// Routes
+app.use("/api", router);
 
 const startServer = async () => {
   try {
