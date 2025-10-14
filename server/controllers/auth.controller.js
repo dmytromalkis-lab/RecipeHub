@@ -6,6 +6,10 @@ export const register = async (req, res) => {
   try {
     const { first_name, last_name, email, password } = req.body;
 
+    if (!first_name || !last_name || !email || !password) {
+      return res.status(422).json({ message: "Filds are required" });
+    }
+
     const existUser = await User.findOne({ where: { email } });
     if (existUser) {
       return res.status(409).json({ message: "User already exists" });
@@ -46,6 +50,10 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    if (!email || !password) {
+      return res.status(422).json({ message: "Filds are required" });
+    }
+
     const existUser = await User.findOne({ where: { email } });
     if (!existUser) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -74,5 +82,34 @@ export const login = async (req, res) => {
     res
       .status(500)
       .json({ message: "Server error. Error login " + error.message });
+  }
+};
+
+export const googleAuth = async (req, res) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      return res.redirect(`${process.env.FRONTEND_URL}/login`);
+    }
+
+    const token = generateToken(user.user_id);
+
+    res.status(200).json({
+      user: {
+        user_id: user.user_id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        avatar: user.avatar,
+        role: "user",
+      },
+      token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error. Error google authentication" + error.message,
+    });
   }
 };
