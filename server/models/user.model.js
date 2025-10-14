@@ -45,6 +45,10 @@ const User = sequelize.define(
       allowNull: true,
       defaultValue: false,
     },
+    about_user: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     timestamps: true,
