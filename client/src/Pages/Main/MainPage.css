@@ -1,0 +1,43 @@
+:root {
+  --header-height: 68px; /* approx header total height (min-height + vertical padding) */
+  --footer-height: 80px; /* approx footer total height */
+}
+
+.main-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Pin header to top and footer to bottom across the app area */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.main-content {
+  /* avoid content under header/footer */
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
+  box-sizing: border-box;
+  width: 100%;
+  flex: 1 0 auto;
+}
+
+/* optional centering of empty main area */
+.main-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

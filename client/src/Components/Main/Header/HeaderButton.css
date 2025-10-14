@@ -1,0 +1,13 @@
+.header-btn {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ccc;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 500;
+}
+.header-btn:hover {
+  background: #f6f6f6;
+}

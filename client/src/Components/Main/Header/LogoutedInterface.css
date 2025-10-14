@@ -1,0 +1,10 @@
+.logouted-interface {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.logouted-interface .header-register-btn,
+.logouted-interface .header-login-btn {
+  min-width: 70px;
+}

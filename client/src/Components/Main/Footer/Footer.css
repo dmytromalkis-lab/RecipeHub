@@ -1,0 +1,35 @@
+.footer {
+  background: #e5e5e5;
+  padding: 16px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  min-height: 48px;
+}
+
+.footer-title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2em;
+  font-weight: 500;
+  color: #222;
+  letter-spacing: 0.5px;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.footer-right a,
+.footer-right span {
+  color: #222;
+  font-size: 15px;
+  text-decoration: none;
+}
+.footer-right a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,14 @@
+.edit-photo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  color: #222;
+  font-size: 1em;
+  cursor: pointer;
+  width: max-content;
+}
+.edit-photo span {
+  font-size: 1.2em;
+}
