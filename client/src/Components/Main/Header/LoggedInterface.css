@@ -1,0 +1,9 @@
+.logged-interface {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logged-interface .logout-btn {
+  padding: 8px 16px;
+}

@@ -1,0 +1,24 @@
+.edit-info-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto 0 auto;
+}
+
+.edit-info-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 48px;
+}
+
+.edit-info-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 320px;
+  max-width: 500px;
+}

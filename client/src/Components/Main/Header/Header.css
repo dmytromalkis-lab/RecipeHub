@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e5e5e5;
+  padding: 10px 40px;
+  font-weight: bold;
+  min-height: 48px;
+}
+
+.header-title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 2em;
+  font-weight: 500;
+  color: #222;
+  letter-spacing: 0.5px;
+}

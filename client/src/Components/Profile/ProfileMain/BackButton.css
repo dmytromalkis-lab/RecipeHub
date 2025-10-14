@@ -1,0 +1,6 @@
+.back-button {
+  margin: calc(var(--app-header-height, 68px) + 20px) 40px 20px 40px;
+  color: #555;
+  cursor: pointer;
+  font-size: 18px;
+}

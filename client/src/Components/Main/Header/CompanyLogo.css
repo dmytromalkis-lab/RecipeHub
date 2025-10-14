@@ -1,0 +1,9 @@
+.company-logo {
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border-radius: 6px;
+  border: 2px solid #bbb;
+  margin-right: 20px;
+  display: inline-block;
+}
