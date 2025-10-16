@@ -44,8 +44,12 @@ const Recipe = sequelize.define(
       defaultValue: "pending",
     },
     image_url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(1024),
       allowNull: false,
+    },
+    image_public_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {

@@ -27,6 +27,10 @@ const User = sequelize.define(
       allowNull: true,
     },
     avatar: {
+      type: DataTypes.STRING(1024),
+      allowNull: true,
+    },
+    avatar_public_id: {
       type: DataTypes.STRING,
       allowNull: true,
     },

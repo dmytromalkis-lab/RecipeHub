@@ -18,6 +18,10 @@ const Step = sequelize.define(
       allowNull: false,
     },
     image_url: {
+      type: DataTypes.STRING(1024),
+      allowNull: true,
+    },
+    image_public_id: {
       type: DataTypes.STRING,
       allowNull: true,
     },

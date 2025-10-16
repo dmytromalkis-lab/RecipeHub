@@ -1,10 +1,78 @@
 import User from "../models/user.model.js";
+import { deleteImage, uploadBuffer } from "../services/cloudinary.service.js";
 
 export const updateUser = async (req, res) => {
   try {
+    const userId = req.params.id;
     const { first_name, last_name, about_user } = req.body;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (
+      first_name === undefined &&
+      last_name === undefined &&
+      about_user === undefined
+    ) {
+      return res.status(400).json({ message: "No fields to update" });
+    }
+
+    if (first_name !== undefined) user.first_name = first_name;
+    if (last_name !== undefined) user.last_name = last_name;
+    if (about_user !== undefined) user.about_user = about_user;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: {
+        first_name: user.first_name,
+        last_name: user.last_name,
+        about_user: user.about_user,
+      },
+    });
   } catch (error) {
     console.error(error);
     res.json({ message: "Server error. Error edit user " + error.message });
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ message: "File not loaded" });
+    }
+
+    const uploadResult = await uploadBuffer(req.file.buffer, {
+      folder: "avatars",
+      transformation: [
+        { width: 512, height: 512, crop: "fill", gravity: "face" },
+      ],
+    });
+
+    const oldPublicId = user.avatar_public_id;
+
+    user.avatar = uploadResult.secure_url;
+    user.avatar_public_id = uploadResult.public_id;
+    await user.save();
+
+    if (oldPublicId) await deleteImage(oldPublicId);
+
+    res.status(200).json({
+      message: "Avatar updated",
+      avatar: user.avatar,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Error update avatar" });
   }
 };
