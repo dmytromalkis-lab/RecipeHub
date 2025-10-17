@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function HeaderMain() {
   const navigate = useNavigate();
-  const goMain = () => navigate('/main');
+  const goMain = () => navigate('/');
 
   return (
     <div className="header-main" onClick={goMain} style={{ cursor: 'pointer' }}>
