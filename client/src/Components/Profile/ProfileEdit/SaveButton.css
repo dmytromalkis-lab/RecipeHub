@@ -1,17 +1,17 @@
 .save-btn {
   padding: 12px 0;
-  background: #d3d3d3;
-  color: #222;
+  background: #f28a2e;
+  color: #000000;
   border: none;
   border-radius: 8px;
   font-size: 1.2em;
   font-weight: 500;
   cursor: pointer;
   margin-top: 24px;
-  transition: background 0.2s;
+  transition: background 0.15s;
   max-width: 800px;
   width: 27.8%;
 }
 .save-btn:hover {
-  background: #bdbdbd;
+  background: #d56f24;
 }

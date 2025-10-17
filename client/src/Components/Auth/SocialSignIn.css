@@ -1,0 +1,24 @@
+.social-signin {
+  text-align: center;
+  margin-top: 18px;
+}
+.social-title {
+  margin-bottom: 10px;
+}
+.social-google {
+  width: 100%;
+  max-width: 360px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.social-google img {
+  width: 18px;
+  height: 18px;
+}

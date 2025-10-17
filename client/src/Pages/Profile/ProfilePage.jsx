@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './Profile.css';
 
-import Header from './../../Components/Main/Header/Header.jsx';
-import Footer from './../../Components/Main/Footer/Footer.jsx';
 import BackButton from './../../Components/Profile/ProfileMain/BackButton.jsx';
 import ProfileInfo from './../../Components/Profile/ProfileMain/ProfileInfo.jsx';
 import EditButton from './../../Components/Profile/ProfileMain/EditButton.jsx';
@@ -12,7 +10,6 @@ function ProfilePage() {
   const navigate = useNavigate();
   return (
     <div className="profile-page">
-      <Header />
       <BackButton onClick={() => navigate('/main')} />
       <main className="profile-content">
         <ProfileInfo 
@@ -24,7 +21,6 @@ function ProfilePage() {
         /> 
         <EditButton>Edit profile</EditButton>
       </main>
-      <Footer />
     </div>
   );
 }
