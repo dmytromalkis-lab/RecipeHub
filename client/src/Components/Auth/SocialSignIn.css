@@ -2,23 +2,40 @@
   text-align: center;
   margin-top: 18px;
 }
+
 .social-title {
-  margin-bottom: 10px;
+  color: #000;
+  font-size: 1.1rem;
+  font-weight:500;
+  font-family: 'Crimson Pro', serif;
+  font-size: 24px;
 }
 .social-google {
-  width: 100%;
-  max-width: 360px;
-  padding: 10px 12px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  background: #fff;
-  display: inline-flex;
-  gap: 10px;
+  display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 540px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #302e2e;
+  background: #fff;
   cursor: pointer;
+  margin: 12px auto 0 auto;
 }
 .social-google img {
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  display: block;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.social-google .social-label { color: #000; font-weight: 500; }
+
+.social-google:hover,
+.social-google:focus {
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }

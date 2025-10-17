@@ -1,10 +1,10 @@
-import './Input.css';
+import './AuthField.css';
 
-export default function EmailInput({ emailLabelName = "Email" }) {
+export default function EmailInput({ placeholder = 'hello@gmail.com', ...props }) {
   return (
-    <div className="form-group">
-      {/* <label>Email</label> */}
-      <input type="email" placeholder={emailLabelName} required/>
+    <div className="auth-field">
+      <label>E-mail</label>
+      <input type="email" placeholder={placeholder} {...props} />
     </div>
   );
 }

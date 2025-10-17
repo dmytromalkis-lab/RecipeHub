@@ -1,6 +1,8 @@
-import TextInput from './TextInput.jsx';
+import NameInput from './NameInput.jsx';
+import LastNameInput from './LastNameInput.jsx';
+import EmailInput from './EmailInput.jsx';
 import PasswordInput from './PasswordInput.jsx';
-import SubmitButton from './SubmitButton.jsx';
+import RegisterButton from './RegisterButton.jsx';
 import SocialSignIn from './SocialSignIn.jsx';
 import '../../Pages/Auth/Auth.css';
 
@@ -9,18 +11,16 @@ export default function RegisterForm() {
     <div className="register-form">
       <h1 style={{ textAlign: 'center' }}>Registration</h1>
       <form>
-        <TextInput label="First name" placeholder="Name" />
-        <TextInput label="Last name" placeholder="Last name" />
-        <TextInput label="E-mail" placeholder="hello@gmail.com" type="email" />
+        <NameInput placeholder="Name" />
+        <LastNameInput placeholder="Last name" />
+        <EmailInput placeholder="hello@gmail.com" />
         <div style={{ marginBottom: 6 }}>
-          <div style={{ fontSize: 12, color: '#666', marginBottom: 6 }}>Password</div>
-          <PasswordInput />
+          <PasswordInput helper={"Minimum 8 characters, upper and lower case letters, numbers"} />
         </div>
         <div style={{ marginBottom: 12 }}>
-          <div style={{ fontSize: 12, color: '#666', marginBottom: 6 }}>Confirm password</div>
-          <PasswordInput />
+          <PasswordInput label="Confirm password" />
         </div>
-        <SubmitButton buttonName="Register" />
+  <RegisterButton />
       </form>
       <SocialSignIn />
     </div>

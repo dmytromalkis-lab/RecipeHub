@@ -5,8 +5,8 @@ export default function SocialSignIn() {
     <div className="social-signin">
       <div className="social-title">Sign in with:</div>
       <button className="social-google">
-        <img src="/src/assets/google.png" alt="Google" />
-        <span>Google</span>
+        <img src="/src/assets/Google.png" alt="Google" />
+        <span className="social-label">Google</span>
       </button>
     </div>
   );

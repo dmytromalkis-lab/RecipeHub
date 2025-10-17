@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import "./main.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LoginPage from "./Pages/Auth/LoginPageOld.jsx";
 import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
 import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
@@ -19,7 +18,6 @@ const router = createBrowserRouter([
       { index: false, path: "/", element: <MainPage /> },
       { path: "/profile", element: <ProfilePage /> },
       { path: "/profile/edit", element: <ProfileEditPage /> },
-      { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
     ],
   },

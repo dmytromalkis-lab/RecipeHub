@@ -9,9 +9,7 @@ export default function RegisterPage() {
   return (
     <div className="auth-page">
       <Header />
-      <div className="container">
-        <RegisterForm />
-      </div>
+      <RegisterForm />
       <Footer />
     </div>
   );
