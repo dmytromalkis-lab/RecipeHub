@@ -1,13 +1,18 @@
 .header-btn {
   background: #fff;
   color: #222;
-  border: 1px solid #ccc;
+  border: 2px solid #f28a2e; /* orange outline */
   padding: 12px 28px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 18px;
   font-weight: 500;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 .header-btn:hover {
-  background: #f6f6f6;
+  background: #fff7f0; /* light warm hover */
 }

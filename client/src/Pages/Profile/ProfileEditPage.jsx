@@ -4,8 +4,6 @@ import './ProfileEdit.css';
 
 import BackButton from '../../Components/Profile/ProfileMain/BackButton';
 
-import Header from '../../Components/Main/Header/Header';
-import Footer from '../../Components/Main/Footer/Footer';
 import SaveButton from '../../Components/Profile/ProfileEdit/SaveButton';
 import EditInfo from '../../Components/Profile/ProfileEdit/EditInfo';
 import avatarImg from "../../assets/avatar.png";
@@ -22,7 +20,6 @@ export default function ProfileEditPage() {
 
   return (
     <div className="profile-edit-page">
-      <Header />
       <BackButton onClick={() => navigate('/profile')} />
       <main className="profile-content">
         <EditInfo
@@ -37,7 +34,6 @@ export default function ProfileEditPage() {
         />
         <SaveButton onClick={handleSave} />
       </main>
-      <Footer />
     </div>
   );
 }
