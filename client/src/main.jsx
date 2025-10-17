@@ -8,7 +8,7 @@ import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
 import NotFoundPage from "./NotFoundPage.jsx";
 import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
-import MainPage from "./Pages/Main/MainPage.jsx";
+import MainPage from "./pages/Main/MainPage.jsx";
 
 const router = createBrowserRouter([
   { path: "/login", element: <LoginPage /> },
