@@ -10,6 +10,7 @@ import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
+import RequireAuth from "./components/Auth/RequireAuth.jsx";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,9 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: false, path: "/", element: <MainPage /> },
-      { path: "/profile", element: <ProfilePage /> },
-      { path: "/profile/edit", element: <ProfileEditPage /> },
+      { path: "/profile", element: <RequireAuth> <ProfilePage /> </RequireAuth> },
+      { path: "/profile/:id", element: <RequireAuth> <ProfilePage /> </RequireAuth> },
+      { path: "/profile/edit", element: <RequireAuth> <ProfileEditPage /> </RequireAuth> },
       { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
     ],
