@@ -1,6 +1,29 @@
 import User from "../models/user.model.js";
 import { deleteImage, uploadBuffer } from "../services/cloudinary.service.js";
 
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.status(200).json({
+      user: {
+        user_id: user.user_id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        avatar: user.avatar,
+        about_user: user.about_user,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Error get user by id" });
+  }
+};
+
 export const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
