@@ -5,15 +5,9 @@
   background: #fff;
   font-family: Arial, sans-serif;
   color: #333;
-  width: 100vw;
+  width: 99vw;
   margin: 0;
   align-items: stretch;
-}
-
-/* when editing profile, prevent document scrolling */
-body.no-scroll {
-  overflow: hidden !important;
-  height: 100vh !important;
 }
 
 .profile-edit-content {

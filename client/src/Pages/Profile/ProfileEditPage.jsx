@@ -12,13 +12,6 @@ import useUserStore from '../../stores/userStore.js';
 
 
 export default function ProfileEditPage() {
-  // disable page scrolling while this component is mounted
-  React.useEffect(() => {
-    document.body.classList.add('no-scroll');
-    return () => {
-      document.body.classList.remove('no-scroll');
-    };
-  }, []);
   const [firstName, setFirstName] = useState('Name');
   const [lastName, setLastName] = useState('Last name');
   const [about, setAbout] = useState('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n\nIt has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.');

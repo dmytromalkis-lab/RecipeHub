@@ -18,10 +18,6 @@ export default function LoginPage() {
   const { login, loading } = useUserStore();
   const [serverError, setServerError] = useState(null);
 
-  useEffect(() => {
-    document.body.classList.add('auth-no-scroll');
-    return () => document.body.classList.remove('auth-no-scroll');
-  }, []);
 
   // Перевіряємо URL параметри на наявність помилок від Google OAuth
   useEffect(() => {
@@ -98,7 +94,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="auth-page no-scroll">
+    <div className="auth-page">
       <Header />
       <div className="register-form">
         <h1 style={{ textAlign: 'center' }}>Log in</h1>

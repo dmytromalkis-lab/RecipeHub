@@ -33,19 +33,7 @@ body {
 .auth-page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* let header/footer and content stack */
-}
-
-/* Modifier to disable page scroll and center auth content vertically */
-.auth-page.no-scroll {
-  align-items: center;
-  justify-content: center;
-}
-
-/* When a page requests no-scroll, reduce body padding and prevent overflow */
-body.auth-no-scroll {
-  padding: 0;
-  overflow: hidden;
+  max-height: 100vh; /* let header/footer and content stack */
 }
 
 .register-form {
