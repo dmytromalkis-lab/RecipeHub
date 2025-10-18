@@ -6,10 +6,12 @@
 body {
   background: #fff;
   display: flex;
-  height: 100vh;
-  align-items: center;
+  min-height: 100vh;
+  align-items: flex-start; /* allow content to start at top and grow */
   justify-content: center;
   margin: 0;
+  padding: 40px 0; /* give some top/bottom breathing room and allow scrolling */
+  overflow-y: auto;
 }
 
 .container {
@@ -23,9 +25,31 @@ body {
 .register-form {
   max-width: 1240px;
   width: min(540px, 90vw);
-  margin: 120px auto 40px;
+  margin: 0 auto 40px;
   background: transparent;
   padding: 0 18px;
+}
+
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* let header/footer and content stack */
+}
+
+/* Modifier to disable page scroll and center auth content vertically */
+.auth-page.no-scroll {
+  align-items: center;
+  justify-content: center;
+}
+
+/* When a page requests no-scroll, reduce body padding and prevent overflow */
+body.auth-no-scroll {
+  padding: 0;
+  overflow: hidden;
+}
+
+.register-form {
+  padding-bottom: 48px; /* extra room so bottom elements like SocialSignIn aren't cut off */
 }
 .register-form h1 {
   font-family: 'Crimson Pro', serif;

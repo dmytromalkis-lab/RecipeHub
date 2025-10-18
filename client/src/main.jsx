@@ -10,6 +10,7 @@ import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
+import Login from "./Pages/Auth/LoginPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,8 @@ const router = createBrowserRouter([
       { path: "/profile", element: <RequireAuth> <ProfilePage /> </RequireAuth> },
       { path: "/profile/:id", element: <RequireAuth> <ProfilePage /> </RequireAuth> },
       { path: "/profile/edit", element: <RequireAuth> <ProfileEditPage /> </RequireAuth> },
-      { path: "/login", element: <LoginPage /> },
       { path: "/register", element: <RegisterPage /> },
+      { path: "/login", element: <Login /> },
     ],
   },
   { path: "*", element: <NotFoundPage /> },
