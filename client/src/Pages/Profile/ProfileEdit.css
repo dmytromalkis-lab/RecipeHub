@@ -10,6 +10,12 @@
   align-items: stretch;
 }
 
+/* when editing profile, prevent document scrolling */
+body.no-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
 .profile-edit-content {
   display: flex;
   flex-direction: column;

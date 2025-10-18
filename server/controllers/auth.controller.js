@@ -91,8 +91,10 @@ export const googleAuth = async (req, res) => {
   try {
     const user = req.user;
 
+    const FRONTEND = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+
     if (!user) {
-      return res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
+      return res.redirect(`${FRONTEND}/login?error=auth_failed`);
     }
 
     const token = generateToken(user.user_id);
@@ -111,9 +113,10 @@ export const googleAuth = async (req, res) => {
     const encodedUserData = encodeURIComponent(JSON.stringify(userData));
     const encodedToken = encodeURIComponent(token);
 
-    res.redirect(`${process.env.FRONTEND_URL}/auth/google/callback?token=${encodedToken}&user=${encodedUserData}`);
+    res.redirect(`${FRONTEND}/auth/google/callback?token=${encodedToken}&user=${encodedUserData}`);
   } catch (error) {
     console.error(error);
-    res.redirect(`${process.env.FRONTEND_URL}/login?error=server_error`);
+    const FRONTEND = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+    res.redirect(`${FRONTEND}/login?error=server_error`);
   }
 };
