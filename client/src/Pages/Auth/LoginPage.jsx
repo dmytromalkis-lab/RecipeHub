@@ -3,16 +3,18 @@ import './Auth.css';
 import Header from '../../Components/Main/Header/Header.jsx';
 import Footer from '../../Components/Main/Footer/Footer.jsx';
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
-import EmailInput from '../../Components/Auth/EmailInput.jsx';
-import PasswordInput from '../../Components/Auth/PasswordInput.jsx';
+import EmailInput from '../../components/Auth/EmailInput.jsx';
+import PasswordInput from '../../components/Auth/PasswordInput.jsx';
 import LoginButton from '../../Components/Auth/LoginButton.jsx';
-import SocialSignIn from '../../Components/Auth/SocialSignIn.jsx';
+import SocialSignIn from '../../components/Auth/SocialSignIn.jsx';
 import useUserStore from '../../stores/userStore.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login, loading } = useUserStore();
   const [serverError, setServerError] = useState(null);
 
@@ -21,13 +23,38 @@ export default function LoginPage() {
     return () => document.body.classList.remove('auth-no-scroll');
   }, []);
 
+  // Перевіряємо URL параметри на наявність помилок від Google OAuth
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      let errorMessage = 'Помилка авторизації';
+      switch (error) {
+        case 'auth_failed':
+          errorMessage = 'Не вдалося авторизуватися через Google';
+          break;
+        case 'server_error':
+          errorMessage = 'Помилка сервера під час авторизації';
+          break;
+        case 'parse_error':
+          errorMessage = 'Помилка обробки даних від Google';
+          break;
+        case 'missing_data':
+          errorMessage = 'Відсутні дані від Google';
+          break;
+        default:
+          errorMessage = 'Невідома помилка авторизації';
+      }
+      setServerError(errorMessage);
+    }
+  }, [searchParams]);
+
   const [values, setValues] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
 
   function handleChange(field) {
     return (e) => {
       setValues(v => ({ ...v, [field]: e.target.value }));
-      if (error) setError(null);
+      if (serverError) setServerError(null);
       if (errors[field]) setErrors(prev => ({ ...prev, [field]: '' }));
     };
   }

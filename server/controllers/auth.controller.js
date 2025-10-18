@@ -92,27 +92,28 @@ export const googleAuth = async (req, res) => {
     const user = req.user;
 
     if (!user) {
-      return res.redirect(`${process.env.FRONTEND_URL}/login`);
+      return res.redirect(`${process.env.FRONTEND_URL}/login?error=auth_failed`);
     }
 
     const token = generateToken(user.user_id);
 
-    res.status(200).json({
-      user: {
-        user_id: user.user_id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        avatar: user.avatar,
-        about_user: user.about_user,
-        role: "user",
-      },
-      token,
-    });
+    const userData = {
+      user_id: user.user_id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      avatar: user.avatar,
+      about_user: user.about_user,
+      role: "user",
+    };
+
+    // Кодуємо дані користувача для передачі через URL
+    const encodedUserData = encodeURIComponent(JSON.stringify(userData));
+    const encodedToken = encodeURIComponent(token);
+
+    res.redirect(`${process.env.FRONTEND_URL}/auth/google/callback?token=${encodedToken}&user=${encodedUserData}`);
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "Server error. Error google authentication" + error.message,
-    });
+    res.redirect(`${process.env.FRONTEND_URL}/login?error=server_error`);
   }
 };
