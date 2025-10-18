@@ -6,13 +6,25 @@ import PasswordInput from './PasswordInput.jsx';
 import RegisterButton from './RegisterButton.jsx';
 import SocialSignIn from './SocialSignIn.jsx';
 import '../../Pages/Auth/Auth.css';
+import useUserStore from '../../stores/userStore.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterForm() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({ firstName: '', lastName: '', email: '', password: '', confirm: '' });
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState(null);
+  const { register, loading } = useUserStore();
 
   function handleChange(field) {
-    return (e) => setValues(v => ({ ...v, [field]: e.target.value }));
+    return (e) => {
+      setValues(v => ({ ...v, [field]: e.target.value }));
+      // Clear errors on change
+      if (serverError) setServerError(null);
+      if (errors[field]) {
+        setErrors(prev => ({ ...prev, [field]: '' }));
+      }
+    };
   }
 
   function validate() {
@@ -46,16 +58,39 @@ export default function RegisterForm() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!validate()) return;
-    // submit form (not implemented)
+    try {
+      const formData = {first_name: values.firstName,
+        last_name: values.lastName,
+        email: values.email,
+        password: values.password};
+      await register(formData);
+      navigate ('/');
+    } catch (error) {
+      console.error('Registration error:', error);
+      const errorMessage = error?.response?.data?.message || error?.message || 'Registration failed';
+      setServerError(errorMessage);
+    }
     console.log('submit', values);
   }
 
   return (
     <div className="register-form">
       <h1 style={{ textAlign: 'center' }}>Registration</h1>
+      {serverError && (
+        <div style={{ 
+          color: 'red', 
+          textAlign: 'center', 
+          marginBottom: '16px',
+          padding: '8px',
+          backgroundColor: '#ffe6e6',
+          borderRadius: '4px'
+        }}>
+          {serverError}
+        </div>
+      )}
       <form onSubmit={handleSubmit} noValidate>
         <NameInput value={values.firstName} onChange={handleChange('firstName')} error={errors.firstName} />
         <LastNameInput value={values.lastName} onChange={handleChange('lastName')} error={errors.lastName} />

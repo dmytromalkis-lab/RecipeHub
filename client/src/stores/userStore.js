@@ -39,14 +39,16 @@ const useUserStore = create(
 
             set({
               token: data.token,
-              user: data.user || null,
+              user: data.user ?? null,
               isAuthenticated: !!data.token,
               loading: false,
+              error: null,
             });
             return data;
           } catch (err) {
+            const errorMessage = err.response?.data?.message || err.message || "Login failed";
             set({
-              error: err.message || err.data || "Login failed",
+              error: errorMessage,
               loading: false,
             });
             throw err;
@@ -60,14 +62,16 @@ const useUserStore = create(
 
             set({
               token: data.token,
-              user: data.user || null,
+              user: data.user ?? null,
               isAuthenticated: !!data.token,
               loading: false,
+              error: null,
             });
             return data;
           } catch (err) {
+            const errorMessage = err.response?.data?.message || err.message || "Register failed";
             set({
-              error: err.message || err.data || "Register failed",
+              error: errorMessage,
               loading: false,
             });
             throw err;
