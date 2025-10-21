@@ -8,6 +8,7 @@ const useUserStore = create(
       (set, get) => ({
         user: null,
         token: null,
+        role: null,
         isAuthenticated: false,
         loading: false,
         error: null,
@@ -18,6 +19,9 @@ const useUserStore = create(
         setToken: (token) => {
           set({ token, isAuthenticated: !!token });
         },
+        setRole: (role) => {
+          set({ role });
+        },
         setLoading: (loading) => set({ loading }),
         setError: (error) => set({ error }),
 
@@ -25,6 +29,7 @@ const useUserStore = create(
           set({
             user: null,
             token: null,
+            role: null,
             isAuthenticated: false,
             loading: false,
             error: null,
@@ -37,13 +42,25 @@ const useUserStore = create(
             const res = await api.post("/auth/login", formData);
             const data = res.data;
 
-            set({
-              token: data.token,
-              user: data.user ?? null,
-              isAuthenticated: !!data.token,
-              loading: false,
-              error: null,
-            });
+            if (data.role === "admin") {
+              set({
+                token: data.token,
+                user: null, 
+                role: data.role,
+                isAuthenticated: !!data.token,
+                loading: false,
+                error: null,
+              });
+            } else {
+              set({
+                token: data.token,
+                user: data.user ?? null,
+                role: data.user?.role ?? "user",
+                isAuthenticated: !!data.token,
+                loading: false,
+                error: null,
+              });
+            }
             return data;
           } catch (err) {
             const errorMessage = err.response?.data?.message || err.message || "Login failed";
@@ -67,6 +84,7 @@ const useUserStore = create(
             set({
               token: data.token,
               user: data.user ?? null,
+              role: data.user?.role ?? "user",
               isAuthenticated: !!data.token,
               loading: false,
               error: null,
@@ -81,12 +99,26 @@ const useUserStore = create(
             throw err;
           }
         },
+
+        isAdmin: () => {
+          const state = get();
+          return state.role === "admin";
+        },
+        isUser: () => {
+          const state = get();
+          return state.user?.role === "user";
+        },
+        hasRole: (role) => {
+          const state = get();
+          return state.role === role;
+        },
       }),
       {
         name: "user-storage",
         partialize: (state) => ({
           user: state.user,
           token: state.token,
+          role: state.role,
           isAuthenticated: state.isAuthenticated,
         }),
       }

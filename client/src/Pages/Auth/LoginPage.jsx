@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 export default function LoginPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { login, loading } = useUserStore();
+  const { login, loading, isUser } = useUserStore();
   const [serverError, setServerError] = useState(null);
 
 
@@ -85,7 +85,10 @@ export default function LoginPage() {
     try {
       const formData = { email: values.email, password: values.password };
       await login(formData);
-      navigate('/');
+      if(isUser()) {
+        navigate("/");
+      }
+      navigate('/admin');
     } catch (err) {
       console.error('Login error:', err);
       const errorMessage = err?.response?.data?.message || err?.message || 'Login failed';
