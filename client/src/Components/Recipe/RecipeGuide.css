@@ -1,0 +1,162 @@
+/* Styles for RecipeGuide component */
+.rg-root {
+  background: transparent;
+  padding: 0;
+}
+
+.rg-title {
+  font-size: 22px;
+  margin: 0 0 16px 0;
+  color: #222;
+}
+
+.rg-time {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.rg-time-label {
+  min-width: 140px;
+  color: #666;
+}
+.rg-time-input {
+  padding: 10px;
+  border: 1px solid #eee;
+  background: #faf7f5;
+  border-radius: 4px;
+  min-width: 180px;
+}
+
+.rg-time-input, .rg-step-text { color: #000; }
+
+.rg-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.rg-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.rg-step-index {
+  width: 40px;
+  display: flex;
+  justify-content: center;
+}
+.rg-step-number {
+  background: #fff;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #eee;
+  color: #444;
+}
+
+.rg-step-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.rg-step-text {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #eee;
+  background: #faf7f5;
+  border-radius: 4px;
+  min-height: 36px;
+}
+.rg-step-photos {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.rg-photo-thumb {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  background: #f6f0ec;
+  border: 1px dashed #eee;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.rg-photo-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.rg-photo-delete {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  background: #666; /* gray background */
+  color: #fff; /* white trash icon */
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.rg-photo-add {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px dashed #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #666;
+}
+
+.rg-step-delete {
+  background: #666;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 8px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+.rg-add-step {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: #444;
+  cursor: pointer;
+  align-self: start;
+}
+
+@media (max-width: 800px) {
+  .rg-step {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .rg-step-index {
+    width: auto;
+    display: block;
+  }
+  .rg-step-photo {
+    width: 100%;
+    height: 140px;
+  }
+}
