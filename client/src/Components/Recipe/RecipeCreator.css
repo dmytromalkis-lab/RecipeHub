@@ -1,0 +1,65 @@
+/* RecipeCreator.css
+   Styles for the small author box used in recipe creation.
+   Shows user avatar, name and email.
+*/
+.recipe-creator {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  color: #222;
+}
+
+.rc-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex: 0 0 44px;
+}
+
+.rc-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rc-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Keep the info area interactive but visually unchanged on hover
+   — remove cursor and hover color change so the name doesn't alter on pointer hover.
+   Keep focus outline for keyboard accessibility. */
+.recipe-creator .rc-info:focus {
+  outline: 2px solid rgba(59,130,246,0.3);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.rc-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f1720;
+  line-height: 1;
+}
+
+.rc-email {
+  font-size: 12px;
+  color: #6b7280; /* gray-500 */
+  line-height: 1;
+}
+
+/* small screens: slightly smaller avatar */
+@media (max-width: 420px) {
+  .recipe-creator { gap: 8px; padding: 6px 8px; }
+  .rc-avatar { width: 38px; height: 38px; }
+  .rc-name { font-size: 13px; }
+  .rc-email { font-size: 11px; }
+}

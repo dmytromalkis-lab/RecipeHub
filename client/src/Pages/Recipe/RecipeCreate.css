@@ -1,0 +1,80 @@
+.recipe-create-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 99vw;
+  margin: 0;
+  align-items: stretch;
+}
+
+/* Main area wrapper for recipe create page */
+.recipe-create-main {
+  width: 100%;
+  margin: 24px 0;
+  padding: 0 40px;
+  box-sizing: border-box;
+  padding-bottom: 120px; /* reserve space at page bottom so Publish button isn't hidden behind the footer */
+}
+
+/* Grid layout: left column reserved for BackButton, right column for content */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 220px 1fr; /* left column width (BackButton area) + content */
+  grid-template-rows: auto auto;
+  align-items: start;
+  column-gap: 0;
+}
+
+/* Tweak BackButton when used inside recipe-grid */
+.recipe-grid .back-button {
+  margin: calc(var(--app-header-height, 68px) + 20px) 0 0px 40px;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Place the main area in the right column, second row */
+.recipe-grid > .recipe-create-main {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* Wrapper that contains the RecipeMain content in the right column */
+.rc-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1100px; /* wrapper width matches the form width */
+  margin-right: 40px; /* keep wrapper inset from the right edge so buttons are visible */
+}
+
+/* limit the width of the recipe form */
+.rc-wrapper .rc-main {
+  width: 100%;
+}
+
+/* place submit button under the right edge of the form (bottom-right) */
+.rc-wrapper .recipe-submit {
+  /* center the submit button horizontally while keeping the same vertical offset */
+  align-self: center;
+  margin-top: 16px;
+  margin-right: 0;
+}
+
+/* remove the extra left offset on small screens so layout fits */
+@media (max-width: 800px) {
+  .recipe-grid {
+    grid-template-columns: 1fr; /* single column on small screens */
+  }
+  .recipe-grid .back-button {
+    margin-left: 20px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .rc-wrapper {
+    justify-content: center; /* center on narrow screens */
+    align-items: center;
+  }
+}
+
+/* small defaults; component-specific CSS is in components' CSS files */
