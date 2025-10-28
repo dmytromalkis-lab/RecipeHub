@@ -28,7 +28,7 @@ const Recipe = sequelize.define(
     difficulty: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Середня",
+      defaultValue: "medium",
     },
     prep_time: {
       type: DataTypes.INTEGER,
