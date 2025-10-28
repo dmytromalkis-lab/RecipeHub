@@ -3,19 +3,19 @@ import { createRoot } from "react-dom/client";
 import "./main.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RegisterPage from "./pages/Auth/RegisterPage.jsx";
+import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
 import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
-import RequireAuth from "./components/Auth/RequireAuth.jsx";
-import Login from "./pages/Auth/LoginPage.jsx";
-import GoogleCallbackPage from "./pages/Auth/GoogleCallbackPage.jsx";
-import AdminLayout from "./pages/Admin/AdminLayout.jsx";
-import RequireUser from "./components/Auth/RequireUser.jsx";
-import NotFoundPage from "./pages/Error/NotFoundPage/NotFoundPage.jsx";
-import ForbiddenPage from "./pages/Error/Forbidden/ForbiddenPage.jsx";
-import RequireAdmin from "./components/Auth/RequireAdmin.jsx";
+import RequireAuth from "./Components/Auth/RequireAuth.jsx";
+import Login from "./Pages/Auth/LoginPage.jsx";
+import GoogleCallbackPage from "./Pages/Auth/GoogleCallbackPage.jsx";
+import AdminLayout from "./Pages/Admin/AdminLayout.jsx";
+import RequireUser from "./Components/Auth/RequireUser.jsx";
+import NotFoundPage from "./Pages/Error/NotFoundPage/NotFoundPage.jsx";
+import ForbiddenPage from "./Pages/Error/Forbidden/ForbiddenPage.jsx";
+import RequireAdmin from "./Components/Auth/RequireAdmin.jsx";
 
 const router = createBrowserRouter([
   {

@@ -5,10 +5,10 @@ import Footer from '../../Components/Main/Footer/Footer.jsx';
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import EmailInput from '../../components/Auth/EmailInput.jsx';
-import PasswordInput from '../../components/Auth/PasswordInput.jsx';
+import EmailInput from '../../Components/Auth/EmailInput.jsx';
+import PasswordInput from '../../Components/Auth/PasswordInput.jsx';
 import LoginButton from '../../Components/Auth/LoginButton.jsx';
-import SocialSignIn from '../../components/Auth/SocialSignIn.jsx';
+import SocialSignIn from '../../Components/Auth/SocialSignIn.jsx';
 import useUserStore from '../../stores/userStore.js';
 import { useNavigate } from 'react-router-dom';
 

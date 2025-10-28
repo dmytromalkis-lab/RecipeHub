@@ -1,7 +1,7 @@
 import React from 'react';
 import useUserStore from '../../stores/userStore';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../components/UI/Loading/Loading';
+import Loading from '../../Components/UI/Loading/Loading';
 
 function AdminLayout() {
     const logout = useUserStore((state) => state.logout);
