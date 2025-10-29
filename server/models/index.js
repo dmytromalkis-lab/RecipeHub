@@ -1,5 +1,6 @@
 import Category from "./category.model.js";
 import User from "./user.model.js";
+import Favorites from "./favorites.model.js";
 import Recipe from "./recipe.model.js";
 import Ingredient from "./ingredient.model.js";
 import Step from "./step.model.js";
@@ -11,8 +12,32 @@ import MenuPlan from "./menuPlan.model.js";
 import MenuPlanItem from "./menuPlanItem.model.js";
 
 // User -> Recipe
-User.hasMany(Recipe, { foreignKey: "user_id" });
-Recipe.belongsTo(User, { foreignKey: "user_id" });
+//User.hasMany(Recipe, { foreignKey: "user_id" });
+//Recipe.belongsTo(User, { foreignKey: "user_id" });
+User.hasMany(Recipe, {
+  foreignKey: "user_id",
+  as: "authored_recipes", // give it a clear alias
+});
+Recipe.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "author",
+});
+
+// Favorites
+User.belongsToMany(Recipe, {
+  through: Favorites,
+  foreignKey: "user_id",
+  otherKey: "recipe_id",
+  as: "favorite_recipes",
+  inverse: { as: "liked_by_users" }, // tells Sequelize this is the other side
+});
+Recipe.belongsToMany(User, {
+  through: Favorites,
+  foreignKey: "recipe_id",
+  otherKey: "user_id",
+  as: "liked_by_users",
+  inverse: { as: "favorite_recipes" },
+});
 
 // Category -> Recipe
 Category.hasMany(Recipe, { foreignKey: "category_id" });
@@ -69,6 +94,7 @@ MenuPlanItem.belongsTo(Recipe, { foreignKey: "recipe_id" });
 const models = [
   Category,
   User,
+  Favorites,
   Recipe,
   Ingredient,
   Step,
