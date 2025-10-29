@@ -309,11 +309,6 @@ export const updateRecipe = async (req, res) => {
 		console.error(error);
 		res.status(500).json({message: "Server Error. Error update recipe"});
 	}
-    try {
-        
-    } catch (error) {
-        
-    }
 }
 
 export const deleteRecipe = async (req, res) => {
@@ -331,7 +326,8 @@ export const deleteRecipe = async (req, res) => {
 
         res.status(200).json({message: "Recipe deleted successfuly"});
     } catch (error) {
-        
+        console.error(error);
+        res.status(500).json({message: "Server Error. Error delete recipe"});
     }
 }
 
