@@ -33,13 +33,6 @@ export const fulfill = async (req, res) => {
     }
 
     return res.status(404).json({ message: 'Row not found' });
-
-    // const isAdmin = email == process.env.ADMIN_EMAIL;
-    // const existUser = await User.findOne({ where: { email } });
-
-    // if (existUser || isAdmin) {
-    //   return res.status(409).json({ message: "User already exists" });
-    // } 
   } catch (error) {
     console.error(error);
     res
@@ -65,14 +58,6 @@ export const reject = async (req, res) => {
     }
 
     return res.status(404).json({ message: 'Row not found' });
-
-    // const isAdmin = email == process.env.ADMIN_EMAIL;
-    // const existUser = await User.findOne({ where: { email } });
-
-    // if (existUser || isAdmin) {
-    //   return res.status(409).json({ message: "User already exists" });
-    // } 
-   
   } catch (error) {
     console.error(error);
     res

@@ -168,3 +168,27 @@ export const deleteRecipe = async (req, res) => {
         res.status(500).json({message: "Server Error. Error delete recipe"});
     }
 }
+
+export const getMyRecipes = async (req, res) => {
+  try {
+    req.user = { id: 7 };
+
+    if (!req.user || !req.user.id) {
+      throw new Error("User not authenticated");
+    }
+
+    const userId = req.user.id;
+
+    const recipes = await Recipe.findAll({
+      where: {
+        user_id: userId
+      }
+    });
+
+    return res.status(200).json({ recipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({message: "Server error. Error get recipe all users recipes. " + error }) 
+  }
+}
+
