@@ -333,19 +333,23 @@ export const deleteRecipe = async (req, res) => {
 
 export const getMyRecipes = async (req, res) => {
   try {
-    req.user = { id: 7 };
-
-    if (!req.user || !req.user.id) {
-      throw new Error("User not authenticated");
-    }
-
     const userId = req.user.id;
 
     const recipes = await Recipe.findAll({
       where: {
         user_id: userId
-      }
+      }, 
+      include: [
+        { model: Step, attributes: ["description", "image_url", "step_number", "image_public_id"] },
+        { model: Ingredient, attributes: ["name", "quantity", "unit"] },
+        { model: Category, attributes: ["category_id", "category_name"] },
+        { model: User, attributes: ["user_id", "first_name", "last_name", "avatar"] },
+    ],
     });
+
+    if(!recipes) {
+        return res.status(404).json({message: "Not found recipes for user"})
+    }
 
     return res.status(200).json({ recipes });
   } catch (error) {
