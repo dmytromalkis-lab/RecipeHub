@@ -1,0 +1,15 @@
+.sp-overlay{
+  position: fixed;
+  top:0;left:0;right:0;bottom:0;
+  display:flex;align-items:center;justify-content:center;
+  background: rgba(0,0,0,0.32);
+  z-index: 9999;
+}
+.sp-box{
+  background:#fff;padding:24px;border-radius:8px;max-width:520px;width:90%;box-shadow:0 10px 30px rgba(0,0,0,0.12);text-align:center;
+}
+.sp-icon{font-size:34px;margin-bottom:12px}
+.sp-message{font-size:16px;color:#222;margin-bottom:18px}
+.sp-actions{display:flex;justify-content:center}
+.sp-ok{background:#ff8c33;color:#fff;border:none;padding:10px 18px;border-radius:6px;font-weight:600;cursor:pointer}
+.sp-ok:hover{opacity:0.95}

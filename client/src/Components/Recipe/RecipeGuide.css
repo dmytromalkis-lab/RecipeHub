@@ -28,6 +28,10 @@
   min-width: 180px;
 }
 
+/* error styling for preparation time */
+.rg-time-input.error { border-color: #e25a5a; box-shadow: 0 0 0 3px rgba(226,90,90,0.06); }
+.rg-error-message { color: #e25a5a; font-size: 13px; margin-top: 6px; }
+
 .rg-time-input, .rg-step-text { color: #000; }
 
 /* view-mode explicit styling to avoid theme overrides */
@@ -151,13 +155,18 @@
 
 .rg-add-step {
   margin-top: 12px;
-  padding: 10px 14px;
+  padding: 6px;
   background: transparent;
   border: none;
-  color: #444;
+  color: #1f2937;
   cursor: pointer;
   align-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
 }
+.rg-add-step .plus { font-size: 18px }
 
 @media (max-width: 800px) {
   .rg-step {

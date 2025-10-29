@@ -19,26 +19,26 @@ export default function LoginPage() {
   const [serverError, setServerError] = useState(null);
 
 
-  // Перевіряємо URL параметри на наявність помилок від Google OAuth
+  // Check URL params for any errors from Google OAuth
   useEffect(() => {
     const error = searchParams.get('error');
     if (error) {
-      let errorMessage = 'Помилка авторизації';
+      let errorMessage = 'Authorization error';
       switch (error) {
         case 'auth_failed':
-          errorMessage = 'Не вдалося авторизуватися через Google';
+          errorMessage = 'Failed to authenticate via Google';
           break;
         case 'server_error':
-          errorMessage = 'Помилка сервера під час авторизації';
+          errorMessage = 'Server error during authentication';
           break;
         case 'parse_error':
-          errorMessage = 'Помилка обробки даних від Google';
+          errorMessage = 'Error processing data from Google';
           break;
         case 'missing_data':
-          errorMessage = 'Відсутні дані від Google';
+          errorMessage = 'Missing data from Google';
           break;
         default:
-          errorMessage = 'Невідома помилка авторизації';
+          errorMessage = 'Unknown authentication error';
       }
       setServerError(errorMessage);
     }

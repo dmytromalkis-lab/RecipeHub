@@ -1,6 +1,6 @@
 import React from 'react';
 import './RecipeComponent.css';
-import UserAvatar from '../../../Components/Main/Header/UserAvatar.jsx';
+import UserAvatar from '../Main/Header/UserAvatar.jsx';
 
 export default function RecipeComponent({ recipe }) {
   const {
@@ -29,14 +29,34 @@ export default function RecipeComponent({ recipe }) {
           </ul>
 
           <div className="rc-card-icons">
-            <span className="rc-time">⏱ {prep_time} хв</span>
-            <span className="rc-serv">👥 {serving}</span>
+            <span className="rc-time">⏱ {prep_time} min</span>
+            <span className="rc-serv">👥 {serving} servings</span>
           </div>
         </div>
 
         <div className="rc-card-author">
           <UserAvatar src={author?.avatar} alt={`${author?.first_name} ${author?.last_name}`} to={`/profile/${author?.user_id || ''}`} />
           <div className="rc-author-name">{author?.first_name} {author?.last_name}</div>
+        </div>
+
+        {/* bottom-right mini controls: difficulty and category (styled for this card) */}
+        <div className="rc-card-controls">
+          {recipe?.difficulty ? (
+            <div className="rc-mini rc-mini-difficulty">
+              <div className="rc-mini-label">Difficulty:</div>
+              <div className="rc-mini-value">{recipe.difficulty}</div>
+            </div>
+          ) : null}
+
+          {(() => {
+            const cat = recipe?.category ?? recipe?.Category?.category_name ?? recipe?.category_name ?? null;
+            return cat ? (
+              <div className="rc-mini rc-mini-category">
+                <div className="rc-mini-label">Category:</div>
+                <div className="rc-mini-value">{cat}</div>
+              </div>
+            ) : null;
+          })()}
         </div>
       </div>
     </article>

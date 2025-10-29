@@ -18,6 +18,8 @@ import RequireUser from "./Components/Auth/RequireUser.jsx";
 import NotFoundPage from "./Pages/Error/NotFoundPage/NotFoundPage.jsx";
 import ForbiddenPage from "./Pages/Error/Forbidden/ForbiddenPage.jsx";
 import RequireAdmin from "./Components/Auth/RequireAdmin.jsx";
+import SearchingPage from "./Pages/Searching/SearchingPage.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -32,6 +34,7 @@ const router = createBrowserRouter([
       { path: "/profile/:id", element: <RequireUser> <ProfilePage /> </RequireUser> },
       { path: "/profile/edit", element: <RequireUser> <ProfileEditPage /> </RequireUser> },
       { path: "/recipe/create", element: <RequireUser> <RecipeCreate /> </RequireUser> },
+      { path: "/search", element: <RequireUser> <SearchingPage /> </RequireUser> },
   { path: "/recipe/:id", element: <RecipeView /> },
     ],
   },

@@ -3,7 +3,7 @@ import avatarImg from '../../../assets/avatar.png';
 import useUserStore from '../../../stores/userStore.js';
 import './UserAvatar.css';
 
-export default function UserAvatar({ src, alt = 'User avatar', to = '/profile' }) {
+export default function UserAvatar({ src, alt = 'User avatar', to = '/profile', onClick = null, children = null }) {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
 
@@ -13,7 +13,10 @@ export default function UserAvatar({ src, alt = 'User avatar', to = '/profile' }
   return (
     <div
       className="header-avatar"
-      onClick={() => navigate(to)}
+      onClick={(e) => {
+        if (typeof onClick === 'function') return onClick(e);
+        return navigate(to);
+      }}
       style={{ cursor: 'pointer' }}
     >
       <img
@@ -25,6 +28,7 @@ export default function UserAvatar({ src, alt = 'User avatar', to = '/profile' }
           if (e.target.src !== avatarImg) e.target.src = avatarImg;
         }}
       />
+      {children}
     </div>
   );
 }

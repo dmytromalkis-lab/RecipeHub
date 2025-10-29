@@ -28,7 +28,7 @@ export default function RecipeCreator({ author: propAuthor = null }) {
     creator?.name ||
     ((creator?.first_name || creator?.last_name)
       ? `${creator?.first_name ?? ''} ${creator?.last_name ?? ''}`.trim()
-      : 'Автор');
+    : 'Author');
   const email = creator?.email ?? '';
   const avatar = creator?.avatar ?? undefined;
 

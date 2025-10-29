@@ -1,12 +1,17 @@
 .rc-difficulty .rd-select{
-  font-size: 24px; /* ~1.5x larger */
+  font-size: 18px; /* match RecipeCategory size */
   padding: 10px 14px;
   min-width: 220px;
   border-radius: 6px;
 }
 .rc-difficulty .rd-value{
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 /* ensure the label is aligned with other section headings */
-.rc-difficulty { display:flex; align-items:center; gap:12px; margin-top:12px; }
+.rc-difficulty { display:flex; align-items:baseline; gap:12px; margin-top:12px; }
+
+/* Prevent the label from breaking into two lines */
+.rc-difficulty .rg-title { white-space: nowrap; font-size:22px; font-weight:400; margin:0; display:inline-block }
+.rc-difficulty .rd-value { display:inline-block }

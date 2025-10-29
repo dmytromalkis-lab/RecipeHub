@@ -47,12 +47,12 @@ export default function RecipePhoto({ onUpload, readOnly = false, photoSrc: prop
         />
       )}
 
-      {!photoSrc && <div>{readOnly ? 'Немає фото' : 'Завантажити фото'}</div>}
+  {!photoSrc && <div>{readOnly ? 'No photo' : 'Upload photo'}</div>}
 
       {photoSrc && (
         <div className="rc-photo-thumb">
           <img src={photoSrc} alt="recipe" />
-          {!readOnly && <button type="button" className="rc-photo-delete" onClick={removePhoto} title="Видалити фото">🗑</button>}
+          {!readOnly && <button type="button" className="rc-photo-delete" onClick={removePhoto} title="Delete photo">🗑</button>}
         </div>
       )}
     </div>

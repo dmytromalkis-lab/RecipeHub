@@ -22,11 +22,11 @@ export default function GoogleCallbackPage() {
       try {
         const user = JSON.parse(decodeURIComponent(userParam));
         
-        // Зберігаємо дані користувача в store
-        setToken(token);
-        setUser(user);
+  // Save user data in the store
+  setToken(token);
+  setUser(user);
         
-        // Перенаправляємо на головну сторінку
+  // Redirect to the homepage
         navigate('/');
       } catch (err) {
         console.error('Error parsing user data:', err);
@@ -45,7 +45,7 @@ export default function GoogleCallbackPage() {
       height: '100vh',
       fontSize: '18px'
     }}>
-      Обробка входу через Google...
+      Processing Google sign-in...
     </div>
   );
 }

@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import './RecipeIngridients.css';
 
 function createItem(name = '', qty = '', unit = '') {
   return { id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), name, qty, unit };
 }
 
-export default function RecipeIngridients({ readOnly = false, initialItems = [], initialPortions = '' }) {
+function RecipeIngridients({ readOnly = false, initialItems = [], initialPortions = '', errors = {}, setErrors = () => {} }, ref) {
   const [portions, setPortions] = useState(initialPortions ?? '');
   // start with an empty list for new recipes or provided initial items
-  const [items, setItems] = useState((initialItems || []).map((it) => ({
+  const [items, setItems] = useState((initialItems || []).map((it, idx) => ({
     id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
     name: it.name ?? '',
     qty: it.quantity ?? it.qty ?? '',
-    unit: it.unit ?? 'шт',
+    unit: it.unit ?? 'pcs',
   })));
 
   useEffect(() => {
     setPortions(initialPortions ?? '');
-    setItems((initialItems || []).map((it) => ({
+    setItems((initialItems || []).map((it, idx) => ({
       id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
       name: it.name ?? '',
       qty: it.quantity ?? it.qty ?? '',
-      unit: it.unit ?? 'шт',
+      unit: it.unit ?? 'pcs',
     })));
   }, [initialItems, initialPortions]);
+
+  useEffect(() => {
+    console.log('[RecipeIngridients] mounted');
+    return () => console.log('[RecipeIngridients] unmounted');
+  }, []);
 
 
   const addItem = () => setItems((s) => [...s, createItem()]);
@@ -32,27 +37,41 @@ export default function RecipeIngridients({ readOnly = false, initialItems = [],
 
   const removeItem = (id) => setItems((s) => s.filter((it) => it.id !== id));
 
+  // expose data to parent via ref
+  useImperativeHandle(ref, () => ({
+    getData: () => {
+      console.log('[RecipeIngridients] getData called');
+      // map to backend shape: { name, quantity, unit }
+  const ingredients = items.map((it) => ({ name: it.name, quantity: it.qty, unit: it.unit || 'pcs' }));
+      return { portions, ingredients };
+    }
+  }));
+
   return (
     <div className="ri-root">
-      <h3 className="ri-title">Інгредієнти</h3>
+      <h3 className="ri-title">Ingredients</h3>
 
       <div className="ri-portions">
-        <label style={{ color: '#000' }}>Порції:</label>
+        <label style={{ color: '#000' }}>Servings:</label>
         {!readOnly ? (
-          <input
-            type="text"
-            placeholder="Скільки порцій?"
-            value={portions}
-            onChange={(e) => setPortions(e.target.value)}
-            style={{ color: '#000' }}
-          />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <input
+              type="text"
+              placeholder="How many servings?"
+              value={portions}
+              onChange={(e) => { setPortions(e.target.value); if (errors?.serving) setErrors(prev => ({ ...prev, serving: '' })); }}
+              style={{ color: '#000' }}
+              className={errors?.serving ? 'ri-input error' : 'ri-input'}
+            />
+            {errors?.serving && <div className="ri-error-message">{errors.serving}</div>}
+          </div>
         ) : (
           <div className="ri-portions--view" style={{ color: '#000' }}>{portions || '—'}</div>
         )}
       </div>
 
       <div className="ri-list">
-        {items.map((it) => (
+        {items.map((it, idx) => (
           <div className="ri-item" key={it.id}>
             {!readOnly && <div className="ri-handle" aria-hidden>☰</div>}
             {readOnly ? (
@@ -64,28 +83,29 @@ export default function RecipeIngridients({ readOnly = false, initialItems = [],
               <>
                 <input
                   className="ri-input ri-input-name"
-                  placeholder="Назва інгр., напр. помідори"
+                  placeholder="Ingredient name, e.g. tomatoes"
                   value={it.name}
                   onChange={(e) => updateItem(it.id, 'name', e.target.value)}
                 />
                 <input
-                  className="ri-input ri-input-qty"
-                  placeholder="Кільк"
+                  className={"ri-input ri-input-qty" + (errors?.ingredients && errors.ingredients[idx] ? ' error' : '')}
+                  placeholder="Qty"
                   value={it.qty}
-                  onChange={(e) => updateItem(it.id, 'qty', e.target.value)}
+                  onChange={(e) => { updateItem(it.id, 'qty', e.target.value); if (errors?.ingredients && errors.ingredients[idx]) setErrors(prev => ({ ...prev, ingredients: { ...(prev.ingredients||{}), [idx]: '' } })); }}
                 />
                 <select
                   className="ri-input ri-input-unit"
                   value={it.unit}
                   onChange={(e) => updateItem(it.id, 'unit', e.target.value)}
                 >
-                  <option value="шт">шт</option>
-                  <option value="г">г</option>
-                  <option value="кг">кг</option>
-                  <option value="мл">мл</option>
-                  <option value="л">л</option>
+                  <option value="pcs">pcs</option>
+                  <option value="g">g</option>
+                  <option value="kg">kg</option>
+                  <option value="ml">ml</option>
+                  <option value="l">l</option>
                 </select>
-                <button type="button" className="ri-delete" onClick={() => removeItem(it.id)} title="Видалити">🗑</button>
+                <button type="button" className="ri-delete" onClick={() => removeItem(it.id)} title="Delete">🗑</button>
+                {errors?.ingredients && errors.ingredients[idx] && <div className="ri-error-message">{errors.ingredients[idx]}</div>}
               </>
             )}
           </div>
@@ -95,10 +115,12 @@ export default function RecipeIngridients({ readOnly = false, initialItems = [],
       {!readOnly && (
         <div className="ri-actions">
           <button type="button" className="ri-add" onClick={() => addItem()}>
-            <span className="plus">+</span> Додати інгредієнти
+            <span className="plus">+</span> Add ingredients
           </button>
         </div>
       )}
     </div>
   );
 }
+
+export default forwardRef(RecipeIngridients);
