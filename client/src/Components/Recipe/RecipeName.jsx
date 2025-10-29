@@ -1,6 +1,10 @@
 import React from 'react';
 
-export default function RecipeName({ value = '', onChange }) {
+export default function RecipeName({ value = '', onChange, readOnly = false }) {
+  if (readOnly) {
+    return <h1 className="rc-title rc-title--view">{value || 'Без назви'}</h1>;
+  }
+
   return (
     <input
       className="rc-title"

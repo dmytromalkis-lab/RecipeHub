@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
 import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
 import RecipeCreate from "./Pages/Recipe/RecipeCreate.jsx";
+import RecipeView from "./Pages/Recipe/RecipeView.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
       { path: "/profile/:id", element: <RequireUser> <ProfilePage /> </RequireUser> },
       { path: "/profile/edit", element: <RequireUser> <ProfileEditPage /> </RequireUser> },
       { path: "/recipe/create", element: <RequireUser> <RecipeCreate /> </RequireUser> },
+  { path: "/recipe/:id", element: <RecipeView /> },
     ],
   },
   {path: "/admin", element: <RequireAdmin> <AdminLayout/> </RequireAdmin>, children: []},

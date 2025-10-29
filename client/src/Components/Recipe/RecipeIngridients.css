@@ -4,9 +4,12 @@
 /* Portions moved below the title and left-aligned */
 .ri-portions { display:flex; align-items:center; gap:8px; color:#444; margin-bottom:12px }
 .ri-portions input { padding:8px 10px; border-radius:6px; border:1px solid #eee; background:#faf7f5; color:#000; min-width:160px }
+.ri-portions label { color: #000 !important; }
 
 .ri-list { display:flex; flex-direction:column; gap:10px; }
 .ri-item { display:flex; align-items:center; gap:12px; }
+.ri-item-view { display:flex; flex-direction:column; gap:4px; padding: 0; }
+.ri-item-view .ri-item-name, .ri-item-view .ri-item-qty { background: transparent; padding: 0; border: none; color: #000 }
 .ri-handle { width:20px; color:#c5c7c9; display:flex; align-items:center; justify-content:center; }
 .ri-input { padding:8px 8px; border-radius:6px; border:1px solid #eee; background:#faf7f5; color:#000; font-size:14px }
 .ri-input-name { flex: 1 1 140px; min-width:120px }

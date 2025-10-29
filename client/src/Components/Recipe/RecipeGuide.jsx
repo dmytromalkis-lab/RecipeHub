@@ -1,37 +1,56 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './RecipeGuide.css';
 
-function TimeRequired({ value, onChange }) {
+function TimeRequired({ value, onChange, readOnly = false }) {
   return (
     <div className="rg-time">
-      <label className="rg-time-label">Час приготування</label>
-      <input
-        className="rg-time-input"
-        type="text"
-        placeholder="Час приготування страви"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-      />
+  <label className="rg-time-label" style={{ color: '#000' }}>Час приготування:</label>
+      {!readOnly ? (
+        <input
+          className="rg-time-input"
+          type="text"
+          placeholder="Час приготування страви"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          style={{ color: '#000' }}
+        />
+      ) : (
+        <div className="rg-time--view" style={{ color: '#000' }}>{value ? `${value} хвилин` : '—'}</div>
+      )}
     </div>
   );
 }
 
-export default function RecipeGuide() {
-  const [time, setTime] = useState('');
-  const [steps, setSteps] = useState([
-    { id: 1, text: '', photos: [] },
-  ]);
+export default function RecipeGuide({ readOnly = false, initialSteps = [], initialTime = '' }) {
+  const [time, setTime] = useState(initialTime ?? '');
+  const [steps, setSteps] = useState((initialSteps || []).map((s, idx) => ({
+    id: s.id ?? Date.now() + idx,
+    text: s.description ?? '',
+    photos: s.image_url ? [{ id: Date.now() + idx + 1, src: s.image_url }] : [],
+  })));
   const inputsRef = useRef({});
 
+  useEffect(() => {
+    setTime(initialTime ?? '');
+    setSteps((initialSteps || []).map((s, idx) => ({
+      id: s.id ?? Date.now() + idx,
+      text: s.description ?? '',
+      photos: s.image_url ? [{ id: Date.now() + idx + 1, src: s.image_url }] : [],
+    })));
+  }, [initialSteps, initialTime]);
+
   const addStep = () => {
+    if (readOnly) return;
     setSteps((s) => [...s, { id: Date.now(), text: '', photos: [] }]);
   };
 
   const updateStep = (id, text) => {
+    if (readOnly) return;
     setSteps((s) => s.map((it) => (it.id === id ? { ...it, text } : it)));
   };
 
   const removeStep = (id) => {
+    if (readOnly) return;
     setSteps((s) => s.filter((it) => it.id !== id));
   };
 
@@ -47,6 +66,7 @@ export default function RecipeGuide() {
   };
 
   const triggerFileInput = (stepId) => {
+    if (readOnly) return;
     // only open file picker if this step currently has no photo (limit 1 photo per step)
     const step = steps.find((s) => s.id === stepId);
     if (step && (step.photos || []).length > 0) return;
@@ -55,6 +75,7 @@ export default function RecipeGuide() {
   };
 
   const removePhoto = (stepId, photoId) => {
+    if (readOnly) return;
     setSteps((s) => s.map((it) => (it.id === stepId ? { ...it, photos: (it.photos || []).filter((p) => p.id !== photoId) } : it)));
   };
 
@@ -62,7 +83,7 @@ export default function RecipeGuide() {
     <section className="rg-root">
       <h3 className="rg-title">Як приготувати</h3>
 
-      <TimeRequired value={time} onChange={setTime} />
+  <TimeRequired value={time} onChange={setTime} readOnly={readOnly} />
 
       <div className="rg-steps">
         {steps.map((step, idx) => (
@@ -72,12 +93,16 @@ export default function RecipeGuide() {
             </div>
 
             <div className="rg-step-body">
-              <textarea
-                className="rg-step-text"
-                placeholder="Опишіть цей крок..."
-                value={step.text}
-                onChange={(e) => updateStep(step.id, e.target.value)}
-              />
+              {readOnly ? (
+                <div className="rg-step-text--view">{step.text}</div>
+              ) : (
+                <textarea
+                  className="rg-step-text"
+                  placeholder="Опишіть цей крок..."
+                  value={step.text}
+                  onChange={(e) => updateStep(step.id, e.target.value)}
+                />
+              )}
 
               <div className="rg-step-photos">
                 <input
@@ -95,32 +120,35 @@ export default function RecipeGuide() {
                 {(step.photos || []).map((p) => (
                   <div className="rg-photo-thumb" key={p.id}>
                     <img src={p.src} alt="step" />
-                    <button type="button" className="rg-photo-delete" onClick={() => removePhoto(step.id, p.id)}>🗑</button>
+                    {!readOnly && <button type="button" className="rg-photo-delete" onClick={() => removePhoto(step.id, p.id)}>🗑</button>}
                   </div>
                 ))}
 
                 {/* Only show add button when there is no photo for this step (limit 1) */}
-                {(!(step.photos && step.photos.length) || (step.photos || []).length === 0) && (
+                {(!readOnly && (!(step.photos && step.photos.length) || (step.photos || []).length === 0)) && (
                   <div className="rg-photo-add" onClick={() => triggerFileInput(step.id)} title="Додати фото">📷</div>
                 )}
               </div>
             </div>
-
-            <button
-              type="button"
-              className="rg-step-delete"
-              title="Видалити крок"
-              onClick={() => removeStep(step.id)}
-            >
-              🗑
-            </button>
+            {!readOnly && (
+              <button
+                type="button"
+                className="rg-step-delete"
+                title="Видалити крок"
+                onClick={() => removeStep(step.id)}
+              >
+                🗑
+              </button>
+            )}
           </div>
         ))}
       </div>
 
-      <button type="button" className="rg-add-step" onClick={addStep}>
-        + Додати крок
-      </button>
+      {!readOnly && (
+        <button type="button" className="rg-add-step" onClick={addStep}>
+          + Додати крок
+        </button>
+      )}
     </section>
   );
 }

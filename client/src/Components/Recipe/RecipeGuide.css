@@ -18,7 +18,7 @@
 }
 .rg-time-label {
   min-width: 140px;
-  color: #666;
+  color: #000 !important;
 }
 .rg-time-input {
   padding: 10px;
@@ -29,6 +29,11 @@
 }
 
 .rg-time-input, .rg-step-text { color: #000; }
+
+/* view-mode explicit styling to avoid theme overrides */
+.rg-time--view { color: #000 !important; }
+/* step text in view mode */
+.rg-step-text--view { color: #000 !important; }
 
 .rg-steps {
   display: flex;
@@ -71,6 +76,14 @@
   background: #faf7f5;
   border-radius: 4px;
   min-height: 36px;
+}
+
+/* view-mode: make step text look like normal page text (no box) */
+.rg-step-text--view {
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-height: auto;
 }
 .rg-step-photos {
   display: flex;
