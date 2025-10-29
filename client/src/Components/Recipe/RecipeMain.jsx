@@ -6,12 +6,14 @@ import RecipePhoto from './RecipePhoto.jsx';
 import RecipeInfo from './RecipeInfo.jsx';
 import RecipeIngridients from './RecipeIngridients.jsx';
 import RecipeGuide from './RecipeGuide.jsx';
+import RecipeDifficulty from './RecipeDifficulty.jsx';
 import useUserStore from '../../stores/userStore.js';
 
 export default function RecipeMain({ initialData = null, readOnly = false }) {
   // title may be provided by initialData when viewing an existing recipe
   const [title, setTitle] = useState(initialData?.title ?? '');
   const [description, setDescription] = useState(initialData?.description ?? '');
+  const [difficulty, setDifficulty] = useState(initialData?.difficulty ?? 'Нормальний');
   // pass down photo src, ingredients and steps to children
   const initialPhoto = initialData?.image_url ?? null;
   const initialIngredients = initialData?.ingredients ?? [];
@@ -23,6 +25,7 @@ export default function RecipeMain({ initialData = null, readOnly = false }) {
     // update when initialData changes (e.g., after fetch)
     setTitle(initialData?.title ?? '');
     setDescription(initialData?.description ?? '');
+    setDifficulty(initialData?.difficulty ?? 'Нормальний');
   }, [initialData]);
   // get current logged user from store to form the author object
   const currentUser = useUserStore((state) => state.user);
@@ -59,6 +62,9 @@ export default function RecipeMain({ initialData = null, readOnly = false }) {
               <p className="rc-description rc-description--view">{description}</p>
             )}
           </RecipeInfo>
+
+          {/* Difficulty selector placed under RecipeInfo */}
+          <RecipeDifficulty value={difficulty} onChange={setDifficulty} readOnly={readOnly} />
         </div>
       </div>
 

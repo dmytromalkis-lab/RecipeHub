@@ -4,6 +4,7 @@ dotenv.config();
 
 const verifyToken = (req, res, next) => {
   try {
+    console.log("verifyToken header:", req.headers.authorization);
     const authHeader = req.header("Authorization");
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({ message: "No token, access denied" });

@@ -1,9 +1,11 @@
 import { Router } from "express";
 import verifyToken from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
-import { createRecipe, getRecipeById, updateRecipe, deleteRecipe } from "../controllers/recipe.controller.js";
+import { createRecipe, getRecipeById, updateRecipe, deleteRecipe, getMyRecipes } from "../controllers/recipe.controller.js";
 
 const router = Router();
+
+router.get("/my", verifyToken, getMyRecipes);
 
 router.post(
   "/",
@@ -27,5 +29,3 @@ router.put(
 router.delete("/:id", verifyToken, deleteRecipe);
 
 export default router;
-
-
