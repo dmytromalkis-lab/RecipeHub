@@ -1,0 +1,31 @@
+.rc-card{
+  display:flex;
+  gap:16px;
+  padding:16px;
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 6px 18px rgba(17,24,39,0.06);
+  align-items:flex-start; /* allow card to expand vertically from the top */
+  width:720px; /* make the card wider (approx. 2x typical small card) */
+  max-width:100%; /* stay responsive on small screens */
+  box-sizing:border-box;
+}
+.rc-card-left{flex:0 0 120px}
+.rc-card-photo{width:120px;height:120px;object-fit:cover;border-radius:8px}
+.rc-card-right{flex:1}
+.rc-card-title{font-size:20px;margin:0 0 8px 0;color:#000}
+
+.rc-card-meta{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.rc-card-icons{display:flex;gap:12px;color:#666;font-size:13px;margin-top:6px}
+.rc-ings{list-style:none;padding:0;margin:8px 0 0 0;display:flex;gap:8px;flex-wrap:wrap;font-size:13px}
+.rc-ing{position:relative;padding-left:12px;color:#444}
+.rc-ing:before{content:'';width:6px;height:6px;border-radius:50%;background:#333;position:absolute;left:0;top:7px}
+.rc-card-author{display:flex;align-items:center;gap:10px;margin-top:12px}
+.rc-author-name{font-size:14px;color:#333}
+
+@media (max-width: 800px){
+  .rc-card{flex-direction:row;align-items:flex-start}
+  .rc-card-left{flex:0 0 90px}
+  .rc-card-photo{width:90px;height:90px}
+  .rc-card-title{font-size:18px}
+}
