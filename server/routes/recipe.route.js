@@ -15,7 +15,15 @@ router.post(
   createRecipe
 );
 router.get("/:id", verifyToken, getRecipeById);
-router.put("/:id", verifyToken, updateRecipe);
+router.put(
+  "/:id",
+  verifyToken,
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "stepImages", maxCount: 30 },
+  ]),
+  updateRecipe
+);
 router.delete("/:id", verifyToken, deleteRecipe);
 
 export default router;
