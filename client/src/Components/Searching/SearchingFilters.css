@@ -1,0 +1,25 @@
+.search-filters-root { width:100%; max-width:100%; background: #fff; border-radius:8px; padding:16px; box-shadow: 0 1px 0 rgba(0,0,0,0.04); display:flex; flex-direction:column; gap:12px; }
+.sf-header { display:flex; align-items:center; justify-content:space-between; }
+.sf-header h4 { margin:0; font-size:20px; color:#000; }
+.sf-reset { background:transparent; border:none; color:#7a7a7a; cursor:pointer; font-size:16px; }
+.sf-group { display:flex; flex-direction:column; gap:8px; }
+.sf-label { font-size:17px; color:#000; }
+.sf-input { height:40px; padding:0 12px 0 36px; border-radius:8px; border:1px solid #e6e6e6; background:#fff; box-shadow: 0 1px 0 rgba(0,0,0,0.04); background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>"); background-repeat:no-repeat; background-position:12px center; font-size:15px; color:#000; }
+.sf-select-wrapper { width:100%; background:#fff; border-radius:8px; border:1px solid #e6e6e6; padding:8px 10px; box-shadow: 0 1px 0 rgba(0,0,0,0.04); }
+.sf-select-inline { width:100%; height:40px; padding:0 8px; border:none; background:transparent; font-size:15px; }
+.sf-block { display:flex; flex-direction:column; gap:12px; }
+.sf-block-category { width:100%; }
+/* sf-block-category intentionally uses defaults; RecipeCategory inside is restyled below */
+
+/* Override RecipeCategory styles inside filters to match Difficulty */
+.search-filters-root .rc-category { display:flex; align-items:center; gap:12px; margin-top:0; }
+.search-filters-root .rc-category .rg-title { font-size:17px; font-weight:400; margin:0; display:inline-block; min-width:65px; }
+.search-filters-root .rc-category > div { flex:1; }
+.search-filters-root .rcat-select { padding:8px 12px; border:1px solid #e6e6e6; background:#fff; border-radius:6px; width:100%; box-sizing:border-box; font-size:15px; color:#000; }
+.sf-select-inline { width:100%; height:40px; padding:0 8px; border:none; background:transparent; font-size:15px; color:#000; }
+
+/* Ensure option text is visible */
+.search-filters-root .rcat-select option,
+.search-filters-root .sf-select-inline option { color: #000; }
+
+.sf-input::placeholder { color: #9aa0a6; }

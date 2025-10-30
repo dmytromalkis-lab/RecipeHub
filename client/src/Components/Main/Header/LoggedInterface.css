@@ -11,8 +11,10 @@
 .header-avatar { position: relative; }
 .avatar-menu {
   position: absolute;
-  top: 44px;
-  right: 0;
+  top: 52px;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   background: #fff;
   border: 1px solid #eee;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
@@ -36,3 +38,40 @@
 .avatar-menu-item + .avatar-menu-item { border-top: 1px solid #f0f0f0; }
 
 .logged-interface .header-btn { padding: 8px 12px; }
+
+/* New menu header styles */
+.avatar-menu-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid #f3f3f3;
+}
+.menu-avatar {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eee;
+}
+.menu-user-details { display: flex; flex-direction: column; }
+.menu-user-name { font-weight: 600; font-size: 14px; color: #222; }
+.menu-user-handle { font-size: 12px; color: #666; }
+.menu-user-email { font-size: 12px; color: #888; margin-top: 4px; }
+
+.avatar-menu-section { display: flex; flex-direction: column; padding: 6px 0; }
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #222;
+}
+.menu-item + .menu-item { border-top: 1px solid #f3f3f3; }
+.menu-item:hover { background: #fbfbfb; }
+.menu-item-icon { font-size: 16px; width: 20px; display: inline-flex; justify-content: center; }

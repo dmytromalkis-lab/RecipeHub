@@ -1,0 +1,19 @@
+.searching-zone { display:flex; justify-content:center; margin-top:20px; }
+.search-inner { display:flex; gap:12px; align-items:stretch; width:760px; max-width:94%; }
+.search-input {
+	flex:1;
+	height:48px;
+	padding:0 16px 0 44px; /* space for icon on the left */
+	border-radius:8px;
+	border:1px solid #e6e6e6;
+	font-size:16px;
+	color: #000;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+	background-repeat: no-repeat;
+	background-position: 12px center;
+}
+.search-input::placeholder { color: #9aa0a6; }
+.search-input::placeholder { color: #9aa0a6; }
+.search-button { background:#f59e0b; color:#fff; border:none; padding:0 20px; border-radius:8px; cursor:pointer; font-weight:700; height:48px; }
+.search-button:hover { filter:brightness(0.95); }

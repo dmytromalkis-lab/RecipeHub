@@ -1,0 +1,8 @@
+.searching-page-root { width:100%; display:flex; flex-direction:column; gap:18px; padding-top:12px; align-items:center; }
+.search-layout { width:100%; display:flex; gap:24px; justify-content:center; align-items:flex-start; }
+.search-main { flex:1; max-width:760px; width:100%; display:flex; flex-direction:column; gap:18px; }
+.search-sidebar { width:320px; }
+.search-results { width:100%; display:flex; flex-direction:column; gap:18px; }
+.searching-page-root > .search-top { /* keep top search bar visually separated from columns */
+	width:100%; display:flex; justify-content:center; padding-top:6px; padding-bottom:6px;
+}

@@ -1,8 +1,10 @@
 import React from 'react';
 import './ProfileRecipeForm.css';
 import UserAvatar from '../../Main/Header/UserAvatar.jsx';
+import RecipeEditButton from './RecipeEditButton.jsx';
+import RecipeDeleteButton from './RecipeDeleteButton.jsx';
 
-export default function ProfileRecipeForm({ recipe }) {
+export default function ProfileRecipeForm({ recipe, canEdit = false, onEdit = null, onDelete = null }) {
   // recipe may be undefined — render a placeholder card similar to screenshot
   const sample = recipe || {
     author: { first_name: 'Mykyta', last_name: '', avatar: null, user_id: '' },
@@ -58,6 +60,13 @@ export default function ProfileRecipeForm({ recipe }) {
 
       <div className="prf-right">
         <img src={image_url} alt={title} className="prf-photo" />
+
+        {canEdit ? (
+          <div className="prf-photo-actions">
+            <RecipeEditButton recipeId={recipe?.id || recipe?.recipe_id} onClick={(id) => { if (typeof onEdit === 'function') return onEdit(id); }} />
+            <RecipeDeleteButton recipeId={recipe?.id || recipe?.recipe_id} onClick={(id) => { if (typeof onDelete === 'function') return onDelete(id); }} />
+          </div>
+        ) : null}
       </div>
     </article>
   );

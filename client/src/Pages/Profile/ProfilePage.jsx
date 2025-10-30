@@ -9,6 +9,10 @@ import EditButton from './../../Components/Profile/ProfileMain/EditButton.jsx';
 import AboutSection from './../../Components/Profile/ProfileMain/AboutSection.jsx';
 import ProfileRecipeForm from './../../Components/Profile/ProfileRecipes/ProfileRecipeForm.jsx';
 import api from '../../api/axios.js';
+import borschtImg from '../../assets/borscht.jfif';
+import varenikiImg from '../../assets/burger.jfif';
+import olivieImg from '../../assets/salad.jfif';
+import kyivcakeImg from '../../assets/pizza.jfif';
 import useUserStore from '../../stores/userStore.js';
 
 function ProfilePage() {
@@ -68,7 +72,7 @@ function ProfilePage() {
       ingredients: ['beet', 'cabbage', 'water'],
       prep_time: 44,
       serving: 2,
-      image_url: '/images/borsh.jpg',
+      image_url: borschtImg,
       difficulty: 'medium',
       category: 'Soups',
       author: { first_name: profile?.first_name || 'Mykyta', last_name: '', avatar: profile?.avatar || null, user_id: profile?.user_id || '' },
@@ -79,7 +83,7 @@ function ProfilePage() {
       ingredients: ['flour', 'cherry', 'sugar'],
       prep_time: 60,
       serving: 4,
-      image_url: '/images/vareniki.jpg',
+      image_url: varenikiImg,
       difficulty: 'easy',
       Category: { category_name: 'Bakery' },
       author: { first_name: profile?.first_name || 'Mykyta', last_name: '', avatar: profile?.avatar || null, user_id: profile?.user_id || '' },
@@ -93,7 +97,7 @@ function ProfilePage() {
       ingredients: ['potato', 'carrot', 'cucumber'],
       prep_time: 25,
       serving: 6,
-      image_url: '/images/olivie.jpg',
+      image_url: olivieImg,
       difficulty: 'easy',
       category: 'Salads',
       author: { first_name: 'Oksana', last_name: '', avatar: null, user_id: 'u2' },
@@ -104,7 +108,7 @@ function ProfilePage() {
       ingredients: ['eggs', 'nuts', 'chocolate'],
       prep_time: 90,
       serving: 8,
-      image_url: '/images/kyivcake.jpg',
+      image_url: kyivcakeImg,
       difficulty: 'hard',
       Category: { category_name: 'Desserts' },
       author: { first_name: 'Olena', last_name: '', avatar: null, user_id: 'u3' },
@@ -153,7 +157,13 @@ function ProfilePage() {
             <div className="profile-recipes-area">
               {selectedTab === 'own' ? (
                 ownRecipesSample.map(r => (
-                  <ProfileRecipeForm key={r.id} recipe={r} />
+                  <ProfileRecipeForm
+                    key={r.id}
+                    recipe={r}
+                    canEdit={canEdit}
+                    onEdit={(id) => navigate(`/recipe/${id}/edit`)}
+                    onDelete={(id) => { if (window.confirm('Delete this recipe?')) { /* TODO: call delete handler */ console.log('deleted', id); } }}
+                  />
                 ))
               ) : (
                 favRecipesSample.map(r => (

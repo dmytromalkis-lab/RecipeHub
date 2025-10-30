@@ -1,6 +1,9 @@
 import React from 'react';
+import './SearchingPage.css';
 import sampleImg from '../../assets/Logo.svg';
 import RecipeComponent from '../../Components/Searching/RecipeComponent.jsx';
+import SearchingTab from '../../Components/Searching/SearchingTab.jsx';
+import SearchingFilters from '../../Components/Searching/SearchingFilters.jsx';
 
 const SAMPLE = [
 	{
@@ -42,10 +45,22 @@ export default function SearchingPage() {
 	return (
 		<div className="main-page">
 			<main className="main-content">
-				<div style={{ display: 'grid', gap: 18 }}>
-					{SAMPLE.map((r) => (
-						<RecipeComponent key={r.recipe_id} recipe={r} />
-					))}
+				<div className="searching-page-root">
+
+					{/* Search bar on top, then two-column layout where filters align with results */}
+					<SearchingTab />
+					<div className="search-layout">
+						<div className="search-main">
+							<div className="search-results">
+								{SAMPLE.map((r) => (
+									<RecipeComponent key={r.recipe_id} recipe={r} />
+								))}
+							</div>
+						</div>
+						<aside className="search-sidebar">
+							<SearchingFilters />
+						</aside>
+					</div>
 				</div>
 			</main>
 		</div>

@@ -1,0 +1,10 @@
+.prf-actions { display:flex; flex-direction:column; gap:8px; align-items:flex-start; margin-left:12px; }
+.prf-action-btn { padding:8px 12px; border-radius:8px; border:1px solid transparent; cursor:pointer; font-weight:600; font-size:14px; }
+.prf-edit-btn { background:#fff; color:#1a73e8; border:1px solid #e6eefc; }
+.prf-delete-btn { background:#fef2f2; color:#b91c1c; border:1px solid #f5c2c2; }
+
+/* Make sure the row wrapper aligns the card and actions */
+.profile-recipe-row { display:flex; gap:16px; align-items:flex-start; margin-bottom:18px; }
+
+/* make the card fill remaining horizontal space so actions sit to the right */
+.profile-recipe-row .prf-card { flex: 1 1 auto; }
