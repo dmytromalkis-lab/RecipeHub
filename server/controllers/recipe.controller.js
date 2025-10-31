@@ -144,7 +144,7 @@ export const getRecipeById  = async (req, res) => {
                 { model: Step, attributes: ["description", "image_url", "step_number", "image_public_id"] },
                 { model: Ingredient, attributes: ["name", "quantity", "unit"] },
                 { model: Category, attributes: ["category_id", "category_name"] },
-                { model: User, attributes: ["user_id", "first_name", "last_name", "avatar"] },
+              { association: "author", attributes: ["user_id", "first_name", "last_name", "avatar"] },
             ]
         })
 
@@ -299,7 +299,7 @@ export const updateRecipe = async (req, res) => {
 				{ model: Step, attributes: ["description", "image_url", "step_number", "image_public_id"] },
 				{ model: Ingredient, attributes: ["name", "quantity", "unit"] },
 				{ model: Category, attributes: ["category_id", "category_name"] },
-				{ model: User, attributes: ["user_id", "first_name", "last_name", "avatar"] },
+                { association: "author", attributes: ["user_id", "first_name", "last_name", "avatar"] },
 			],
 		});
 
@@ -347,7 +347,7 @@ export const getMyRecipes = async (req, res) => {
         { model: Step, attributes: ["description", "image_url", "step_number", "image_public_id"] },
         { model: Ingredient, attributes: ["name", "quantity", "unit"] },
         { model: Category, attributes: ["category_id", "category_name"] },
-        { model: User, attributes: ["user_id", "first_name", "last_name", "avatar"] },
+        { association: "author", attributes: ["user_id", "first_name", "last_name", "avatar"] },
     ],
     });
 
