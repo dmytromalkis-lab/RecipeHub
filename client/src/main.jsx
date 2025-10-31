@@ -4,7 +4,7 @@ import "./main.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
-import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
+import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import RecipeCreate from "./Pages/Recipe/RecipeCreate.jsx";
 import RecipeEdit from "./Pages/Recipe/RecipeEdit.jsx";
 import RecipeView from "./Pages/Recipe/RecipeView.jsx";

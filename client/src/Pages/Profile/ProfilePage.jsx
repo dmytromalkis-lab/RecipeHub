@@ -8,6 +8,8 @@ import ProfileInfo from './../../Components/Profile/ProfileMain/ProfileInfo.jsx'
 import EditButton from './../../Components/Profile/ProfileMain/EditButton.jsx';
 import AboutSection from './../../Components/Profile/ProfileMain/AboutSection.jsx';
 import ProfileRecipeForm from './../../Components/Profile/ProfileRecipes/ProfileRecipeForm.jsx';
+import Loading from "./../../components/UI/Loading/Loading.jsx";
+import { Link } from 'react-router-dom';
 import api from '../../api/axios.js';
 import borschtImg from '../../assets/borscht.jfif';
 import varenikiImg from '../../assets/burger.jfif';
@@ -24,7 +26,11 @@ function ProfilePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedTab, setSelectedTab] = useState('own');
+  const [myRecipes, setMyRecipes] = useState([]);
+  const [myRecipesLoading, setMyRecipesLoading] = useState(false);
+  const [myRecipesError, setMyRecipesError] = useState(null);
   const initialSrc = user?.avatar ?? avatarImg;
+  const canEdit = !!user && (!id || String(user.user_id) === String(id));
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -53,7 +59,35 @@ function ProfilePage() {
     fetchProfile();
   }, [id, user]);
 
-  const canEdit = !!user && (!id || String(user.user_id) === String(id));
+  useEffect(() => {
+    const fetchMyRecipes = async () => {
+      if(!canEdit || selectedTab !== "own") return;
+      if(!user || !user.user_id) return;
+
+      setMyRecipesLoading(true);
+      setMyRecipesError(null);
+
+      try {
+        const config = {};
+        const token = useUserStore.getState().token;
+        if (token) {
+          config.headers = { Authorization: `Bearer ${token}` };
+        }
+
+        const responseMyRecipes = await api.get("/recipes/my", config);
+        const dataMyRecipes = Array.isArray(responseMyRecipes.data?.recipes) ? responseMyRecipes.data?.recipes : [];
+        setMyRecipes(dataMyRecipes);
+      } catch (error) {
+        const message = error?.response?.data?.message || error.message || 'Failed to load my recipes';
+        setMyRecipesError(message);
+      } finally {
+        setMyRecipesLoading(false);
+      }
+    }
+    fetchMyRecipes();
+  }, [canEdit, selectedTab, user]);
+
+  console.log(myRecipes);
 
   const avatarToShow = (() => {
     const defaultAvatar = avatarImg;
@@ -156,15 +190,23 @@ function ProfilePage() {
             {/* Placeholder area where recipe list component will be shown */}
             <div className="profile-recipes-area">
               {selectedTab === 'own' ? (
-                ownRecipesSample.map(r => (
-                  <ProfileRecipeForm
-                    key={r.id}
-                    recipe={r}
-                    canEdit={canEdit}
-                    onEdit={(id) => navigate(`/recipe/${id}/edit`)}
-                    onDelete={(id) => { if (window.confirm('Delete this recipe?')) { /* TODO: call delete handler */ console.log('deleted', id); } }}
-                  />
-                ))
+                (myRecipesLoading ? (
+                  <Loading />
+                ) : myRecipesError ? (
+                  <div>{myRecipesError}</div>
+                ) : (myRecipes && myRecipes.length > 0 ? (
+                  myRecipes.map(r => (
+                    <ProfileRecipeForm
+                      key={r.recipe_id}
+                      recipe={r}
+                      canEdit={canEdit}
+                      onEdit={(id) => navigate(`/recipe/${id}/edit`)}
+                      onDelete={(id) => { if (window.confirm('Delete this recipe?')) { /* TODO: call delete handler */ console.log('deleted', id); } }}
+                    />
+                  ))
+                ) : (
+                  <div style={{fontSize: "20px", textAlign: "center", marginTop: "10px"}}>No recipes of my own. <Link style={{color: "green"}} to = "/recipe/create">Add first!</Link></div>
+                )))
               ) : (
                 favRecipesSample.map(r => (
                   <ProfileRecipeForm key={r.id} recipe={r} />

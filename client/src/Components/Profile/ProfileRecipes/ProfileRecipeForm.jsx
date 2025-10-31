@@ -3,22 +3,22 @@ import './ProfileRecipeForm.css';
 import UserAvatar from '../../Main/Header/UserAvatar.jsx';
 import RecipeEditButton from './RecipeEditButton.jsx';
 import RecipeDeleteButton from './RecipeDeleteButton.jsx';
+import { useNavigate } from 'react-router-dom';
 
 export default function ProfileRecipeForm({ recipe, canEdit = false, onEdit = null, onDelete = null }) {
-  // recipe may be undefined — render a placeholder card similar to screenshot
-  const sample = recipe || {
-    author: { first_name: 'Mykyta', last_name: '', avatar: null, user_id: '' },
-    title: 'Borscht',
-    ingredients: ['beet', 'cabbage', 'water'],
-    prep_time: 44,
-    serving: 2,
-    image_url: '/public/placeholder.png',
-  };
+  const sample = recipe;
+  const navigate = useNavigate();
+
 
   const { author, title, ingredients = [], prep_time, serving, image_url } = sample;
 
+  // Format ingredients: if they are objects, extract names; if strings, use as is
+  const ingredientsDisplay = Array.isArray(ingredients) 
+    ? ingredients.map(ing => typeof ing === 'object' && ing?.name ? ing.name : ing).join('•')
+    : '';
+
   return (
-    <article className="prf-card">
+    <article className="prf-card" onClick={() => navigate(`/recipe/${recipe.recipe_id}`) }>
       <div className="prf-left">
         <div className="prf-header">
           <UserAvatar src={author?.avatar} alt={`${author?.first_name} ${author?.last_name}`} to={`/profile/${author?.user_id || ''}`} />
@@ -29,7 +29,7 @@ export default function ProfileRecipeForm({ recipe, canEdit = false, onEdit = nu
 
         <h3 className="prf-title">{title}</h3>
 
-        <div className="prf-sub">{ingredients.join('•')}</div>
+        <div className="prf-sub">{ingredientsDisplay}</div>
 
         <div className="prf-meta">
           <span className="prf-time">⏱ {prep_time} min</span>
@@ -46,7 +46,11 @@ export default function ProfileRecipeForm({ recipe, canEdit = false, onEdit = nu
           ) : null}
 
           {(() => {
-            const cat = recipe?.category ?? recipe?.Category?.category_name ?? recipe?.category_name ?? null;
+            let cat = recipe?.category ?? recipe?.Category ?? recipe?.category_name ?? null;
+            // If cat is an object, extract category_name
+            if (cat && typeof cat === 'object' && cat.category_name) {
+              cat = cat.category_name;
+            }
             const display = cat || (sample.Category && sample.Category.category_name) || null;
             return display ? (
               <div className="prf-mini prf-mini-category">

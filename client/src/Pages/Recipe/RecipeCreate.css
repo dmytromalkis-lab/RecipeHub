@@ -36,6 +36,8 @@
 .recipe-grid > .recipe-create-main {
   grid-column: 2;
   grid-row: 2;
+  display: flex;
+  justify-content: center;
 }
 
 /* Wrapper that contains the RecipeMain content in the right column */
@@ -45,7 +47,7 @@
   align-items: stretch;
   width: 100%;
   max-width: 1100px; /* wrapper width matches the form width */
-  margin-right: 40px; /* keep wrapper inset from the right edge so buttons are visible */
+  margin: 0 auto; /* center the wrapper horizontally */
 }
 
 /* limit the width of the recipe form */
@@ -71,9 +73,12 @@
     grid-column: 1;
     grid-row: 1;
   }
+  .recipe-grid > .recipe-create-main {
+    grid-column: 1;
+    justify-content: center;
+  }
   .rc-wrapper {
-    justify-content: center; /* center on narrow screens */
-    align-items: center;
+    margin: 0 auto; /* center on narrow screens */
   }
 }
 
