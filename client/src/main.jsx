@@ -11,16 +11,17 @@ import RecipeView from "./Pages/Recipe/RecipeView.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
-import RequireAuth from "./Components/Auth/RequireAuth.jsx";
 import Login from "./Pages/Auth/LoginPage.jsx";
 import GoogleCallbackPage from "./Pages/Auth/GoogleCallbackPage.jsx";
-import AdminLayout from "./Pages/Admin/AdminLayout.jsx";
+import AdminLayout from "./pages/Admin/AdminLayout.jsx";
 import RequireUser from "./Components/Auth/RequireUser.jsx";
 import NotFoundPage from "./Pages/Error/NotFoundPage/NotFoundPage.jsx";
 import ForbiddenPage from "./Pages/Error/Forbidden/ForbiddenPage.jsx";
 import RequireAdmin from "./Components/Auth/RequireAdmin.jsx";
 import SearchingPage from "./Pages/Searching/SearchingPage.jsx";
-
+import Moderation from "./pages/Admin/Moderation.jsx";
+import Statistics from "./pages/Admin/Statistics.jsx";
+import Users from "./pages/Admin/Users.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,12 @@ const router = createBrowserRouter([
   { path: "/recipe/:id", element: <RecipeView /> },
     ],
   },
-  {path: "/admin", element: <RequireAdmin> <AdminLayout/> </RequireAdmin>, children: []},
+  { path: "/admin", element: <RequireAdmin> <AdminLayout/> </RequireAdmin>, 
+    children: [
+    { path: "moderation", element: <RequireAdmin> <Moderation /> </RequireAdmin>},
+    { path: "statistics", element: <RequireAdmin> <Statistics /> </RequireAdmin>},
+    { path: "users", element: <RequireAdmin> <Users /> </RequireAdmin>},
+  ] },
   { path: "*", element: <NotFoundPage /> },
   { path: "403", element: <ForbiddenPage />},
 ]);

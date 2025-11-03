@@ -1,0 +1,86 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #f28a2e;
+    color: #fff;
+    padding: 20px;
+    padding-top: 70px;
+    box-sizing: border-box;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+    display: flex;
+    flex-direction: column;
+}
+
+.closed {
+    transform: translateX(-100%);
+}
+
+.title {
+    margin: 0;
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+}
+
+.navList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+
+.navList li {
+    margin: 10px 0;
+    font-size: 1.2rem;
+}
+
+.navListRef {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.navListRef:hover {
+    color: #fff;
+    background-color: #db7a26;
+}
+
+.logoutWrapper {
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.navListLogOut {
+    font-size: 1.2rem;
+}
+
+.navListLogOut:hover {
+    color: white;
+    background-color: rgb(247, 86, 86);
+}
+
+.toggleBtn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1000;
+    background-color: #f28a2e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    font-size: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+.toggleBtn:hover {
+    background-color: #db7a26;
+}

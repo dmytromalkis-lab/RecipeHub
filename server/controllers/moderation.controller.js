@@ -6,7 +6,11 @@ export const getModerationRecipe = async (req, res) => {
     const recipes = await Recipe.findAll({
       where: {
         moderation_status: 'pending'
-      }
+      }, include: [
+        { model: Step, attributes: ["description", "image_url", "step_number", "image_public_id"] },
+        { model: Ingredient, attributes: ["name", "quantity", "unit"] },
+        { model: Category, attributes: ["category_id", "category_name"] },
+        { association: "author", attributes: ["user_id", "first_name", "last_name", "avatar"] },]
     });
 
     return res.status(200).json({ recipes });
