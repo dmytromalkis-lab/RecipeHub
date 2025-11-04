@@ -1,5 +1,9 @@
 import { Op } from 'sequelize';
 import Recipe from "../models/recipe.model.js";
+import Step from '../models/step.model.js';
+import Ingredient from '../models/ingredient.model.js';
+import Category from '../models/category.model.js';
+import User from '../models/user.model.js';
 
 export const getModerationRecipe = async (req, res) => {
   try {

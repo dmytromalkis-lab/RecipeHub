@@ -1,0 +1,25 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: #f44336; 
+  }
+  
+  .error h2 {
+    font-size: 1.8rem;
+    margin-top: 16px;
+  }
+  
+  .error p {
+    font-size: 1rem;
+    margin-top: 8px;
+    color: #333;
+  }
+  
+  .error .icon {
+    color: #f44336;
+  }
+  

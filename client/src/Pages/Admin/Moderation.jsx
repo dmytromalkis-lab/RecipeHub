@@ -1,10 +1,9 @@
 import React from 'react';
+import ModerationList from '../../components/Admin/ModerationList/ModerationList';
 
-function Moderation(props) {
+function Moderation() {
     return (
-        <div style={{color: "black"}}> 
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae magni dolores nostrum veritatis consequuntur voluptatum quidem necessitatibus, nobis dolorem laborum, accusantium, rem maiores molestiae vero! Molestiae earum mollitia quidem obcaecati.
-        </div>
+        <ModerationList />
     );
 }
 

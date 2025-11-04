@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TextAlignJustify } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import styles from "./Sidebar.module.css";
 
 
 function Sidebar(props) {
-    const [isOpen, setIsOpen] = useState(true);
-    const { onLogout } = props;
+    const { isOpen, setIsOpen, onLogout } = props;
 
     return (
         <>

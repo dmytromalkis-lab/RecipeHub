@@ -1,0 +1,25 @@
+.noRecipes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+    color: #f28a2e; 
+  }
+  
+  .noRecipes h2 {
+    font-size: 1.8rem;
+    margin-top: 16px;
+  }
+  
+  .noRecipes p {
+    font-size: 1rem;
+    margin-top: 8px;
+    color: #333;
+  }
+  
+  .icon {
+    color: #f28a2e;
+  }
+  
