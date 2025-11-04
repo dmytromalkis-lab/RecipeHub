@@ -7,7 +7,7 @@ import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
 import ProfilePage from "./pages/Profile/ProfilePage.jsx";
 import RecipeCreate from "./Pages/Recipe/RecipeCreate.jsx";
 import RecipeEdit from "./Pages/Recipe/RecipeEdit.jsx";
-import RecipeView from "./Pages/Recipe/RecipeView.jsx";
+import RecipeView from "./pages/Recipe/RecipeView.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
@@ -22,6 +22,7 @@ import SearchingPage from "./Pages/Searching/SearchingPage.jsx";
 import Moderation from "./pages/Admin/Moderation.jsx";
 import Statistics from "./pages/Admin/Statistics.jsx";
 import Users from "./pages/Admin/Users.jsx";
+import ModerationRecipe from "./pages/Admin/ModerationRecipe.jsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,7 @@ const router = createBrowserRouter([
     { path: "moderation", element: <RequireAdmin> <Moderation /> </RequireAdmin>},
     { path: "statistics", element: <RequireAdmin> <Statistics /> </RequireAdmin>},
     { path: "users", element: <RequireAdmin> <Users /> </RequireAdmin>},
+    { path: "recipe/:id", element: <RequireAdmin> <ModerationRecipe /> </RequireAdmin>},
   ] },
   { path: "*", element: <NotFoundPage /> },
   { path: "403", element: <ForbiddenPage />},

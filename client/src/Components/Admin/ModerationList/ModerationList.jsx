@@ -35,7 +35,7 @@ function ModerationList(props) {
         fetchPendingRecipes();
     }, [])
 
-    
+
     if (loading) {
         return <Loading />;
       }
@@ -49,14 +49,20 @@ function ModerationList(props) {
     }
       
     return (
-        <div className={styles.grid}>
-          {pendingRecipes.map(recipe => (
-            <ModerationRecipeItem 
-              key={recipe.recipe_id}
-              recipe={recipe}
-            />
-          ))}
-        </div>
+        <>
+            <h2 style={{color: "black"}}>Recipes on pending: {pendingRecipes.length}</h2>
+            <div className={styles.grid}>
+            {pendingRecipes.map(recipe => (
+                <ModerationRecipeItem 
+                key={recipe.recipe_id}
+                recipe={recipe}
+                onAction={(id) =>
+                    setPendingRecipes((prev) => prev.filter((r) => r.recipe_id !== id))
+                  }
+                />
+            ))}
+            </div>
+        </>
       );
       
 }
