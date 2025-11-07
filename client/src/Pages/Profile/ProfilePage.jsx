@@ -14,6 +14,7 @@ import api from "../../api/axios.js";
 import olivieImg from "../../assets/salad.jfif";
 import kyivcakeImg from "../../assets/pizza.jfif";
 import useUserStore from "../../stores/userStore.js";
+import SuccessPopup from "../../components/UI/SuccessPopup";
 
 function ProfilePage() {
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function ProfilePage() {
   const [myRecipes, setMyRecipes] = useState([]);
   const [myRecipesLoading, setMyRecipesLoading] = useState(false);
   const [myRecipesError, setMyRecipesError] = useState(null);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const canEdit = !!user && (!id || String(user.user_id) === String(id));
 
   useEffect(() => {
@@ -93,6 +95,31 @@ function ProfilePage() {
     fetchMyRecipes();
   }, [canEdit, selectedTab, user]);
 
+  const handleDeleteRecipe = async (id) => {
+    if (window.confirm("Delete this recipe?")) {
+      try {
+        const token = useUserStore.getState().token;
+        await api.delete(`/recipes/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        // After successful deletion, update the recipes list
+        setMyRecipes((prevRecipes) =>
+          prevRecipes.filter((recipe) => recipe.recipe_id !== id)
+        );
+        // Show success popup
+        setShowSuccessPopup(true);
+        // Hide popup after 3 seconds
+        setTimeout(() => setShowSuccessPopup(false), 3000);
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to delete recipe";
+        alert(message);
+      }
+    }
+  };
+
   console.log(myRecipes);
 
   const avatarToShow = (() => {
@@ -141,6 +168,11 @@ function ProfilePage() {
 
   return (
     <div className="profile-page">
+      <SuccessPopup
+        visible={showSuccessPopup}
+        message="Recipe successfully deleted!"
+        onClose={() => setShowSuccessPopup(false)}
+      />
       <BackButton onClick={() => navigate("/")} />
       <main className="profile-content">
         {loading && <div>Loading...</div>}
@@ -203,14 +235,7 @@ function ProfilePage() {
                       recipe={r}
                       canEdit={canEdit}
                       onEdit={(id) => navigate(`/recipe/${id}/edit`)}
-                      onDelete={(id) => {
-                        if (window.confirm("Delete this recipe?")) {
-                          /* TODO: call delete handler */ console.log(
-                            "deleted",
-                            id
-                          );
-                        }
-                      }}
+                      onDelete={handleDeleteRecipe}
                     />
                   ))
                 ) : (
