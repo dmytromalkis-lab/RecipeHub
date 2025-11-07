@@ -1,7 +1,13 @@
 import { Router } from "express";
 import verifyToken from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
-import { createRecipe, getRecipeById, updateRecipe, deleteRecipe, getMyRecipes } from "../controllers/recipe.controller.js";
+import {
+  createRecipe,
+  getRecipeById,
+  updateRecipe,
+  deleteRecipe,
+  getMyRecipes,
+} from "../controllers/recipe.controller.js";
 
 const router = Router();
 
@@ -16,7 +22,7 @@ router.post(
   ]),
   createRecipe
 );
-router.get("/:id", verifyToken, getRecipeById);
+router.get("/:id", getRecipeById);
 router.put(
   "/:id",
   verifyToken,
