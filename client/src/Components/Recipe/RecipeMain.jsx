@@ -110,13 +110,18 @@ function RecipeMain(
   // provided by initialData.User (returned by getRecipeById). When creating/editing,
   // fall back to the current logged-in user from the store.
   let author = null;
-  // Some API responses use `user` (lowercase) while others may use `User` (capitalized).
-  // Prefer the recipe's owner when in readOnly mode.
-  const apiUser = initialData?.user ?? initialData?.User ?? null;
-  if (readOnly && initialData && apiUser) {
-    // use the User object returned by the API directly (has user_id, first_name, last_name, avatar)
-    author = apiUser;
+  // Get the recipe author from the API response
+  const apiUser = initialData?.author ?? null;
+  if (initialData && apiUser) {
+    // use the author object returned by the API
+    author = {
+      id: apiUser.user_id,
+      first_name: apiUser.first_name,
+      last_name: apiUser.last_name,
+      avatar: apiUser.avatar,
+    };
   } else if (currentUser) {
+    // Only use currentUser when creating a new recipe
     author = {
       id: currentUser.user_id ?? currentUser._id ?? currentUser.id,
       name:
