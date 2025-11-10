@@ -5,6 +5,7 @@ import Category from "../models/category.model.js";
 import User from "../models/user.model.js";
 import sequelize from "../configs/db.js";
 import { uploadBuffer, deleteImage } from "../services/cloudinary.service.js";
+import { Op } from "sequelize";
 
 export const createRecipe = async (req, res) => {
   try {
@@ -593,5 +594,108 @@ export const getLatest = async (req, res) => {
     res.status(500).json({
       message: "Server error. Error get latest recipes.",
     });
+  }
+};
+
+export const searchRecipes = async (req, res) => {
+  try {
+    const {
+      title,
+      ingredients,
+      difficulty,
+      category_id,
+      minTime,
+      maxTime,
+      limit = 30,
+      offset = 0,
+    } = req.query;
+
+    const where = {};
+
+    if (title) {
+      where.title = { [Op.like]: `%${title}%` };
+    }
+
+    if (difficulty) {
+      where.difficulty = difficulty;
+    }
+
+    if (category_id) {
+      where.category_id = category_id;
+    }
+
+    if (minTime && maxTime) {
+      where.prep_time = { [Op.between]: [Number(minTime), Number(maxTime)] };
+    }
+
+    let filteredRecipeIds = null;
+    if (ingredients) {
+      const ingredientList = ingredients
+        .split(",")
+        .map((i) => i.trim().toLowerCase());
+      // Знаходимо всі recipe_id, у яких є ВСІ інгредієнти зі списку (незалежно від регістру)
+      const { sequelize } = Ingredient;
+      const ingredientRows = await Ingredient.findAll({
+        attributes: ["recipe_id", "name"],
+        where: sequelize.where(sequelize.fn("lower", sequelize.col("name")), {
+          [Op.in]: ingredientList,
+        }),
+      });
+      // Групуємо по recipe_id
+      const recipeIdToNames = {};
+      ingredientRows.forEach((row) => {
+        if (!recipeIdToNames[row.recipe_id])
+          recipeIdToNames[row.recipe_id] = new Set();
+        recipeIdToNames[row.recipe_id].add(row.name.toLowerCase());
+      });
+      // Вибираємо ті recipe_id, у яких є всі інгредієнти
+      filteredRecipeIds = Object.entries(recipeIdToNames)
+        .filter(([_, namesSet]) =>
+          ingredientList.every((name) => namesSet.has(name))
+        )
+        .map(([recipe_id]) => Number(recipe_id));
+      // Якщо жодного не знайдено — повертаємо порожній масив
+      if (filteredRecipeIds.length === 0) {
+        return res.status(200).json({ recipes: [], total: 0, hasMore: false });
+      }
+      where.recipe_id = { [Op.in]: filteredRecipeIds };
+    }
+
+    const { rows: recipes, count: total } = await Recipe.findAndCountAll({
+      where,
+      include: [
+        { model: Category, attributes: ["category_id", "category_name"] },
+        {
+          association: "author",
+          attributes: ["user_id", "first_name", "last_name", "avatar"],
+        },
+      ],
+      order: [["createdAt", "DESC"]],
+      limit: Number(limit),
+      offset: Number(offset),
+    });
+
+    // Для кожного рецепта підвантажити всі інгредієнти
+    const recipesWithIngredients = await Promise.all(
+      recipes.map(async (recipe) => {
+        const allIngredients = await Ingredient.findAll({
+          where: { recipe_id: recipe.recipe_id },
+        });
+        return {
+          ...recipe.toJSON(),
+          ingredients: allIngredients,
+        };
+      })
+    );
+
+    const numericOffset = Number(offset);
+    res.status(200).json({
+      recipes: recipesWithIngredients,
+      total,
+      hasMore: numericOffset + recipes.length < total,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Error search elements." });
   }
 };

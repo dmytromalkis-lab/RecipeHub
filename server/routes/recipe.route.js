@@ -8,6 +8,7 @@ import {
   deleteRecipe,
   getMyRecipes,
   getLatest,
+  searchRecipes,
 } from "../controllers/recipe.controller.js";
 
 const router = Router();
@@ -24,6 +25,7 @@ router.post(
   createRecipe
 );
 router.get("/latest", getLatest);
+router.get("/search", searchRecipes);
 router.get("/:id", getRecipeById);
 router.put(
   "/:id",
