@@ -1,0 +1,40 @@
+/* Styles for NewRecipe block on main page */
+.new-recipes-root {
+	padding: 1rem;
+	background: var(--card-bg, #ffffff);
+	border-radius: 10px;
+	box-shadow: 0 6px 18px rgba(20, 20, 20, 0.04);
+	margin: 1rem 0;
+    width: 100%;
+}
+
+.new-recipes-header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 0.75rem;
+}
+
+.new-recipes-header h2 {
+	margin: 0;
+	font-size: 1.125rem;
+	line-height: 1;
+	color: var(--text-title, #111827);
+}
+
+.new-recipes-sub {
+	color: var(--muted, #6b7280);
+	font-size: 0.9rem;
+}
+
+.new-recipes-list {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+
+.new-recipes-item {
+	width: 100%;
+	margin-bottom: 0.75rem;
+}

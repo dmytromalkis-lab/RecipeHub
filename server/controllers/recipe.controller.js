@@ -571,3 +571,27 @@ export const getMyRecipes = async (req, res) => {
     });
   }
 };
+
+export const getLatest = async (req, res) => {
+  try {
+    const recipes = await Recipe.findAll({
+      order: [["createdAt", "DESC"]],
+      limit: 5,
+      include: [
+        { model: Ingredient, attributes: ["name", "quantity", "unit"] },
+        { model: Category, attributes: ["category_id", "category_name"] },
+        {
+          association: "author",
+          attributes: ["user_id", "first_name", "last_name", "avatar"],
+        },
+      ],
+    });
+
+    res.status(200).json({ recipes });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Server error. Error get latest recipes.",
+    });
+  }
+};

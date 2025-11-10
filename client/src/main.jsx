@@ -33,24 +33,94 @@ const router = createBrowserRouter([
       { path: "/register", element: <RegisterPage /> },
       { path: "/login", element: <Login /> },
       { path: "/auth/google/callback", element: <GoogleCallbackPage /> },
-      { path: "/profile", element: <RequireUser> <ProfilePage /> </RequireUser> },
-      { path: "/profile/:id", element: <RequireUser> <ProfilePage /> </RequireUser> },
-      { path: "/profile/edit", element: <RequireUser> <ProfileEditPage /> </RequireUser> },
-      { path: "/recipe/create", element: <RequireUser> <RecipeCreate /> </RequireUser> },
-    { path: "/recipe/:id/edit", element: <RequireUser> <RecipeEdit /> </RequireUser> },
-      { path: "/search", element: <RequireUser> <SearchingPage /> </RequireUser> },
-  { path: "/recipe/:id", element: <RecipeView /> },
+      {
+        path: "/profile",
+        element: (
+          <RequireUser>
+            <ProfilePage />
+          </RequireUser>
+        ),
+      },
+      {
+        path: "/profile/:id",
+        element: (
+          <RequireUser>
+            <ProfilePage />
+          </RequireUser>
+        ),
+      },
+      {
+        path: "/profile/edit",
+        element: (
+          <RequireUser>
+            <ProfileEditPage />
+          </RequireUser>
+        ),
+      },
+      {
+        path: "/recipe/create",
+        element: (
+          <RequireUser>
+            <RecipeCreate />
+          </RequireUser>
+        ),
+      },
+      {
+        path: "/recipe/:id/edit",
+        element: (
+          <RequireUser>
+            <RecipeEdit />
+          </RequireUser>
+        ),
+      },
+      { path: "/search", element: <SearchingPage /> },
+      { path: "/recipe/:id", element: <RecipeView /> },
     ],
   },
-  { path: "/admin", element: <RequireAdmin> <AdminLayout/> </RequireAdmin>, 
+  {
+    path: "/admin",
+    element: (
+      <RequireAdmin>
+        <AdminLayout />
+      </RequireAdmin>
+    ),
     children: [
-    { path: "moderation", element: <RequireAdmin> <Moderation /> </RequireAdmin>},
-    { path: "statistics", element: <RequireAdmin> <Statistics /> </RequireAdmin>},
-    { path: "users", element: <RequireAdmin> <Users /> </RequireAdmin>},
-    { path: "recipe/:id", element: <RequireAdmin> <ModerationRecipe /> </RequireAdmin>},
-  ] },
+      {
+        path: "moderation",
+        element: (
+          <RequireAdmin>
+            <Moderation />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "statistics",
+        element: (
+          <RequireAdmin>
+            <Statistics />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "users",
+        element: (
+          <RequireAdmin>
+            <Users />
+          </RequireAdmin>
+        ),
+      },
+      {
+        path: "recipe/:id",
+        element: (
+          <RequireAdmin>
+            <ModerationRecipe />
+          </RequireAdmin>
+        ),
+      },
+    ],
+  },
   { path: "*", element: <NotFoundPage /> },
-  { path: "403", element: <ForbiddenPage />},
+  { path: "403", element: <ForbiddenPage /> },
 ]);
 
 createRoot(document.getElementById("root")).render(

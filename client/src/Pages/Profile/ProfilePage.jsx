@@ -191,73 +191,78 @@ function ProfilePage() {
             <AboutSection about={profile ? profile.about_user || "" : ""} />
             {canEdit && <EditButton>Edit profile</EditButton>}
 
-            {/* Two-part toggle: own recipes / favorite recipes */}
-            <div className="profile-tabs-wrapper">
-              <div
-                className="profile-tabs"
-                role="tablist"
-                aria-label="Profile recipe tabs"
-              >
-                <button
-                  className={`profile-tab ${
-                    selectedTab === "own" ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedTab("own")}
-                  role="tab"
-                  aria-selected={selectedTab === "own"}
-                >
-                  My recipes
-                </button>
-                <button
-                  className={`profile-tab ${
-                    selectedTab === "fav" ? "active" : ""
-                  }`}
-                  onClick={() => setSelectedTab("fav")}
-                  role="tab"
-                  aria-selected={selectedTab === "fav"}
-                >
-                  Favorite recipes
-                </button>
-              </div>
-            </div>
-
-            {/* Placeholder area where recipe list component will be shown */}
-            <div className="profile-recipes-area">
-              {selectedTab === "own" ? (
-                myRecipesLoading ? (
-                  <Loading />
-                ) : myRecipesError ? (
-                  <div>{myRecipesError}</div>
-                ) : myRecipes && myRecipes.length > 0 ? (
-                  myRecipes.map((r) => (
-                    <ProfileRecipeForm
-                      key={r.recipe_id}
-                      recipe={r}
-                      canEdit={canEdit}
-                      onEdit={(id) => navigate(`/recipe/${id}/edit`)}
-                      onDelete={handleDeleteRecipe}
-                    />
-                  ))
-                ) : (
+            {/* Show recipes section only for own profile */}
+            {canEdit && (
+              <>
+                {/* Two-part toggle: own recipes / favorite recipes */}
+                <div className="profile-tabs-wrapper">
                   <div
-                    style={{
-                      fontSize: "20px",
-                      textAlign: "center",
-                      marginTop: "10px",
-                    }}
+                    className="profile-tabs"
+                    role="tablist"
+                    aria-label="Profile recipe tabs"
                   >
-                    No recipes of my own.{" "}
-                    <Link style={{ color: "green" }} to="/recipe/create">
-                      Add first!
-                    </Link>
+                    <button
+                      className={`profile-tab ${
+                        selectedTab === "own" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedTab("own")}
+                      role="tab"
+                      aria-selected={selectedTab === "own"}
+                    >
+                      My recipes
+                    </button>
+                    <button
+                      className={`profile-tab ${
+                        selectedTab === "fav" ? "active" : ""
+                      }`}
+                      onClick={() => setSelectedTab("fav")}
+                      role="tab"
+                      aria-selected={selectedTab === "fav"}
+                    >
+                      Favorite recipes
+                    </button>
                   </div>
-                )
-              ) : (
-                favRecipesSample.map((r) => (
-                  <ProfileRecipeForm key={r.id} recipe={r} />
-                ))
-              )}
-            </div>
+                </div>
+
+                {/* Placeholder area where recipe list component will be shown */}
+                <div className="profile-recipes-area">
+                  {selectedTab === "own" ? (
+                    myRecipesLoading ? (
+                      <Loading />
+                    ) : myRecipesError ? (
+                      <div>{myRecipesError}</div>
+                    ) : myRecipes && myRecipes.length > 0 ? (
+                      myRecipes.map((r) => (
+                        <ProfileRecipeForm
+                          key={r.recipe_id}
+                          recipe={r}
+                          canEdit={canEdit}
+                          onEdit={(id) => navigate(`/recipe/${id}/edit`)}
+                          onDelete={handleDeleteRecipe}
+                        />
+                      ))
+                    ) : (
+                      <div
+                        style={{
+                          fontSize: "20px",
+                          textAlign: "center",
+                          marginTop: "10px",
+                        }}
+                      >
+                        No recipes of my own.{" "}
+                        <Link style={{ color: "green" }} to="/recipe/create">
+                          Add first!
+                        </Link>
+                      </div>
+                    )
+                  ) : (
+                    favRecipesSample.map((r) => (
+                      <ProfileRecipeForm key={r.id} recipe={r} />
+                    ))
+                  )}
+                </div>
+              </>
+            )}
           </>
         )}
       </main>

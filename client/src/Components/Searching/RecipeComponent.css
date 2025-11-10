@@ -10,7 +10,7 @@
   max-width:100%; /* stay responsive on small screens */
   box-sizing:border-box;
 }
-.rc-card-left{flex:0 0 120px}
+.rc-card-left{flex:0 0 120px; cursor: pointer;}
 .rc-card-photo{width:120px;height:120px;object-fit:cover;border-radius:8px}
 .rc-card-right{flex:1}
 .rc-card-title{font-size:20px;margin:0 0 8px 0;color:#000}
