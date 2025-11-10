@@ -1,8 +1,37 @@
 .searching-page-root { width:100%; display:flex; flex-direction:column; gap:18px; padding-top:12px; align-items:center; }
 .search-layout { width:100%; display:flex; gap:24px; justify-content:center; align-items:flex-start; }
-.search-main { flex:1; max-width:760px; width:100%; display:flex; flex-direction:column; gap:18px; }
-.search-sidebar { width:320px; }
-.search-results { width:100%; display:flex; flex-direction:column; gap:18px; }
+.search-main { 
+    flex:1; 
+    max-width:760px; 
+    min-width:760px;
+    width:100%; 
+    display:flex; 
+    flex-direction:column; 
+    gap:18px; 
+}
+.search-sidebar { 
+    width:320px;
+    position: sticky;
+    top: 20px;
+}
+.search-results { 
+    width:100%; 
+    min-height: 400px;
+    display:flex; 
+    flex-direction:column; 
+    gap:18px; 
+}
+
+.no-recipes-message {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: red;
+    background-color: #f9f9f9;
+}
 .searching-page-root > .search-top { /* keep top search bar visually separated from columns */
 	width:100%; display:flex; justify-content:center; padding-top:6px; padding-bottom:6px;
 }

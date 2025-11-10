@@ -39,7 +39,7 @@ export default function NewRecipe() {
   }
 
   if (recipes.length === 0) {
-    return <h2>No recipes</h2>;
+    return <></>;
   }
 
   return (

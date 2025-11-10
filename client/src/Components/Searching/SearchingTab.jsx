@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './SearchingTab.css';
+import React, { useEffect } from "react";
+import "./SearchingTab.css";
 
-export default function SearchingTab() {
-  const navigate = useNavigate();
-  const [q, setQ] = useState('');
+export default function SearchingTab({ value = "", onChange }) {
+  const [inputValue, setInputValue] = React.useState(value);
+
+  const handleSearch = () => {
+    onChange(inputValue.trim());
+  };
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   return (
     <div className="searchpage-top">
       <div className="searchpage-inner">
         <input
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           className="searchpage-input"
-          placeholder={`eg. "flour, baking soda" or "pizza"`}
+          placeholder={`eg. "pasta" or "pizza"`}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              const v = q?.trim();
-              if (v) navigate(`/search?q=${encodeURIComponent(v)}`);
+            if (e.key === "Enter") {
+              handleSearch();
             }
           }}
         />
+        <button className="searchpage-button" onClick={handleSearch}>
+          Search
+        </button>
       </div>
       <div className="searchpage-placeholder">Placeholder</div>
     </div>

@@ -576,6 +576,9 @@ export const getMyRecipes = async (req, res) => {
 export const getLatest = async (req, res) => {
   try {
     const recipes = await Recipe.findAll({
+      where: {
+        moderation_status: "fulfill",
+      },
       order: [["createdAt", "DESC"]],
       limit: 5,
       include: [
@@ -611,6 +614,7 @@ export const searchRecipes = async (req, res) => {
     } = req.query;
 
     const where = {};
+    where.moderation_status = "fulfill";
 
     if (title) {
       where.title = { [Op.like]: `%${title}%` };

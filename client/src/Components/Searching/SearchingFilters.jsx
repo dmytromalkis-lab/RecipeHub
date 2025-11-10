@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import RecipeCategory from "../Recipe/RecipeCategory.jsx";
 import "./SearchingFilters.css";
 
-export default function SearchingFilters() {
-  const [withIngredients, setWithIngredients] = useState("");
-  const [difficulty, setDifficulty] = useState("");
-  const [categoryId, setCategoryId] = useState("");
+export default function SearchingFilters({ filters, onChange }) {
+  const handleChange = (field, value) => {
+    onChange({ ...filters, [field]: value });
+  };
 
   const reset = () => {
-    setWithIngredients("");
-    setDifficulty("");
-    setCategoryId("");
+    onChange({
+      withIngredients: "",
+      difficulty: "",
+      categoryId: "",
+      minTime: "",
+      maxTime: "",
+    });
   };
 
   return (
@@ -27,8 +31,31 @@ export default function SearchingFilters() {
         <input
           className="sf-input"
           placeholder="Enter ingredients..."
-          value={withIngredients}
-          onChange={(e) => setWithIngredients(e.target.value)}
+          value={filters.withIngredients}
+          onChange={(e) => handleChange("withIngredients", e.target.value)}
+        />
+      </div>
+
+      <div className="sf-group">
+        <label className="sf-label">Min prep time (min):</label>
+        <input
+          className="sf-input"
+          type="number"
+          min={0}
+          placeholder="e.g. 10"
+          value={filters.minTime}
+          onChange={(e) => handleChange("minTime", e.target.value)}
+        />
+      </div>
+      <div className="sf-group">
+        <label className="sf-label">Max prep time (min):</label>
+        <input
+          className="sf-input"
+          type="number"
+          min={0}
+          placeholder="e.g. 60"
+          value={filters.maxTime}
+          onChange={(e) => handleChange("maxTime", e.target.value)}
         />
       </div>
 
@@ -42,8 +69,8 @@ export default function SearchingFilters() {
           >
             <select
               className="rcat-select"
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
+              value={filters.difficulty}
+              onChange={(e) => handleChange("difficulty", e.target.value)}
             >
               <option value="">-- All --</option>
               <option value="Easy">Easy</option>
@@ -55,8 +82,8 @@ export default function SearchingFilters() {
 
         <div className="sf-block-category">
           <RecipeCategory
-            value={categoryId}
-            onChange={(val) => setCategoryId(val)}
+            value={filters.categoryId}
+            onChange={(val) => handleChange("categoryId", val)}
           />
         </div>
       </div>
