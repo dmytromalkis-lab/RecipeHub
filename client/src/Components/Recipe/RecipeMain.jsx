@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { Heart } from "lucide-react";
 import "./RecipeMain.css";
+import api from "../../api/axios";
 import RecipeName from "./RecipeName.jsx";
 import RecipeCreator from "./RecipeCreator.jsx";
 import RecipePhoto from "./RecipePhoto.jsx";
@@ -80,6 +81,7 @@ function RecipeMain(
   const [isFavorited, setIsFavorited] = useState(
     initialData?.is_favorited ?? false
   );
+  const [favLoading, setFavLoading] = useState(false);
 
   useEffect(() => {
     setPhotoSrc(initialPhoto ?? null);
@@ -119,6 +121,43 @@ function RecipeMain(
   const currentUser = useUserStore((state) => state.user);
   // whether current user is a regular authenticated user
   const isUser = useUserStore((state) => state.isUser());
+  const token = useUserStore((state) => state.token);
+
+  // handler extracted from inline onClick: toggle favorite (optimistic UI + API)
+  const handleToggleFavorite = async (e) => {
+    if (e && typeof e.preventDefault === "function") {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    // require a recipe id to call API
+    const recipeId = initialData?.recipe_id ?? initialData?.id;
+    if (!recipeId) return;
+
+    // optimistic UI
+    const prev = isFavorited;
+    setIsFavorited(!prev);
+    setFavLoading(true);
+
+    try {
+      const config = {};
+      if (token) config.headers = { Authorization: `Bearer ${token}` };
+
+      if (!prev) {
+        // add to favorites
+        await api.post(`/favorites/${recipeId}/add`, {}, config);
+      } else {
+        // remove from favorites
+        await api.delete(`/favorites/${recipeId}/delete`, config);
+      }
+    } catch (err) {
+      // rollback optimistic UI on error
+      console.error("Favorite toggle failed:", err);
+      setIsFavorited(prev);
+    } finally {
+      setFavLoading(false);
+    }
+  };
   // build author object: when viewing an existing recipe prefer the recipe's creator
   // provided by initialData.User (returned by getRecipeById). When creating/editing,
   // fall back to the current logged-in user from the store.
@@ -190,13 +229,10 @@ function RecipeMain(
                   "rc-fav-button " +
                   (isFavorited ? "rc-fav-button--active" : "")
                 }
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIsFavorited((v) => !v);
-                }}
+                onClick={handleToggleFavorite}
                 aria-pressed={isFavorited}
                 title={isFavorited ? "Улюблене" : "Додати в улюблене"}
+                disabled={favLoading}
               >
                 <Heart size={20} />
               </button>

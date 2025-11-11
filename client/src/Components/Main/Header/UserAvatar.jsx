@@ -1,23 +1,29 @@
-import { useNavigate } from 'react-router-dom';
-import avatarImg from '../../../assets/avatar.png';
-import useUserStore from '../../../stores/userStore.js';
-import './UserAvatar.css';
+import { useNavigate } from "react-router-dom";
+import avatarImg from "../../../assets/avatar.png";
+import useUserStore from "../../../stores/userStore.js";
+import "./UserAvatar.css";
 
-export default function UserAvatar({ src, alt = 'User avatar', to = '/profile', onClick = null, children = null }) {
+export default function UserAvatar({
+  src,
+  alt = "User avatar",
+  to = "/profile",
+  onClick = null,
+  children = null,
+}) {
   const navigate = useNavigate();
   const user = useUserStore((state) => state.user);
 
   // prefer explicit prop, then user.avatar from store, then default image
-  const initialSrc = src ?? user?.avatar ?? avatarImg;
+  const initialSrc = user?.avatar ?? avatarImg;
 
   return (
     <div
       className="header-avatar"
       onClick={(e) => {
-        if (typeof onClick === 'function') return onClick(e);
+        if (typeof onClick === "function") return onClick(e);
         return navigate(to);
       }}
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: "pointer" }}
     >
       <img
         src={initialSrc}
