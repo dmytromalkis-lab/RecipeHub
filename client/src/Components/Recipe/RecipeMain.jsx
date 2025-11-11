@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
   useMemo,
 } from "react";
+import { Heart } from "lucide-react";
 import "./RecipeMain.css";
 import RecipeName from "./RecipeName.jsx";
 import RecipeCreator from "./RecipeCreator.jsx";
@@ -75,9 +76,19 @@ function RecipeMain(
   const [photoFile, setPhotoFile] = useState(null);
   const [photoSrc, setPhotoSrc] = useState(initialPhoto ?? null);
 
+  // design-only favorite state (no API attached here)
+  const [isFavorited, setIsFavorited] = useState(
+    initialData?.is_favorited ?? false
+  );
+
   useEffect(() => {
     setPhotoSrc(initialPhoto ?? null);
   }, [initialPhoto]);
+
+  useEffect(() => {
+    // keep local favorite state in sync when initialData changes (view mode)
+    setIsFavorited(initialData?.is_favorited ?? false);
+  }, [initialData]);
   // expose a method to gather payload for submission via ref
   useImperativeHandle(ref, () => ({
     getPayload: async () => {
@@ -106,6 +117,8 @@ function RecipeMain(
   }));
   // get current logged user from store to form the author object
   const currentUser = useUserStore((state) => state.user);
+  // whether current user is a regular authenticated user
+  const isUser = useUserStore((state) => state.isUser());
   // build author object: when viewing an existing recipe prefer the recipe's creator
   // provided by initialData.User (returned by getRecipeById). When creating/editing,
   // fall back to the current logged-in user from the store.
@@ -157,15 +170,38 @@ function RecipeMain(
           }}
         />
         <div className="rc-meta">
-          <RecipeName
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value);
-              if (errors?.title) setErrors((prev) => ({ ...prev, title: "" }));
-            }}
-            readOnly={readOnly}
-            error={errors?.title}
-          />
+          <div className="rc-name-row">
+            <RecipeName
+              value={title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                if (errors?.title)
+                  setErrors((prev) => ({ ...prev, title: "" }));
+              }}
+              readOnly={readOnly}
+              error={errors?.title}
+            />
+
+            {/* show heart button on view/read-only mode (design-only toggle) */}
+            {readOnly && isUser && (
+              <button
+                type="button"
+                className={
+                  "rc-fav-button " +
+                  (isFavorited ? "rc-fav-button--active" : "")
+                }
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsFavorited((v) => !v);
+                }}
+                aria-pressed={isFavorited}
+                title={isFavorited ? "Улюблене" : "Додати в улюблене"}
+              >
+                <Heart size={20} />
+              </button>
+            )}
+          </div>
           <RecipeInfo>
             <RecipeCreator author={author} />
             {!readOnly ? (

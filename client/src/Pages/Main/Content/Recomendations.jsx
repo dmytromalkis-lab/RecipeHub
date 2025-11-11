@@ -29,7 +29,7 @@ export default function Recomendations() {
 
   return (
     <section className="recs">
-      <h3 className="recs-title">Categories</h3>
+      <h3 className="recs-title">Key words</h3>
       <div className="recs-list">
         {items.map((it) => (
           <div

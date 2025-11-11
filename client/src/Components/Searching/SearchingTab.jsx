@@ -30,7 +30,6 @@ export default function SearchingTab({ value = "", onChange }) {
           Search
         </button>
       </div>
-      <div className="searchpage-placeholder">Placeholder</div>
     </div>
   );
 }

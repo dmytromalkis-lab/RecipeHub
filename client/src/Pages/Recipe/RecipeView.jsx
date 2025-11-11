@@ -6,7 +6,6 @@ import BackButton from "../../Components/Profile/ProfileMain/BackButton.jsx";
 import RecipeMain from "../../components/Recipe/RecipeMain.jsx";
 import useUserStore from "../../stores/userStore.js";
 import api from "../../api/axios.js";
-import sampleImg from "../../assets/Logo.svg";
 
 export default function RecipeView() {
   const { id } = useParams();
