@@ -18,6 +18,7 @@ import RecipeGuide from "./RecipeGuide.jsx";
 import RecipeDifficulty from "./RecipeDifficulty.jsx";
 import RecipeCategory from "./RecipeCategory.jsx";
 import useUserStore from "../../stores/userStore.js";
+import SuccessPopup from "../UI/SuccessPopup.jsx";
 
 function RecipeMain(
   { initialData = null, readOnly = false, errors = {}, setErrors = () => {} },
@@ -81,7 +82,10 @@ function RecipeMain(
   const [isFavorited, setIsFavorited] = useState(
     initialData?.is_favorited ?? false
   );
+
   const [favLoading, setFavLoading] = useState(false);
+  const [successVisible, setSuccessVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     setPhotoSrc(initialPhoto ?? null);
@@ -146,9 +150,13 @@ function RecipeMain(
       if (!prev) {
         // add to favorites
         await api.post(`/favorites/${recipeId}/add`, {}, config);
+        setSuccessMessage("Add recipe to favorites");
+        setSuccessVisible(true);
       } else {
         // remove from favorites
         await api.delete(`/favorites/${recipeId}/delete`, config);
+        setSuccessMessage("Remove recipe from favorites");
+        setSuccessVisible(true);
       }
     } catch (err) {
       // rollback optimistic UI on error
@@ -158,6 +166,7 @@ function RecipeMain(
       setFavLoading(false);
     }
   };
+
   // build author object: when viewing an existing recipe prefer the recipe's creator
   // provided by initialData.User (returned by getRecipeById). When creating/editing,
   // fall back to the current logged-in user from the store.
@@ -198,133 +207,140 @@ function RecipeMain(
   }, [initialData, currentUser, readOnly]);
 
   return (
-    <section className="rc-main">
-      <div className="rc-top">
-        <RecipePhoto
-          readOnly={readOnly}
-          photoSrc={photoSrc}
-          onUpload={(file, dataUrl) => {
-            setPhotoFile(file ?? null);
-            setPhotoSrc(dataUrl ?? null);
-          }}
-        />
-        <div className="rc-meta">
-          <div className="rc-name-row">
-            <RecipeName
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                if (errors?.title)
-                  setErrors((prev) => ({ ...prev, title: "" }));
-              }}
-              readOnly={readOnly}
-              error={errors?.title}
-            />
+    <>
+      <section className="rc-main">
+        <div className="rc-top">
+          <RecipePhoto
+            readOnly={readOnly}
+            photoSrc={photoSrc}
+            onUpload={(file, dataUrl) => {
+              setPhotoFile(file ?? null);
+              setPhotoSrc(dataUrl ?? null);
+            }}
+          />
+          <div className="rc-meta">
+            <div className="rc-name-row">
+              <RecipeName
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                  if (errors?.title)
+                    setErrors((prev) => ({ ...prev, title: "" }));
+                }}
+                readOnly={readOnly}
+                error={errors?.title}
+              />
 
-            {/* show heart button on view/read-only mode (design-only toggle) */}
-            {readOnly && isUser && (
-              <button
-                type="button"
-                className={
-                  "rc-fav-button " +
-                  (isFavorited ? "rc-fav-button--active" : "")
-                }
-                onClick={handleToggleFavorite}
-                aria-pressed={isFavorited}
-                title={isFavorited ? "Улюблене" : "Додати в улюблене"}
-                disabled={favLoading}
-              >
-                <Heart size={20} />
-              </button>
-            )}
-          </div>
-          <RecipeInfo>
-            <RecipeCreator author={author} />
-            {!readOnly ? (
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <textarea
+              {/* show heart button on view/read-only mode (design-only toggle) */}
+              {readOnly && isUser && (
+                <button
+                  type="button"
                   className={
-                    errors?.description
-                      ? "rc-description error"
-                      : "rc-description"
+                    "rc-fav-button " +
+                    (isFavorited ? "rc-fav-button--active" : "")
                   }
-                  placeholder="Brief description..."
-                  value={description}
-                  onChange={(e) => {
-                    setDescription(e.target.value);
-                    if (errors?.description)
-                      setErrors((prev) => ({ ...prev, description: "" }));
-                  }}
-                />
-                {errors?.description && (
-                  <div className="field-error-message">
-                    {errors.description}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <p className="rc-description rc-description--view">
-                {description}
-              </p>
-            )}
-          </RecipeInfo>
+                  onClick={handleToggleFavorite}
+                  aria-pressed={isFavorited}
+                  title={isFavorited ? "Улюблене" : "Додати в улюблене"}
+                  disabled={favLoading}
+                >
+                  <Heart size={20} />
+                </button>
+              )}
+            </div>
+            <RecipeInfo>
+              <RecipeCreator author={author} />
+              {!readOnly ? (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <textarea
+                    className={
+                      errors?.description
+                        ? "rc-description error"
+                        : "rc-description"
+                    }
+                    placeholder="Brief description..."
+                    value={description}
+                    onChange={(e) => {
+                      setDescription(e.target.value);
+                      if (errors?.description)
+                        setErrors((prev) => ({ ...prev, description: "" }));
+                    }}
+                  />
+                  {errors?.description && (
+                    <div className="field-error-message">
+                      {errors.description}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="rc-description rc-description--view">
+                  {description}
+                </p>
+              )}
+            </RecipeInfo>
 
-          {/* Difficulty and category selectors placed under RecipeInfo, side-by-side */}
-          <div className="rc-meta-controls">
-            <RecipeDifficulty
-              value={difficulty}
-              onChange={(v) => {
-                setDifficulty(v);
-                if (errors?.difficulty)
-                  setErrors((prev) => ({ ...prev, difficulty: "" }));
-              }}
+            {/* Difficulty and category selectors placed under RecipeInfo, side-by-side */}
+            <div className="rc-meta-controls">
+              <RecipeDifficulty
+                value={difficulty}
+                onChange={(v) => {
+                  setDifficulty(v);
+                  if (errors?.difficulty)
+                    setErrors((prev) => ({ ...prev, difficulty: "" }));
+                }}
+                readOnly={readOnly}
+                error={errors?.difficulty}
+                clearError={() =>
+                  setErrors((prev) => ({ ...prev, difficulty: "" }))
+                }
+              />
+              <RecipeCategory
+                value={category}
+                onChange={(v) => {
+                  setCategory(v);
+                  if (errors?.category)
+                    setErrors((prev) => ({ ...prev, category: "" }));
+                }}
+                readOnly={readOnly}
+                error={errors?.category}
+                clearError={() =>
+                  setErrors((prev) => ({ ...prev, category: "" }))
+                }
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="rc-grid">
+          <div className="rc-ingredients">
+            <RecipeIngridients
+              ref={ingRef}
               readOnly={readOnly}
-              error={errors?.difficulty}
-              clearError={() =>
-                setErrors((prev) => ({ ...prev, difficulty: "" }))
-              }
+              initialItems={initialIngredients}
+              initialPortions={initialPortions}
+              errors={errors}
+              setErrors={setErrors}
             />
-            <RecipeCategory
-              value={category}
-              onChange={(v) => {
-                setCategory(v);
-                if (errors?.category)
-                  setErrors((prev) => ({ ...prev, category: "" }));
-              }}
+          </div>
+
+          <div className="rc-steps">
+            <RecipeGuide
+              ref={guideRef}
               readOnly={readOnly}
-              error={errors?.category}
-              clearError={() =>
-                setErrors((prev) => ({ ...prev, category: "" }))
-              }
+              initialSteps={initialSteps}
+              initialTime={initialTime}
+              errors={errors}
+              setErrors={setErrors}
             />
           </div>
         </div>
-      </div>
-
-      <div className="rc-grid">
-        <div className="rc-ingredients">
-          <RecipeIngridients
-            ref={ingRef}
-            readOnly={readOnly}
-            initialItems={initialIngredients}
-            initialPortions={initialPortions}
-            errors={errors}
-            setErrors={setErrors}
-          />
-        </div>
-
-        <div className="rc-steps">
-          <RecipeGuide
-            ref={guideRef}
-            readOnly={readOnly}
-            initialSteps={initialSteps}
-            initialTime={initialTime}
-            errors={errors}
-            setErrors={setErrors}
-          />
-        </div>
-      </div>
-    </section>
+      </section>
+      <SuccessPopup
+        visible={successVisible}
+        message={successMessage}
+        onClose={() => setSuccessVisible(false)}
+      />
+    </>
   );
 }
 const forwarded = forwardRef(RecipeMain);

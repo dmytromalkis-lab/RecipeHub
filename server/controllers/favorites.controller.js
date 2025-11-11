@@ -60,18 +60,16 @@ export const getFavorites = async (req, res) => {
 
 export const addFavorite = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req?.user?.id;
     const recipeId = req.params.recipeId;
 
     const existRecipe = await Recipe.findByPk(recipeId);
 
     if (!existRecipe) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "Not found recipe. You cannot add recipe to favorites because recipe doesn`t found",
-        });
+      return res.status(404).json({
+        message:
+          "Not found recipe. You cannot add recipe to favorites because recipe doesn`t found",
+      });
     }
 
     const favoriteCheck = await Favorites.findOne({
@@ -81,7 +79,9 @@ export const addFavorite = async (req, res) => {
       },
     });
     if (favoriteCheck) {
-      throw new Error("This favorite is already exist!");
+      return res.status(409).json({
+        message: "This favorite already exists!",
+      });
     }
 
     const favorite = await Favorites.create({
@@ -106,12 +106,10 @@ export const deleteFavorite = async (req, res) => {
     // ensure recipe exists before attempting to delete favorite
     const existRecipe = await Recipe.findByPk(recipeId);
     if (!existRecipe) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "Not found recipe. You cannot delete recipe from favorites because recipe wasn't found",
-        });
+      return res.status(404).json({
+        message:
+          "Not found recipe. You cannot delete recipe from favorites because recipe wasn't found",
+      });
     }
 
     const favoriteCheck = await Favorites.findOne({
@@ -121,7 +119,9 @@ export const deleteFavorite = async (req, res) => {
       },
     });
     if (!favoriteCheck) {
-      throw new Error("This favorite does not exist!");
+      return res.status(404).json({
+        message: "This favorite does not exist!",
+      });
     }
 
     await Favorites.destroy({

@@ -28,6 +28,9 @@ function ProfilePage() {
   const [myRecipes, setMyRecipes] = useState([]);
   const [myRecipesLoading, setMyRecipesLoading] = useState(false);
   const [myRecipesError, setMyRecipesError] = useState(null);
+  const [favRecipes, setFavRecipes] = useState([]);
+  const [favRecipesLoading, setFavRecipesLoading] = useState(false);
+  const [favRecipesError, setFavRecipesError] = useState(null);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const canEdit = !!user && (!id || String(user.user_id) === String(id));
 
@@ -95,6 +98,47 @@ function ProfilePage() {
     fetchMyRecipes();
   }, [canEdit, selectedTab, user]);
 
+  useEffect(() => {
+    const fetchFavRecipes = async () => {
+      if (selectedTab !== "fav" || !canEdit) {
+        console.log(selectedTab);
+
+        return;
+      }
+      if (!user || !user.user_id) return;
+
+      setFavRecipesLoading(true);
+      setFavRecipesError(null);
+
+      try {
+        const config = {};
+        const token = useUserStore.getState().token;
+
+        if (token) {
+          config.headers = { Authorization: `Bearer ${token}` };
+        }
+
+        const responseFavRecipes = await api.get("/favorites", config);
+        const dataFavRecipes = Array.isArray(
+          responseFavRecipes?.data?.favorites
+        )
+          ? responseFavRecipes?.data?.favorites
+          : [];
+        setFavRecipes(dataFavRecipes);
+        console.log(dataFavRecipes);
+      } catch (error) {
+        const message =
+          error?.response?.data?.message ||
+          error.message ||
+          "Failed to load my recipes";
+        setFavRecipesError(message);
+      } finally {
+        setFavRecipesLoading(false);
+      }
+    };
+    fetchFavRecipes();
+  }, [canEdit, selectedTab, user]);
+
   const handleDeleteRecipe = async (id) => {
     if (window.confirm("Delete this recipe?")) {
       try {
@@ -120,8 +164,6 @@ function ProfilePage() {
     }
   };
 
-  console.log(myRecipes);
-
   const avatarToShow = (() => {
     const defaultAvatar = avatarImg;
     if (!profile) return defaultAvatar;
@@ -130,41 +172,6 @@ function ProfilePage() {
     // otherwise (own profile) prefer current user avatar from store
     return user?.avatar || profile.avatar || defaultAvatar;
   })();
-
-  const favRecipesSample = [
-    {
-      id: "f1",
-      title: "Olivier Salad",
-      ingredients: ["potato", "carrot", "cucumber"],
-      prep_time: 25,
-      serving: 6,
-      image_url: olivieImg,
-      difficulty: "easy",
-      category: "Salads",
-      author: {
-        first_name: "Oksana",
-        last_name: "",
-        avatar: null,
-        user_id: "u2",
-      },
-    },
-    {
-      id: "f2",
-      title: "Kyiv Cake",
-      ingredients: ["eggs", "nuts", "chocolate"],
-      prep_time: 90,
-      serving: 8,
-      image_url: kyivcakeImg,
-      difficulty: "hard",
-      Category: { category_name: "Desserts" },
-      author: {
-        first_name: "Olena",
-        last_name: "",
-        avatar: null,
-        user_id: "u3",
-      },
-    },
-  ];
 
   return (
     <div className="profile-page">
@@ -249,16 +256,33 @@ function ProfilePage() {
                           marginTop: "10px",
                         }}
                       >
-                        No recipes of my own.{" "}
+                        No recipes of my own.
                         <Link style={{ color: "green" }} to="/recipe/create">
                           Add first!
                         </Link>
                       </div>
                     )
-                  ) : (
-                    favRecipesSample.map((r) => (
-                      <ProfileRecipeForm key={r.id} recipe={r} />
+                  ) : favRecipesLoading ? (
+                    <Loading />
+                  ) : favRecipesError ? (
+                    <div>{favRecipesError}</div>
+                  ) : favRecipes.length > 0 ? (
+                    favRecipes.map((r) => (
+                      <ProfileRecipeForm
+                        key={r.favorite_id}
+                        recipe={r.favorite_recipe}
+                      />
                     ))
+                  ) : (
+                    <div
+                      style={{
+                        fontSize: "20px",
+                        textAlign: "center",
+                        marginTop: "10px",
+                      }}
+                    >
+                      No favorite recipes.
+                    </div>
                   )}
                 </div>
               </>

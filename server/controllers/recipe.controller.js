@@ -6,6 +6,7 @@ import User from "../models/user.model.js";
 import sequelize from "../configs/db.js";
 import { uploadBuffer, deleteImage } from "../services/cloudinary.service.js";
 import { Op } from "sequelize";
+import Favorites from "../models/favorites.model.js";
 
 export const createRecipe = async (req, res) => {
   try {
@@ -197,6 +198,7 @@ export const createRecipe = async (req, res) => {
 export const getRecipeById = async (req, res) => {
   try {
     const recipeId = req.params.id;
+    const userId = req.user?.id; // user may be undefined if not authenticated
 
     const existRecipe = await Recipe.findOne({
       where: {
@@ -225,7 +227,17 @@ export const getRecipeById = async (req, res) => {
       return res.status(404).json({ message: "Recipe not found" });
     }
 
-    res.status(200).json({ ...existRecipe.toJSON() });
+    const recipeJSON = existRecipe.toJSON();
+    // Check if user is authenticated and if they have favorited this recipe
+    if (userId) {
+      const favoriteCheck = await Favorites.findOne({
+        where: { user_id: userId, recipe_id: recipeId },
+      });
+      recipeJSON.is_favorited = !!favoriteCheck;
+    } else {
+      recipeJSON.is_favorited = false;
+    }
+    res.status(200).json(recipeJSON);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error. Error get recipe by id" });

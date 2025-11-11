@@ -1,5 +1,7 @@
 import { Router } from "express";
-import verifyToken from "../middlewares/auth.middleware.js";
+import verifyToken, {
+  verifyTokenOptional,
+} from "../middlewares/auth.middleware.js";
 import upload from "../middlewares/upload.middleware.js";
 import {
   createRecipe,
@@ -26,7 +28,7 @@ router.post(
 );
 router.get("/latest", getLatest);
 router.get("/search", searchRecipes);
-router.get("/:id", getRecipeById);
+router.get("/:id", verifyTokenOptional, getRecipeById);
 router.put(
   "/:id",
   verifyToken,

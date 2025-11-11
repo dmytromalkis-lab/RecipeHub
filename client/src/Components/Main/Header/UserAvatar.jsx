@@ -14,7 +14,7 @@ export default function UserAvatar({
   const user = useUserStore((state) => state.user);
 
   // prefer explicit prop, then user.avatar from store, then default image
-  const initialSrc = user?.avatar ?? avatarImg;
+  const initialSrc = src ?? user?.avatar ?? avatarImg;
 
   return (
     <div
