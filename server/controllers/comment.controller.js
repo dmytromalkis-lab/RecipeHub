@@ -1,5 +1,6 @@
 import Comment from "../models/comment.model.js";
 import Recipe from "../models/recipe.model.js";
+import User from "../models/user.model.js";
 
 export const createComment = async (req, res) => {
   try {
@@ -89,5 +90,32 @@ export const deleteComment = async (req, res) => {
   } catch (error) {
     console.error("Error deleting comment: ", error);
     res.status(500).json({ message: "Server error while deleting comment" });
+  }
+};
+
+export const getCommentsForRecipe = async (req, res) => {
+  try {
+    const recipeId = req.params.recipeId;
+
+    const comments = await Comment.findAll({
+      where: {
+        recipe_id: recipeId,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["user_id", "first_name", "last_name", "avatar"],
+        },
+      ],
+    });
+
+    if (comments.length === 0) {
+      return res.status(404).json({ message: "No commets for this recipe" });
+    }
+
+    res.status(200).json(comments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Error get commets" });
   }
 };
