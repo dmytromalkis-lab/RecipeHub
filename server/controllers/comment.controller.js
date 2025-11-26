@@ -65,3 +65,29 @@ export const updateComment = async (req, res) => {
     res.status(500).json({ message: "Server error while updating comment" });
   }
 };
+
+export const deleteComment = async (req, res) => {
+  try {
+    const commentId = req.params.id;
+
+    const userId = req.user.id;
+
+    const existingComment = await Comment.findOne({
+      where: {
+        user_id: userId,
+        comment_id: commentId,
+      },
+    });
+
+    if (!existingComment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+
+    await existingComment.destroy();
+
+    res.status(200).json({ message: "Comment deleted" });
+  } catch (error) {
+    console.error("Error deleting comment: ", error);
+    res.status(500).json({ message: "Server error while deleting comment" });
+  }
+};
