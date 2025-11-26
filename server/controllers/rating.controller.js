@@ -42,36 +42,55 @@ export const createOrUpdateRating = async (req, res) => {
 
 export const getAverageRaiting = async (req, res) => {
   try {
-    const { recipeId } = req.params;
+    const recipeId = req.params.recipeId;
 
-    const existingRecipe = await Recipe.findByPk(recipeId);
-    if (!existingRecipe) {
-      return res.status(404).json({ message: "Recipe not found" });
+    if (recipeId) {
+      const existingRecipe = await Recipe.findByPk(recipeId);
+
+      if (existingRecipe) {
+        const result = await Rating.findOne({
+          where: { recipe_id: recipeId },
+          attributes: [
+            [fn("COUNT", col("rating")), "count"],
+            [fn("AVG", col("rating")), "average"],
+          ],
+          raw: true,
+        });
+
+        if (result) {
+          const count = parseInt(result.count);
+
+          if (count > 0) {
+            const average = parseFloat(result.average);
+
+            if (average) {
+              res.status(200).json({
+                averageRating: average,
+                totalRatings: count,
+              });
+            } else {
+              res.status(200).json({
+                message: "Recipe doesn't have ratings.",
+                averageRating: 0,
+                totalRatings: 0,
+              });
+            }
+          } else {
+            res.status(200).json({
+              message: "Recipe doesn't have ratings.",
+              averageRating: 0,
+              totalRatings: 0,
+            });
+          }
+        } else {
+          res.status(500).json({ message: "Error fetching ratings" });
+        }
+      } else {
+        res.status(404).json({ message: "Recipe not found" });
+      }
+    } else {
+      res.status(400).json({ message: "Recipe ID is required" });
     }
-
-    const result = await Rating.findOne({
-      where: { recipe_id: recipeId },
-      attributes: [
-        [fn("COUNT", col("rating")), "count"],
-        [fn("AVG", col("rating")), "average"],
-      ],
-      raw: true,
-    });
-
-    const count = parseInt(result.count);
-
-    if (!result || count === 0) {
-      return res.status(200).json({
-        message: "Recipe doesn't have ratings.",
-        averageRating: 0,
-        totalRatings: 0,
-      });
-    }
-
-    res.status(200).json({
-      averageRating: parseFloat(result.average),
-      totalRatings: count,
-    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });
