@@ -6,6 +6,7 @@ import moderationRouter from "./moderation.route.js";
 import recipeRouter from "./recipe.route.js";
 import categoryRouter from "./category.route.js";
 import commentRouter from "./comment.route.js";
+import raitingRouter from "./rating.route.js";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use("/moderation", moderationRouter);
 router.use("/recipes", recipeRouter);
 router.use("/categories", categoryRouter);
 router.use("/comment", commentRouter);
+router.use("/rating", raitingRouter);
 
 export default router;
