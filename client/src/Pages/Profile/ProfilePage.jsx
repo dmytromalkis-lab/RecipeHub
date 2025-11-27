@@ -11,8 +11,6 @@ import ProfileRecipeForm from "./../../Components/Profile/ProfileRecipes/Profile
 import Loading from "./../../components/UI/Loading/Loading.jsx";
 import { Link } from "react-router-dom";
 import api from "../../api/axios.js";
-import olivieImg from "../../assets/salad.jfif";
-import kyivcakeImg from "../../assets/pizza.jfif";
 import useUserStore from "../../stores/userStore.js";
 import SuccessPopup from "../../components/UI/SuccessPopup";
 

@@ -29,6 +29,8 @@ export default function UserAvatar({
         src={initialSrc}
         alt={alt}
         className="avatar-img"
+        referrerPolicy="no-referrer"
+        crossOrigin="anonymous"
         onError={(e) => {
           // fallback to default if image fails to load
           if (e.target.src !== avatarImg) e.target.src = avatarImg;
