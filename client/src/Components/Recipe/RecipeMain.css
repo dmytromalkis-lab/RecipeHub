@@ -56,3 +56,15 @@
 .rc-fav-button svg{stroke:currentColor;fill:none}
 .rc-fav-button--active{color:#e0245e}
 .rc-fav-button--active svg{fill:currentColor;stroke:currentColor}
+/* Контейнер для кнопок с полосками */
+.rc-actions-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 0; /* БЫЛО 2rem, СТАЛО 0 - убираем отступ снизу */
+  padding: 1rem 0;  /* БЫЛО 1.5rem - делаем саму полосу чуть уже */
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  justify-content: flex-start;
+  align-items: center;
+}

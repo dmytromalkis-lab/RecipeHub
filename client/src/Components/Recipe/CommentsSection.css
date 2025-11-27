@@ -1,0 +1,308 @@
+.comments-section h3 {
+  color: #222;
+}
+.comments-section {
+  margin-top: 2rem;
+  padding: 1rem 0;
+}
+
+.comments-list {
+  margin-bottom: 1.5rem;
+}
+
+.comment-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+/* ССЫЛКИ НА ПРОФИЛЬ */
+.comment-avatar-link {
+  text-decoration: none;
+  cursor: pointer;
+  display: block; /* Важно, чтобы ссылка не ломала верстку */
+  margin-right: 1rem; /* Отступ перенесен с аватара на ссылку */
+}
+
+.comment-author-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.comment-author-link:hover .comment-author {
+  text-decoration: underline; /* Подчеркивание при наведении на имя */
+  color: #ffa726; /* Можно добавить цвет при наведении, например оранжевый */
+}
+
+/* Аватар */
+.comment-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  /* margin-right удален отсюда, так как он теперь у ссылки */
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #bdbdbd;
+  color: #fff;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Контент комментария */
+.comment-content {
+  flex: 1;
+  min-width: 0;
+  padding-right: 10px;
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 0.95rem;
+  margin-bottom: 0.2rem;
+  color: #222;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #222;
+  transition: color 0.2s;
+}
+
+.comment-date {
+  color: #888;
+  font-size: 0.85em;
+  margin-top: 2px;
+}
+
+.comment-text {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+  color: #222;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* --- Кнопки действий --- */
+.comment-actions {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  padding-top: 5px;
+  margin-left: 10px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.action-btn.delete:hover {
+  color: #e53935;
+  background-color: #ffebee;
+}
+
+/* --- РЕЖИМ РЕДАКТИРОВАНИЯ --- */
+.edit-mode {
+  margin-top: 5px;
+  width: 100%;
+}
+
+.edit-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  outline: none;
+  background-color: #ffffff !important;
+  color: #333333 !important;
+  box-shadow: none;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.edit-textarea:focus {
+  border-color: #4caf50;
+}
+
+.edit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.comment-save-btn, .comment-cancel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 16px;
+  height: 36px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  min-width: 90px;
+  box-sizing: border-box;
+  transition: background-color 0.2s;
+}
+
+.comment-save-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.comment-save-btn:hover {
+  background-color: #43a047;
+}
+
+.comment-cancel-btn {
+  background-color: #e53935;
+  color: white;
+}
+
+.comment-cancel-btn:hover {
+  background-color: #c62828;
+}
+
+.edit-char-counter {
+  font-size: 0.82em;
+  color: #888;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.edit-char-counter.error {
+  color: #e53935;
+}
+
+/* --- Форма добавления --- */
+.comment-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+
+.comment-form-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.comment-form-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment-form-input-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.comment-form-textarea {
+  width: 100%;
+  min-height: 40px;
+  height: auto;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #fff;
+  color: #222;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.comment-send-btn {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ffa726;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+}
+
+.comment-char-counter {
+  align-self: flex-end;
+  margin-top: 4px;
+  font-size: 0.82em;
+  color: #888;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.comment-char-counter.error {
+  color: #e53935;
+}
+
+.comment-error {
+  color: #e53935;
+  margin-top: 0px; 
+  font-size: 0.9rem;
+  text-align: left;
+}
