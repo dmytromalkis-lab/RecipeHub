@@ -137,3 +137,41 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ message: "Server Error. Error get users" });
   }
 };
+
+export const blockUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await user.update({ is_blocked: true });
+
+    res.status(200).json({ user, message: "User blocked" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error blocking user" });
+  }
+};
+
+export const unblockUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findByPk(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await user.update({ is_blocked: false });
+
+    res.status(200).json({ user, message: "User unblocked" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error unblocking user" });
+  }
+};

@@ -58,17 +58,23 @@ export const login = async (req, res) => {
       return res.status(422).json({ message: "Filds are required" });
     }
 
-    if(email == process.env.ADMIN_EMAIL) {
-      if(password != process.env.ADMIN_PASSWORD) {
-        return res.status(401).json({message: "Invalid credentials"});
+    if (email == process.env.ADMIN_EMAIL) {
+      if (password != process.env.ADMIN_PASSWORD) {
+        return res.status(401).json({ message: "Invalid credentials" });
       }
-      const token = jwt.sign({email, role: "admin"}, process.env.JWT_SECRET, {expiresIn: "1d"});
+      const token = jwt.sign({ email, role: "admin" }, process.env.JWT_SECRET, {
+        expiresIn: "1d",
+      });
       return res.status(200).json({ role: "admin", token });
     }
 
     const existUser = await User.findOne({ where: { email } });
     if (!existUser) {
       return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    if (existUser.is_blocked) {
+      return res.status(403).json({ message: "Your account is blocked." });
     }
 
     const isMatchPassword = await bcrypt.compare(password, existUser.password);
@@ -102,10 +108,14 @@ export const googleAuth = async (req, res) => {
   try {
     const user = req.user;
 
-    const FRONTEND = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+    const FRONTEND = (process.env.FRONTEND_URL || "").replace(/\/$/, "");
 
     if (!user) {
       return res.redirect(`${FRONTEND}/login?error=auth_failed`);
+    }
+
+    if (user.is_blocked) {
+      return res.redirect(`${FRONTEND}/login?error=blocked`);
     }
 
     const token = generateToken(user.user_id);
@@ -124,10 +134,12 @@ export const googleAuth = async (req, res) => {
     const encodedUserData = encodeURIComponent(JSON.stringify(userData));
     const encodedToken = encodeURIComponent(token);
 
-    res.redirect(`${FRONTEND}/auth/google/callback?token=${encodedToken}&user=${encodedUserData}`);
+    res.redirect(
+      `${FRONTEND}/auth/google/callback?token=${encodedToken}&user=${encodedUserData}`
+    );
   } catch (error) {
     console.error(error);
-    const FRONTEND = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+    const FRONTEND = (process.env.FRONTEND_URL || "").replace(/\/$/, "");
     res.redirect(`${FRONTEND}/login?error=server_error`);
   }
 };
