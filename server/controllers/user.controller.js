@@ -117,3 +117,23 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: "Error delete user!" });
   }
 };
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const { limit = 30, offset = 0 } = req.query;
+
+    const { rows: users, count: total } = await User.findAndCountAll({
+      limit: Number(limit),
+      offset: Number(offset),
+    });
+
+    res.status(200).json({
+      users,
+      hasMore: Number(offset) + users.length < total,
+      total,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error. Error get users" });
+  }
+};
