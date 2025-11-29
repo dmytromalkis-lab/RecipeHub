@@ -7,6 +7,7 @@ import recipeRouter from "./recipe.route.js";
 import categoryRouter from "./category.route.js";
 import commentRouter from "./comment.route.js";
 import raitingRouter from "./rating.route.js";
+import statisticRouter from "./statistics.route.js";
 
 const router = Router();
 
@@ -18,5 +19,6 @@ router.use("/recipes", recipeRouter);
 router.use("/categories", categoryRouter);
 router.use("/comment", commentRouter);
 router.use("/rating", raitingRouter);
+router.use("/statistics", statisticRouter);
 
 export default router;
