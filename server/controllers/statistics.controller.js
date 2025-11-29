@@ -11,3 +11,34 @@ export const getAllUsersCount = async (req, res) => {
     res.status(500).json({ message: "Server error. Error get count users." });
   }
 };
+
+export const getCountsRecipe = async (req, res) => {
+  try {
+    const total = await Recipe.count();
+    const pending = await Recipe.count({
+      where: {
+        moderation_status: "pending",
+      },
+    });
+    const rejected = await Recipe.count({
+      where: {
+        moderation_status: "reject",
+      },
+    });
+    const approved = await Recipe.count({
+      where: {
+        moderation_status: "fulfill",
+      },
+    });
+
+    res.status(200).json({
+      total,
+      pending,
+      rejected,
+      approved,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error. Error get recipe counts" });
+  }
+};
