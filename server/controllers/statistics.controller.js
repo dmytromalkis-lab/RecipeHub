@@ -1,5 +1,7 @@
 import User from "../models/user.model.js";
 import Recipe from "../models/recipe.model.js";
+import { literal } from "@sequelize/core";
+import sequelize from "../configs/db.js";
 
 export const getAllUsersCount = async (req, res) => {
   try {
@@ -40,5 +42,27 @@ export const getCountsRecipe = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error. Error get recipe counts" });
+  }
+};
+
+export const getRecipesByMonth = async (req, res) => {
+  try {
+    const year = req.params.year;
+
+    const data = await Recipe.findAll({
+      attributes: [
+        [literal(`MONTH(createdAt)`), "month"],
+        [literal(`COUNT(*)`), "count"],
+      ],
+      where: sequelize.where(literal(`YEAR(createdAt)`), year),
+      group: [literal(`MONTH(createdAt)`)],
+      order: [literal(`MONTH(createdAt) ASC`)],
+      raw: true,
+    });
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 };
