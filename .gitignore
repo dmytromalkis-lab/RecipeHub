@@ -7,3 +7,4 @@ npm-shrinkwrap.json
 .vscode/*
 .idea
 flake.lock
+client/dist
