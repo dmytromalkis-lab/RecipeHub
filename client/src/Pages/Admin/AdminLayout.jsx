@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useUserStore from '../../stores/userStore';
 import { useNavigate, Outlet} from 'react-router-dom';
-import Sidebar from '../../components/Admin/Sidebar/Sidebar';
+import Sidebar from '../../Components/Admin/Sidebar/Sidebar';
 
 function AdminLayout() {
     const [isOpen, setIsOpen] = useState(true);

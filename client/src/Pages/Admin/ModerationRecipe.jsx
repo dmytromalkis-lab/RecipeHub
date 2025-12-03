@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useUserStore from "../../stores/userStore";
-import Loading from "../../components/UI/Loading/Loading";
-import ErrorMessage from "../../components/UI/ErrorMessage/ErrorMessage";
-import RecipeMain from "../../components/Recipe/RecipeMain";
+import Loading from "../../Components/UI/Loading/Loading";
+import ErrorMessage from "../../Components/UI/ErrorMessage/ErrorMessage";
+import RecipeMain from "../../Components/Recipe/RecipeMain";
 import api from "../../api/axios";
 
 function ModerationRecipe() {

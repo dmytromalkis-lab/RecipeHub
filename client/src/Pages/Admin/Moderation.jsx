@@ -1,5 +1,5 @@
 import React from 'react';
-import ModerationList from '../../components/Admin/ModerationList/ModerationList';
+import ModerationList from '../../Components/Admin/ModerationList/ModerationList';
 
 function Moderation() {
     return (

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Components/Main/Header/Header.jsx";
 import Footer from "../../Components/Main/Footer/Footer.jsx";
 import BackButton from "../../Components/Profile/ProfileMain/BackButton.jsx";
-import RecipeMain from "../../components/Recipe/RecipeMain.jsx";
+import RecipeMain from "../../Components/Recipe/RecipeMain.jsx";
 import useUserStore from "../../stores/userStore.js";
 import api from "../../api/axios.js";
 

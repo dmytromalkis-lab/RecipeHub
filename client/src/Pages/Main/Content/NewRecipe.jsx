@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./NewRecipe.css";
 import api from "../../../api/axios";
 import RecipeComponent from "../../../Components/Searching/RecipeComponent.jsx";
-import ErrorMessage from "../../../components/UI/ErrorMessage/ErrorMessage.jsx";
-import Loading from "../../../components/UI/Loading/Loading.jsx";
+import ErrorMessage from "../../../Components/UI/ErrorMessage/ErrorMessage.jsx";
+import Loading from "../../../Components/UI/Loading/Loading.jsx";
 
 export default function NewRecipe() {
   const [recipes, setRecipes] = useState([]);

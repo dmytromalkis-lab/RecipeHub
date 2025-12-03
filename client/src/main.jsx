@@ -4,25 +4,25 @@ import "./main.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RegisterPage from "./Pages/Auth/RegisterPage.jsx";
-import ProfilePage from "./pages/Profile/ProfilePage.jsx";
+import ProfilePage from "./Pages/Profile/ProfilePage.jsx";
 import RecipeCreate from "./Pages/Recipe/RecipeCreate.jsx";
 import RecipeEdit from "./Pages/Recipe/RecipeEdit.jsx";
-import RecipeView from "./pages/Recipe/RecipeView.jsx";
+import RecipeView from "./Pages/Recipe/RecipeView.jsx";
 import ProfileEditPage from "./Pages/Profile/ProfileEditPage.jsx";
 import MainPage from "./Pages/Main/MainPage.jsx";
 import Layout from "./Layout.jsx";
 import Login from "./Pages/Auth/LoginPage.jsx";
 import GoogleCallbackPage from "./Pages/Auth/GoogleCallbackPage.jsx";
-import AdminLayout from "./pages/Admin/AdminLayout.jsx";
+import AdminLayout from "./Pages/Admin/AdminLayout.jsx";
 import RequireUser from "./Components/Auth/RequireUser.jsx";
 import NotFoundPage from "./Pages/Error/NotFoundPage/NotFoundPage.jsx";
 import ForbiddenPage from "./Pages/Error/Forbidden/ForbiddenPage.jsx";
 import RequireAdmin from "./Components/Auth/RequireAdmin.jsx";
 import SearchingPage from "./Pages/Searching/SearchingPage.jsx";
-import Moderation from "./pages/Admin/Moderation.jsx";
-import Statistics from "./pages/Admin/Statistics.jsx";
-import Users from "./pages/Admin/Users.jsx";
-import ModerationRecipe from "./pages/Admin/ModerationRecipe.jsx";
+import Moderation from "./Pages/Admin/Moderation.jsx";
+import Statistics from "./Pages/Admin/Statistics.jsx";
+import Users from "./Pages/Admin/Users.jsx";
+import ModerationRecipe from "./Pages/Admin/ModerationRecipe.jsx";
 
 const router = createBrowserRouter([
   {

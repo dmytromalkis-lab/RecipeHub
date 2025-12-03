@@ -31,7 +31,7 @@
           # Customization
           shellHook = ''
             export PROMPT_NAME=${shellPrompt}
-            echo "Welcome to rust develop shell!"
+            echo "Welcome to node.js develop shell!"
             exec fish
           '';
 

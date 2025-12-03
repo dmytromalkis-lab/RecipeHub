@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useUserStore from "../../stores/userStore";
-import Loading from "../../components/UI/Loading/Loading";
-import ErrorMessage from "../../components/UI/ErrorMessage/ErrorMessage";
+import Loading from "../../Components/UI/Loading/Loading";
+import ErrorMessage from "../../Components/UI/ErrorMessage/ErrorMessage";
 import api from "../../api/axios";
 import UserContainer from "../../Components/Admin/UserList/UserContainer";
 

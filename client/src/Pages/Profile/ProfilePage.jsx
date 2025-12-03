@@ -8,11 +8,11 @@ import ProfileInfo from "./../../Components/Profile/ProfileMain/ProfileInfo.jsx"
 import EditButton from "./../../Components/Profile/ProfileMain/EditButton.jsx";
 import AboutSection from "./../../Components/Profile/ProfileMain/AboutSection.jsx";
 import ProfileRecipeForm from "./../../Components/Profile/ProfileRecipes/ProfileRecipeForm.jsx";
-import Loading from "./../../components/UI/Loading/Loading.jsx";
+import Loading from "./../../Components/UI/Loading/Loading.jsx";
 import { Link } from "react-router-dom";
 import api from "../../api/axios.js";
 import useUserStore from "../../stores/userStore.js";
-import SuccessPopup from "../../components/UI/SuccessPopup";
+import SuccessPopup from "../../Components/UI/SuccessPopup";
 
 function ProfilePage() {
   const navigate = useNavigate();

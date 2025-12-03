@@ -5,8 +5,8 @@ import RecipeComponent from "../../Components/Searching/RecipeComponent.jsx";
 import SearchingTab from "../../Components/Searching/SearchingTab.jsx";
 import SearchingFilters from "../../Components/Searching/SearchingFilters.jsx";
 import api from "../../api/axios.js";
-import Loading from "../../components/UI/Loading/Loading.jsx";
-import ErrorMessage from "../../components/UI/ErrorMessage/ErrorMessage.jsx";
+import Loading from "../../Components/UI/Loading/Loading.jsx";
+import ErrorMessage from "../../Components/UI/ErrorMessage/ErrorMessage.jsx";
 
 export default function SearchingPage() {
   const [searchParams] = useSearchParams();
