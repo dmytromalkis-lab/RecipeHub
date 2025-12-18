@@ -9,6 +9,7 @@ import commentRouter from "./comment.route.js";
 import raitingRouter from "./rating.route.js";
 import statisticRouter from "./statistics.route.js";
 import shopingListRouter from "./shopingList.route.js";
+import shopingListItemRouter from "./shoppingItem.route.js";
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.use("/comment", commentRouter);
 router.use("/rating", raitingRouter);
 router.use("/statistics", statisticRouter);
 router.use("/shopingList", shopingListRouter);
+router.use("/shopingListItem", shopingListItemRouter);
 
 export default router;
