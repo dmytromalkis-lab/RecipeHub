@@ -46,3 +46,34 @@ export const addIngredientsToList = async (req, res) => {
       .json({ message: "Server error. Error add ingredients to list." });
   }
 };
+
+export const getList = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+
+    const existList = await ShoppingList.findOne({
+      where: {
+        user_id: user_id,
+      },
+    });
+
+    if (!existList) {
+      return res.status(404).json({ message: "You don`t have list." });
+    }
+
+    const ingredients = await ShoppingItem.findAll({
+      where: {
+        shopping_list_id: existList.shopping_list_id,
+      },
+      include: [
+        { model: Ingredient, attributes: ["name", "quantity", "unit"] },
+      ],
+      order: [["shopping_list_item_id", "ASC"]],
+    });
+
+    res.status(200).json(ingredients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Error get list." });
+  }
+};
