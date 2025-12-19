@@ -223,4 +223,35 @@ const removeRecipeFromMenuPlan = async (req, res) => {
   }
 };
 
-export { createMenuPlan, addRecipeToMenuPlan, removeRecipeFromMenuPlan };
+const deleteMenuPlan = async (req, res) => {
+  try {
+    const { menu_plan_id } = req.params;
+    const user_id = req.user.id;
+
+    const menuPlan = await MenuPlan.findOne({
+      where: { menu_plan_id: menu_plan_id, user_id },
+    });
+    if (!menuPlan) {
+      return res
+        .status(404)
+        .json({ error: "Menu plan not found or access denied" });
+    }
+
+    await menuPlan.destroy();
+
+    res.status(200).json({
+      success: true,
+      message: "Menu plan deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting menu plan:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export {
+  createMenuPlan,
+  addRecipeToMenuPlan,
+  removeRecipeFromMenuPlan,
+  deleteMenuPlan,
+};
