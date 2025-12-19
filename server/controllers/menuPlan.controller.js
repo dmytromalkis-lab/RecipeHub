@@ -269,10 +269,65 @@ const getUserMenuPlans = async (req, res) => {
   }
 };
 
+const getMenuPlanDetails = async (req, res) => {
+  try {
+    const { menu_plan_id } = req.params;
+    const user_id = req.user.id;
+
+    const id = parseInt(menu_plan_id, 10);
+    if (isNaN(id) || id <= 0) {
+      return res.status(400).json({ error: "Invalid menu_plan_id" });
+    }
+
+    const menuPlan = await MenuPlan.findOne({
+      where: { menu_plan_id: id, user_id },
+      attributes: ["menu_plan_id", "title", "start_date"],
+    });
+    if (!menuPlan) {
+      return res
+        .status(404)
+        .json({ error: "Menu plan not found or access denied" });
+    }
+
+    const menuPlanItems = await MenuPlanItem.findAll({
+      where: { menu_plan_id: id },
+      include: [
+        {
+          model: Recipe,
+          attributes: [
+            "recipe_id",
+            "title",
+            "description",
+            "difficulty",
+            "prep_time",
+            "serving",
+            "image_url",
+          ],
+          required: false,
+        },
+      ],
+      order: [
+        ["day_of_week", "ASC"],
+        ["meal_type", "ASC"],
+      ],
+    });
+
+    res.status(200).json({
+      success: true,
+      menu_plan: menuPlan,
+      items: menuPlanItems,
+    });
+  } catch (error) {
+    console.error("Error fetching menu plan details:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export {
   createMenuPlan,
   addRecipeToMenuPlan,
   removeRecipeFromMenuPlan,
   deleteMenuPlan,
   getUserMenuPlans,
+  getMenuPlanDetails,
 };
