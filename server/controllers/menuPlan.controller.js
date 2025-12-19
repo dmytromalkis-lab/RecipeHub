@@ -249,9 +249,30 @@ const deleteMenuPlan = async (req, res) => {
   }
 };
 
+const getUserMenuPlans = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+
+    const menuPlans = await MenuPlan.findAll({
+      where: { user_id },
+      attributes: ["menu_plan_id", "title", "start_date"],
+      order: [["start_date", "DESC"]],
+    });
+
+    res.status(200).json({
+      success: true,
+      menu_plans: menuPlans,
+    });
+  } catch (error) {
+    console.error("Error fetching user menu plans:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export {
   createMenuPlan,
   addRecipeToMenuPlan,
   removeRecipeFromMenuPlan,
   deleteMenuPlan,
+  getUserMenuPlans,
 };
