@@ -1,5 +1,6 @@
 import MenuPlan from "../models/menuPlan.model.js";
 import MenuPlanItem from "../models/menuPlanItem.model.js";
+import Recipe from "../models/recipe.model.js";
 
 const createMenuPlan = async (req, res) => {
   try {
@@ -73,4 +74,87 @@ const createMenuPlan = async (req, res) => {
   }
 };
 
-export { createMenuPlan };
+const addRecipeToMenuPlan = async (req, res) => {
+  try {
+    const { menu_plan_id, day_of_week, meal_type, recipe_id } = req.body;
+    const user_id = req.user.id;
+
+    if (
+      !menu_plan_id ||
+      !day_of_week ||
+      !meal_type ||
+      recipe_id === undefined
+    ) {
+      return res.status(400).json({
+        error:
+          "Missing required fields: menu_plan_id, day_of_week, meal_type, recipe_id",
+      });
+    }
+
+    if (typeof menu_plan_id !== "number" || menu_plan_id <= 0) {
+      return res
+        .status(400)
+        .json({ error: "menu_plan_id must be a positive number" });
+    }
+
+    if (typeof recipe_id !== "number" || recipe_id <= 0) {
+      return res
+        .status(400)
+        .json({ error: "recipe_id must be a positive number" });
+    }
+
+    const validDays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    if (!validDays.includes(day_of_week)) {
+      return res.status(400).json({ error: "Invalid day_of_week" });
+    }
+
+    const validMeals = ["Breakfast", "Lunch", "Dinner"];
+    if (!validMeals.includes(meal_type)) {
+      return res.status(400).json({ error: "Invalid meal_type" });
+    }
+
+    const menuPlan = await MenuPlan.findOne({
+      where: { menu_plan_id, user_id },
+    });
+    if (!menuPlan) {
+      return res
+        .status(404)
+        .json({ error: "Menu plan not found or access denied" });
+    }
+
+    const recipe = await Recipe.findByPk(recipe_id);
+    if (!recipe) {
+      return res.status(400).json({ error: "Recipe not found" });
+    }
+
+    const menuPlanItem = await MenuPlanItem.findOne({
+      where: { menu_plan_id, day_of_week, meal_type },
+    });
+    if (!menuPlanItem) {
+      return res.status(404).json({
+        error: "Menu plan item not found for the specified day and meal",
+      });
+    }
+
+    menuPlanItem.recipe_id = recipe_id;
+    await menuPlanItem.save();
+
+    res.status(200).json({
+      success: true,
+      menu_plan_item: menuPlanItem,
+    });
+  } catch (error) {
+    console.error("Error adding recipe to menu plan:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export { createMenuPlan, addRecipeToMenuPlan };
