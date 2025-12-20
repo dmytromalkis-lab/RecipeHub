@@ -23,12 +23,12 @@ import RateButton from "./RateButton.jsx";
 import CommentsSection from "./CommentsSection.jsx";
 import useUserStore from "../../stores/userStore.js";
 import SuccessPopup from "../UI/SuccessPopup.jsx";
+import IngredientListAddButton from "./IngredientListAddButton.jsx";
 
 function RecipeMain(
   { initialData = null, readOnly = false, errors = {}, setErrors = () => {} },
   ref
 ) {
-  // --- EXISTING STATES ---
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [description, setDescription] = useState(initialData?.description ?? "");
   const [difficulty, setDifficulty] = useState(initialData?.difficulty ?? "Normal");
@@ -61,10 +61,10 @@ function RecipeMain(
 
   const [isFavorited, setIsFavorited] = useState(initialData?.is_favorited ?? false);
   const [favLoading, setFavLoading] = useState(false);
+  
   const [successVisible, setSuccessVisible] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // --- NEW RATING STATES ---
   const [avgRating, setAvgRating] = useState(0);
   const [totalRatings, setTotalRatings] = useState(0);
 
@@ -76,13 +76,11 @@ function RecipeMain(
     setIsFavorited(initialData?.is_favorited ?? false);
   }, [initialData]);
 
-  // --- RATING LOGIC ---
   const refreshRating = async () => {
     const recipeId = initialData?.recipe_id ?? initialData?.id;
     if (readOnly && recipeId) {
       try {
         const res = await api.get(`/rating/${recipeId}/average`);
-        // Backend returns { averageRating, totalRatings }
         setAvgRating(res.data.averageRating || 0);
         setTotalRatings(res.data.totalRatings || 0);
       } catch (error) {
@@ -92,10 +90,8 @@ function RecipeMain(
     }
   };
 
-  // Initial load of rating
   useEffect(() => {
     refreshRating();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialData, readOnly]);
 
 
@@ -156,6 +152,34 @@ function RecipeMain(
       setFavLoading(false);
     }
   };
+
+  // --- ИСПРАВЛЕННАЯ ФУНКЦИЯ ДОБАВЛЕНИЯ ---
+  const handleAddToShoppingList = async () => {
+    const recipeId = initialData?.recipe_id ?? initialData?.id;
+    if (!recipeId) return;
+
+    // 1. Проверяем токен и создаем конфиг (как в функции лайков)
+    if (!token) {
+      alert("Please log in to add items to shopping list");
+      return;
+    }
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` }
+    };
+
+    try {
+      // 2. Передаем config третьим аргументом
+      await api.post("/shopingList", { recipe_id: Number(recipeId) }, config);
+      
+      setSuccessMessage("Ingredients added to Shopping List!");
+      setSuccessVisible(true);
+    } catch (error) {
+      console.error("Failed to add to shopping list:", error);
+      // Если токен протух, может прийти 401, тут можно добавить логику разлогина
+    }
+  };
+
 
   let author = null;
   const apiUser = initialData?.author ?? null;
@@ -260,10 +284,9 @@ function RecipeMain(
           </div>
         </div>
 
-        {/* Display real rating */}
         {readOnly && (
            <RecipeRating 
-              rating={Number(avgRating).toFixed(2)} // Format: 4.50
+              rating={Number(avgRating).toFixed(2)}
               count={totalRatings} 
            />
         )}
@@ -300,6 +323,9 @@ function RecipeMain(
         
       {readOnly && (
         <div className="rc-actions-row">
+          <IngredientListAddButton 
+             onClick={handleAddToShoppingList} 
+          />
           <ShareButton />
           <RateButton 
             recipeId={initialData?.recipe_id ?? initialData?.id} 

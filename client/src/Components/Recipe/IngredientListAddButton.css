@@ -1,0 +1,24 @@
+.ing-add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.ing-add-btn:hover {
+  background-color: #f9f9f9;
+  border-color: #ccc;
+}
+
+.ing-add-btn.added {
+  background-color: #e6f7e6;
+  border-color: #4caf50;
+  color: #4caf50;
+}

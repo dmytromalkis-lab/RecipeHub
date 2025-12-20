@@ -106,7 +106,7 @@ export const getList = async (req, res) => {
           include: [
             {
               model: Recipe,
-              attributes: ["recipe_id", "title"],
+              attributes: ["recipe_id", "title", "image_url"],
             },
           ],
         },
@@ -124,14 +124,17 @@ export const getList = async (req, res) => {
         grouped[recipeId] = {
           recipe_id: recipeId,
           title: recipe.title,
+          image_url: recipe.image_url,
           ingredients: [],
         };
       }
 
       grouped[recipeId].ingredients.push({
+        id: item.shopping_list_item_id,
         name: ingredient.name,
         quantity: ingredient.quantity,
         unit: ingredient.unit,
+        is_purchased: item.is_purchased,
       });
     });
 
