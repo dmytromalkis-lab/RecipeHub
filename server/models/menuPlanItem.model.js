@@ -15,22 +15,22 @@ const MenuPlanItem = sequelize.define(
     },
     recipe_id: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     day_of_week: {
       type: DataTypes.ENUM(
-        "Понеділок",
-        "Вівторок",
-        "Середа",
-        "Четвер",
-        "П'ятниця",
-        "Субота",
-        "Неділя"
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
       ),
       allowNull: false,
     },
     meal_type: {
-      type: DataTypes.ENUM("Сніданок", "Обід", "Вечеря"),
+      type: DataTypes.ENUM("Breakfast", "Lunch", "Dinner"),
       allowNull: false,
     },
   },

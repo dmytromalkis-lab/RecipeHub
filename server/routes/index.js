@@ -8,6 +8,9 @@ import categoryRouter from "./category.route.js";
 import commentRouter from "./comment.route.js";
 import raitingRouter from "./rating.route.js";
 import statisticRouter from "./statistics.route.js";
+import shopingListRouter from "./shopingList.route.js";
+import shopingListItemRouter from "./shoppingItem.route.js";
+import menuPlanRouter from "./menuPlan.route.js";
 
 const router = Router();
 
@@ -20,5 +23,8 @@ router.use("/categories", categoryRouter);
 router.use("/comment", commentRouter);
 router.use("/rating", raitingRouter);
 router.use("/statistics", statisticRouter);
+router.use("/shopingList", shopingListRouter);
+router.use("/shopingListItem", shopingListItemRouter);
+router.use("/menuPlan", menuPlanRouter);
 
 export default router;
