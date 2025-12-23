@@ -24,6 +24,7 @@ import Statistics from "./Pages/Admin/Statistics.jsx";
 import Users from "./Pages/Admin/Users.jsx";
 import ModerationRecipe from "./Pages/Admin/ModerationRecipe.jsx";
 import ShoppingListPage from "./Pages/ShoppingList/ShoppingListPage.jsx";
+import MenuPlanDetails from "./pages/MenuPlan/MenuPlanDetails.jsx";
 
 const router = createBrowserRouter([
   {
@@ -82,7 +83,15 @@ const router = createBrowserRouter([
           </RequireUser>
         ),
       },
-      
+      {
+        path: "/menu-plan/:menu_plan_id",
+        element: (
+          <RequireUser>
+            <MenuPlanDetails />
+          </RequireUser>
+        ),
+      },
+
       { path: "/search", element: <SearchingPage /> },
       { path: "/recipe/:id", element: <RecipeView /> },
     ],

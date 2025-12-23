@@ -1,0 +1,130 @@
+.day-card {
+  background: #FAFAFA;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  padding: 24px;
+  transition: box-shadow 200ms ease;
+}
+
+.day-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.day-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 20px 0;
+  position: relative;
+}
+
+.day-title::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: #FF8C00;
+  border-radius: 1px;
+}
+
+.meals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.meal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meal-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.meal-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-radius: 8px;
+  transition: background-color 150ms ease;
+  cursor: pointer;
+}
+
+.meal-item:hover {
+  background-color: rgba(255, 140, 0, 0.05);
+}
+
+.meal-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.meal-thumb {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.meal-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meal-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #111;
+  margin: 0;
+}
+
+.meal-meta {
+  font-size: 13px;
+  color: #888;
+  margin: 0;
+}
+
+.remove-icon {
+  opacity: 0;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 18px;
+  cursor: pointer;
+  transition: opacity 150ms ease, color 150ms ease;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.meal-item:hover .remove-icon {
+  opacity: 1;
+}
+
+.remove-icon:hover {
+  color: #ff4d4d;
+}
+
+.add-text {
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  transition: color 150ms ease;
+  padding: 4px 0;
+}
+
+.add-text:hover {
+  color: #FF8C00;
+}
