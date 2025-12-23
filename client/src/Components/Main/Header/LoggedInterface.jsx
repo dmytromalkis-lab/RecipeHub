@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import useUserStore from "../../../stores/userStore.js";
 import avatarImg from "../../../assets/avatar.png";
+import { ListCheck } from "lucide-react";
 
 export default function LoggedInterface({
   avatarSrc = null,
@@ -33,6 +34,11 @@ export default function LoggedInterface({
   const goToProfile = () => {
     setOpen(false);
     navigate("/profile");
+  };
+
+  const goToList = () => {
+    setOpen(false);
+    navigate("/shopping-list");
   };
 
   const handleLogout = async (e) => {
@@ -75,6 +81,16 @@ export default function LoggedInterface({
               <button type="button" className="menu-item" onClick={goToProfile}>
                 <span className="menu-item-icon">🏠</span>
                 <span>Profile</span>
+              </button>
+              {/* Settings and Send feedback removed per request */}
+            </div>
+
+            <div className="avatar-menu-section">
+              <button type="button" className="menu-item" onClick={goToList}>
+                <span className="menu-item-icon">
+                  <ListCheck />
+                </span>
+                <span>Shopping List</span>
               </button>
               {/* Settings and Send feedback removed per request */}
             </div>
