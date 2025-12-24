@@ -33,6 +33,11 @@ const MenuPlanItem = sequelize.define(
       type: DataTypes.ENUM("Breakfast", "Lunch", "Dinner"),
       allowNull: false,
     },
+    is_ready: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
   },
   {
     timestamps: true,

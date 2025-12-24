@@ -61,7 +61,7 @@ const createMenuPlan = async (req, res) => {
           meal_type: meal,
         });
       }
-    }
+    } 
 
     // Bulk create MenuPlanItems
     await MenuPlanItem.bulkCreate(menuPlanItems);
@@ -320,6 +320,34 @@ const getMenuPlanDetails = async (req, res) => {
   } catch (error) {
     console.error("Error fetching menu plan details:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const updateMenuPlanItem = async (req, res) => {
+  const { id } = req.params;
+  const { is_ready, recipe_id } = req.body;
+
+  try {
+    // 1. Find the item in the database
+    const item = await MenuPlanItem.findByPk(id);
+
+    if (!item) {
+      return res.status(404).json({ message: "Menu item not found in database" });
+    }
+
+    // 2. Update the fields if they are present in the request
+    if (is_ready !== undefined) item.is_ready = is_ready;
+    
+    // This handles the "Remove from plan" logic by setting recipe_id to null
+    if (recipe_id !== undefined) item.recipe_id = recipe_id;
+
+    // 3. Save changes
+    await item.save();
+
+    res.status(200).json(item);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error updating menu item" });
   }
 };
 

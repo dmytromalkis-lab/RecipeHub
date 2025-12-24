@@ -6,6 +6,7 @@ import {
   deleteMenuPlan,
   getUserMenuPlans,
   getMenuPlanDetails,
+  updateMenuPlanItem,
 } from "../controllers/menuPlan.controller.js";
 import verifyToken from "../middlewares/auth.middleware.js";
 
@@ -17,5 +18,6 @@ router.post("/create", verifyToken, createMenuPlan);
 router.post("/add-recipe", verifyToken, addRecipeToMenuPlan);
 router.put("/remove-recipe", verifyToken, removeRecipeFromMenuPlan);
 router.delete("/:menu_plan_id", verifyToken, deleteMenuPlan);
+router.patch("/item/:id", updateMenuPlanItem);
 
 export default router;

@@ -73,7 +73,7 @@ const useUserStore = create(
         },
         loginWithGoogle: () => {
           set({ loading: true, error: null });
-          window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:3000/api'}/auth/google`;
+          window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
         },
         register: async (formData) => {
           set({ loading: true, error: null });

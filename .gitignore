@@ -8,3 +8,5 @@ npm-shrinkwrap.json
 .idea
 flake.lock
 client/dist
+client/.env
+client/.env.production
