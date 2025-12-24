@@ -24,6 +24,7 @@ import Statistics from "./Pages/Admin/Statistics.jsx";
 import Users from "./Pages/Admin/Users.jsx";
 import ModerationRecipe from "./Pages/Admin/ModerationRecipe.jsx";
 import ShoppingListPage from "./Pages/ShoppingList/ShoppingListPage.jsx";
+import MenuPlannerPage from "./Pages/MenuPlanner/MenuPlannerPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -79,6 +80,14 @@ const router = createBrowserRouter([
         element: (
           <RequireUser>
             <ShoppingListPage />
+          </RequireUser>
+        ),
+      },
+      {
+        path: "/menu-planner",
+        element: (
+          <RequireUser>
+            <MenuPlannerPage />
           </RequireUser>
         ),
       },

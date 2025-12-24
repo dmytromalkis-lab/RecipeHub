@@ -35,6 +35,11 @@ export default function LoggedInterface({
     navigate("/profile");
   };
 
+  const goToMenuPlanner = () => {
+    setOpen(false);
+    navigate("/menu-planner");
+  };
+
   const handleLogout = async (e) => {
     e?.stopPropagation();
     setOpen(false);
@@ -76,10 +81,12 @@ export default function LoggedInterface({
                 <span className="menu-item-icon">🏠</span>
                 <span>Profile</span>
               </button>
-              {/* Settings and Send feedback removed per request */}
-            </div>
 
-            <div className="avatar-menu-section">
+              <button type="button" className="menu-item" onClick={goToMenuPlanner}>
+                <span className="menu-item-icon">🗓️</span>
+                <span>Menu Planner</span>
+              </button>
+
               <button
                 type="button"
                 className="menu-item"
