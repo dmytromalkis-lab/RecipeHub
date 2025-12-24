@@ -1,0 +1,722 @@
+/* --- Global Resets --- */
+.planner-page-container {
+  color: #000 !important;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+/* --- Layout --- */
+.planner-layout {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start; 
+}
+
+.calendar-sidebar {
+  flex: 0 0 320px;
+}
+
+.days-list {
+  flex: 1; 
+}
+
+/* --- Calendar Fixes (No White Square) --- */
+.react-calendar {
+  border: none !important;
+  font-family: inherit;
+  width: 100% !important;
+}
+
+.react-calendar__tile {
+  color: #333;
+  height: 45px;
+  width: 45px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  
+  /* CRITICAL: Kills the default white/grey background and border */
+  background: none !important;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Fix for Today: Extra bold orange text, no box */
+.react-calendar__tile--now {
+  background: transparent !important;
+  color: #f9882a !important; /* Orange number */
+  font-weight: 900 !important;
+}
+
+/* STOPS THE WHITE SQUARE ON CLICK */
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #f9882a !important; /* Main brand orange */
+  color: white !important;
+  
+  /* CHANGE THIS: 0% for a sharp square, or 8px for slightly rounded */
+  border-radius: 0% !important; 
+  
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+/* --- The Week Strip Logic --- */
+.highlight-week {
+  background: #fff5eb !important; /* The light orange background */
+  color: #000 !important;
+  opacity: 1 !important; /* Fixes the "unselected/faded" look at start */
+}
+
+/* Continuous Strip: Rounded only at the ends of the week */
+.highlight-week:nth-child(7n+1) { 
+  border-top-left-radius: 50% !important; 
+  border-bottom-left-radius: 50% !important; 
+}
+.highlight-week:nth-child(7n) { 
+  border-top-right-radius: 50% !important; 
+  border-bottom-right-radius: 50% !important; 
+}
+
+/* --- Planner List --- */
+.mp-day-section { border-bottom: 1px solid #eee; }
+.mp-day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+.mp-label-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Space between arrow and text */
+}
+.mp-day-label {
+  font-size: 18px;
+  color: #555;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+.mp-day-label.active-day {
+  font-size: 24px; 
+  font-weight: 800;
+  color: #000;
+}
+.mp-header-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* Typography Changes */
+.mp-day-label {
+  font-size: 16px;
+  color: #555;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* BOLD and BIGGER when Open */
+.mp-day-label.active-day {
+  font-size: 26px; /* Bigger expressive font */
+  font-weight: 800;
+  color: #000;
+}
+
+.mp-arrow {
+  display: inline-block;
+  font-size: 12px;
+  color: #999;
+  /* Animate the transform property */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: rotate(0deg); /* Facing Right by default */
+}
+.mp-arrow.open {
+  transform: rotate(90deg); /* Rotating Down when open */
+  color: #333;
+}
+
+.mp-add-btn {
+  font-size: 32px;
+  color: #000;
+  background: none; 
+  border: none; 
+  cursor: pointer;
+  line-height: 0.5;
+  transition: transform 0.2s;
+}
+
+.mp-add-btn:hover {
+  transform: scale(1.2);
+  color: #f9882a;
+}
+
+.empty-day-msg { 
+  font-size: 0.9rem; 
+  color: #888; 
+  padding: 10px 0; 
+  font-style: italic; 
+}
+
+/* --- MODAL STYLES --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  width: 650px;
+  max-width: 95%;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  position: relative; 
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 { margin: 0; font-size: 1.2rem; }
+
+.modal-search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.modal-search-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 1rem;
+}
+
+/* Recipes Grid */
+.recipes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.recipe-card-mini {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.recipe-card-mini:hover { border-color: #f9882a; }
+
+.recipe-card-mini.selected {
+  border: 2px solid #f9882a;
+  background: #fffaf5;
+}
+
+.recipe-img-wrapper {
+  position: relative;
+  height: 120px;
+}
+
+.recipe-img-wrapper img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+
+.check-overlay {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9882a;
+  color: white;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: bold;
+}
+
+.recipe-mini-info { padding: 10px; }
+.recipe-mini-info h4 { margin: 0 0 5px 0; font-size: 1rem; color: #000; }
+.recipe-mini-info span { font-size: 0.8rem; color: #777; }
+
+.add-recipe-btn {
+  width: 100%;
+  padding: 12px;
+  background: #f9882a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.add-recipe-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+.modal-search-container {
+  display: flex;
+  gap: 12px;
+}
+
+.meal-selection-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the pills */
+  margin-bottom: 12px; /* Space before the recipe grid */
+  padding: 0 !important;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0 15px;
+}
+
+.search-input-wrapper input {
+  border: none;
+  padding: 12px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+}
+
+.search-button {
+  background: #f38d49;
+  color: white;
+  border: none;
+  padding: 0 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Recipe Grid - 2 columns like in the image */
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: 5px;
+}
+
+.recipe-card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+}
+
+.recipe-image-wrapper {
+  position: relative;
+  height: 160px;
+}
+
+.recipe-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.selection-badge {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f38d49;
+  width: 45px; height: 45px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 3px solid white;
+}
+
+.recipe-card-details {
+  padding: 15px;
+}
+
+.recipe-name {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.recipe-info {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+}
+
+/* Footer Button */
+.modal-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.confirm-add-btn {
+  background: #f38d49;
+  color: white;
+  border: none;
+  padding: 14px 70px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.confirm-add-btn:disabled {
+  background: #ffccbc;
+  cursor: not-allowed;
+}
+
+.modal-content {
+  background: white;
+  width: 600px;
+  max-width: 90%;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  
+  /* CRITICAL: This keeps the button trapped INSIDE the white box */
+  position: relative; 
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: #f8f8f8 !important;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.close-btn:hover {
+  background: #f0f0f0 !important;
+  color: #333;
+  transform: rotate(90deg);
+}
+
+/* Container for the cards */
+.mp-meals-container {
+  padding: 10px 0 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Individual Meal Card */
+.meal-card {
+  display: flex;
+  background: #f8f8f7; /* Very light grey/off-white */
+  border-radius: 12px;
+  padding: 12px;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.2s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.meal-card:hover {
+  background-color: #ffffff;
+  border-color: #f9882a; /* Highlights with your brand orange */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.meal-card:active {
+  transform: translateY(0);
+}
+
+.meal-card.hidden {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.meal-image-container {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+}
+
+.meal-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.meal-content {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meal-title {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.meal-category {
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: #888;
+}
+
+.meal-category span {
+  color: #555;
+  font-weight: 500;
+}
+
+.meal-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.meal-check-btn {
+  background: none;
+  border: none;
+  color: #555;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.meal-more-btn {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.meal-type-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.type-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.type-btn.active {
+  background: #f9882a;
+  color: white;
+  border-color: #f9882a;
+}
+
+.meal-selection-wrapper {
+  margin-top: -10px; /* Pull it closer to search */
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.selection-subtitle {
+  font-size: 12px;
+  color: #888;
+  font-weight: 600;
+}
+
+.meal-type-pill-container {
+  display: flex;
+  gap: 10px;
+  background: #f5f5f5;
+  padding: 6px;
+  border-radius: 30px;
+}
+
+.meal-type-row {
+  display: flex;
+  gap: 10px;
+  background: #f0f0f0;
+  padding: 5px;
+  border-radius: 30px;
+}
+
+.meal-pill {
+  border: none;
+  background: transparent;
+  padding: 8px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #777;
+  transition: all 0.3s ease;
+}
+
+.meal-pill.active {
+  background: white;
+  color: #f9882a;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.meal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meal-type-tag {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #f9882a; /* Your brand orange */
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.menu-container {
+  position: relative;
+}
+
+.drop-menu {
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  z-index: 100;
+  width: 180px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 8px;
+  color: #444;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: #f5f5f5;
+}
+
+.menu-item.delete {
+  color: #ff4d4d;
+}
+
+.meal-check-btn.ready {
+  color: #4caf50; /* Green when ready */
+  font-weight: bold;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: #aaa;
+}
+
+.search-mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 15px;
+  background: #f0f0f0;
+  padding: 4px;
+  border-radius: 12px;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.toggle-btn {
+  padding: 8px 20px;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: white;
+  color: #f38d49;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Fix for loading/empty states */
+.modal-loading-container {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+.no-recipes-found {
+  grid-column: span 2;
+  text-align: center;
+  color: #888;
+  padding: 20px;
+}
+
+.confirm-add-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
