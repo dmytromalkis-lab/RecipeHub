@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
-import MealSlotItem from "./MealSlotItem"; // Assuming you have this from previous steps
+import MealSlotItem from "./MealSlotItem";
+import useUserStore from "../../stores/userStore";
 
 const MealCard = ({ item, onUpdate }) => {
   const navigate = useNavigate();
@@ -9,6 +10,8 @@ const MealCard = ({ item, onUpdate }) => {
   const [isReady, setIsReady] = useState(item.is_ready);
   //State to handle hiding the card immediately
   const [isVisible, setIsVisible] = useState(true);
+
+  const token = useUserStore((state) => state.token);
 
   if (!item.recipe || !isVisible) return null;
 
@@ -55,6 +58,24 @@ const MealCard = ({ item, onUpdate }) => {
     }
   };
 
+  const handleAddToShoppingList = async (e) => {
+    e.stopPropagation();
+    setShowMenu(false);
+  
+    try {
+      // REMOVE the "/api" from the start here
+      // Keep it as "/shopingList" (one 'p') to match your backend route
+      await api.post("/shopingList", {
+        recipe_id: item.recipe.recipe_id 
+      });
+  
+      alert("Ingredients added to shopping list!");
+    } catch (err) {
+      console.error("Add to list error:", err);
+      alert(err.response?.data?.message || "Error adding to list");
+    }
+  };
+
   return (
     <div className="meal-card" onClick={() => navigate(`/recipe/${recipe.recipe_id}`)}>
       <div className="meal-image-container">
@@ -89,7 +110,7 @@ const MealCard = ({ item, onUpdate }) => {
 
             {showMenu && (
               <div className="drop-menu">
-                <button className="menu-item" onClick={(e) => e.stopPropagation()}>
+                <button className="menu-item" onClick={handleAddToShoppingList}>
                   <span className="icon">📝</span> Add to Shopping List
                 </button>
                 <button className="menu-item delete" onClick={handleRemove}>
